@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0c0f">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Purchase Point">
+<script data-pca>window.PCA_MOD="pp";
+/* Preconnect anonymous statistics (GoatCounter). Sends only activity paths — never names, organizations, or typed text.
+   Turn off per device on the Privacy page (localStorage 'preconnect-stats' = 'off'). Not sent from file:// or localhost. */
+(function(){var off=false;try{off=localStorage.getItem('preconnect-stats')==='off';}catch(e){}
+ var P=window.PCA={mod:window.PCA_MOD||'app',off:off,q:[],seen:{},cur:null,
+  clean:function(p){return String(p).toLowerCase().replace(/[^a-z0-9\/\-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,120);},
+  ev:function(path){if(this.off)return;var p=this.clean(path);if(this.q.length<60)this.q.push({path:p,title:p,event:true});this.flush();},
+  flush:function(){var g=window.goatcounter,s=this;if(!g||typeof g.count!=='function'){if(!s.t)s.t=setTimeout(function(){s.t=null;s.flush();},1500);return;}while(s.q.length){try{g.count(s.q.shift());}catch(e){}}},
+  bkt:function(n){n=+n;return n>=90?'score-90-100':n>=80?'score-80s':n>=70?'score-70s':n>=60?'score-60s':'score-under-60';},
+  att:function(n){return 'attempt-'+(n>=5?'5plus':n);},
+  begin:function(mod,act,where){this.abandon();this.cur={mod:mod,act:act,where:where};this.ev(mod+'/start/'+act);},
+  end:function(detail){var c=this.cur;if(!c)return;this.cur=null;this.ev(c.mod+'/finish/'+c.act+(detail?'/'+detail:''));},
+  abandon:function(){var c=this.cur;if(!c)return;this.cur=null;var w='';try{w=c.where?c.where():'';}catch(e){}this.ev(c.mod+'/quit/'+c.act+(w?'/'+w:''));},
+  err:function(mod,msg){var k=mod+'|'+msg;if(this.seen[k])return;this.seen[k]=1;this.ev('error/'+mod+'/'+String(msg).slice(0,60));}};
+ if(!off){var s=document.createElement('script');s.async=true;s.src='https://gc.zgo.at/count.js';s.setAttribute('data-goatcounter','https://preconnect.goatcounter.com/count');(document.head||document.documentElement).appendChild(s);}
+ window.addEventListener('error',function(e){P.err(P.mod||'app',e&&e.message||'error');});
+ window.addEventListener('pagehide',function(){P.abandon();});
+})();
+</script>
+<title>Purchase Point</title>
+<script src="preconnect-core.js"></script>
+<style>
+/* Fonts are served from this site (fonts/, SIL Open Font License). Nothing loads from Google: works offline and makes no outside request. */
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Saira Condensed";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/saira-condensed-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Saira Condensed";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/saira-condensed-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Saira Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/saira-condensed-latin-700-normal.woff2) format("woff2")}
+/* Milestone 1: every button is at least 48 px tall (finger-sized, gloves on). */
+button{min-height:48px}
+</style>
+<style>
+:root{--bg:#0a0c0f;--deck:#14171c;--deck2:#1c2026;--line:#2a2f37;--ink:#f6f7f9;--soft:#aab2bd;--acc:#2cc6dc;--acc-ink:#031417;--hot:#ff6b61;--warm:#f0b323;--good:#39e36f;--purple:#7a5cff}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{max-width:540px;margin:0 auto;padding:calc(10px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
+h1,h2,h3,.num{font-family:"Saira Condensed","Arial Narrow",sans-serif}
+button{font-family:inherit;font-size:15px;border-radius:6px;padding:11px 12px;cursor:pointer;color:var(--ink);background:var(--deck2);border:1px solid var(--line);touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.15}
+button:active{transform:translateY(1px)}button:disabled{opacity:.45;cursor:default}
+.go{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-family:"Saira Condensed",sans-serif;font-weight:600;font-size:18px;letter-spacing:.5px;text-transform:uppercase}
+.on{background:#0f4f5a!important;border-color:var(--acc)!important;color:#fff}
+.hidden{display:none!important}
+.brand{font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:15px;letter-spacing:1.5px;color:var(--acc)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.card{background:var(--deck);border:0;border-left:4px solid var(--acc);border-radius:6px;padding:12px 14px;margin-bottom:10px}.card.rdy{background:linear-gradient(135deg,rgba(44,198,220,.2),var(--deck) 70%)}
+.stat{font-size:15px;color:var(--soft);margin-top:6px;line-height:1.4}#rdy-s{font-size:15px;line-height:1.4}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.overlay{position:fixed;inset:0;background:rgba(6,10,16,.93);display:flex;align-items:flex-start;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));z-index:10;overflow:auto}
+.overlay .box{background:var(--deck);border:1px solid var(--line);border-radius:8px;padding:18px;max-width:480px;width:100%;margin:auto}
+.overlay h2{font-size:27px;margin:0 0 8px;font-weight:600;line-height:1.1}
+.overlay p{font-size:16px;line-height:1.5;color:#dce6f0;margin:0 0 12px}
+.mrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid #2a3a4c;font-size:15px}.mrow:first-child{border-top:0}.mrow span{color:var(--soft)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:6px 0 10px}
+.scen{display:block;width:100%;text-align:left;padding:12px 70px 12px 14px;margin-bottom:8px;position:relative;background:var(--deck);border:0;border-left:4px solid var(--acc);border-radius:6px}.scen b{display:block;font-family:"Saira Condensed";font-size:21px;font-weight:600;line-height:1.05}.scen span{font-size:15px;color:var(--soft);line-height:1.35}.scen .chip{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+.scen.soon{border-left-color:var(--line)}
+.legal{font-size:15px;color:#9aabbc;line-height:1.45;margin-top:10px}
+input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1px solid var(--line);background:#0d141c;color:var(--ink);width:100%}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.bar div{height:100%;width:0;background:var(--acc)}
+.cool{opacity:.45;pointer-events:none}
+.tag{display:inline-block;font-family:"Saira Condensed",sans-serif;font-size:15px;font-weight:600;letter-spacing:.5px;border-radius:4px;padding:2px 8px;margin-bottom:8px;background:var(--acc);color:var(--acc-ink)}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px;padding:12px;font-size:16px}
+.big{font-family:"Saira Condensed";font-size:60px;font-weight:700;color:var(--acc);line-height:1}
+.slide h2{font-size:30px}.slide ul{margin:0 0 12px;padding-left:20px;font-size:16px;line-height:1.5}.slide li{margin-bottom:4px}
+.dots{display:flex;gap:4px;justify-content:center;margin:8px 0}.dots i{width:8px;height:8px;border-radius:50%;background:#233a40}.dots i.on2{background:var(--acc)}
+#b-inst.on{background:#3b2a6b!important;border-color:var(--purple)!important;color:#fff}
+</style>
+</head>
+<body>
+<div id="pc-drill" class="pc-drillbar hidden" data-hub="../"></div>
+<div id="home">
+  <div class="flex" style="margin:0 0 8px"><a href="../" style="display:inline-flex;align-items:center;min-height:44px;font-family:'Saira Condensed';font-size:15px;font-weight:600;letter-spacing:1px;color:#ff8a3d;text-decoration:none">◂ PRECONNECT</a><div class="sp"></div><a href="../feedback.html?from=pp" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;color:var(--soft);text-decoration:none;margin-right:12px">Feedback</a><button class="gear" id="h-set">Settings</button></div>
+  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.1.0</span></h1></div></div>
+  <div class="card rdy" id="rdy"><div class="flex"><div><div class="small">Your readiness</div><b id="rdy-t" style="display:block;font-family:'Saira Condensed';font-size:22px;line-height:1.05"></b><div class="small" id="rdy-s"></div></div><div class="sp"></div><div class="num" id="rdy-n"></div></div><div class="bar" style="margin-top:10px"><div id="rdy-bar" style="transition:width .6s ease-out"></div></div></div>
+  <div class="card"><div class="small">What this is</div><p style="margin:4px 0 0;font-size:15px;line-height:1.45">Vehicle extrication at the Operations level: size it up, make it safe, stabilize, get in, and <b>take the car off the patient</b> while the EMS provider inside keeps them safe. Modeled on the vehicle chapter of NFPA 2500, in our own words. <b>On a real call, follow your department's procedures and the maker's rescue guide.</b></p></div>
+  <button class="scen" id="h-learn"><span class="chip dim" id="chip-lesson">—</span><b>The lesson</b><span>14 short slides with a check each: the two circles, traffic, fire protection, wires, airbags, power in order, EVs, how cars are built, stabilization, glass, tools, access, disentanglement</span></button>
+  <div class="row" style="margin:10px 0 12px"><button id="h-drills">Quick drills</button><button id="h-prog">My progress</button><button id="h-ref">Pocket reference</button><button id="h-about">About this app</button></div>
+  <div class="sec">Difficulty</div>
+  <div class="tiers"><button data-tier="0">Guided</button><button data-tier="1">Recall</button><button data-tier="2">Chaos</button></div>
+  <p class="stat" id="tierhelp" style="margin:0 0 10px"></p>
+  <div class="sec">Drill night</div>
+  <button id="b-inst" style="width:100%;margin-bottom:8px">Instructor mode: off</button>
+  <p class="stat" style="margin:0 0 6px">Live injects (the patient crashes, a tool battery dies, a fuel leak, the car shifts, a second patient) and a freeze while a scenario runs. On by itself during a Drill Night.</p>
+  <div class="sec">Skill stations</div>
+  <div id="stations"></div>
+  <div class="sec">Scenarios</div>
+  <div id="scenarios"></div>
+  <div class="sec">Test yourself</div>
+  <div id="tests"></div>
+  <p class="legal">A practice tool. It does not replace an official course, a department's procedures or a maker's rescue guide, and it does not issue certification. Operations-level crews work on common passenger vehicles and call for technician resources for heavy vehicles. Not affiliated with or endorsed by the NFPA, NHTSA, any vehicle maker or any tool maker.</p>
+</div>
+<div class="overlay hidden" id="drillpick" style="z-index:11"><div class="box"><h2 style="margin:0 0 8px">Quick drills</h2><p class="stat" style="margin:0 0 10px">Eight questions a run. Due and Again chips follow the spacing.</p><div id="drills"></div><button class="go" id="dp-close" style="width:100%;margin-top:10px">Close</button></div></div>
+<div class="overlay hidden" id="lessonov" style="z-index:12"><div class="box slide" id="lesson-box"></div></div>
+<div class="overlay hidden" id="quizov" style="z-index:12"><div class="box"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 id="qz-title" style="margin:0">Drill</h2><span id="qz-meta" class="stat"></span></div><div id="qz-body" style="margin-top:10px"></div><div id="qz-foot" style="margin-top:10px"></div></div></div>
+<div class="overlay hidden" id="doneov" style="z-index:13"><div class="box"><h2 id="done-t"></h2><div class="big" id="done-s"></div><div id="done-b"></div>
+  <div class="pc-row3" id="done-row"><button id="done-again">Again</button><button id="done-menu">Home</button><button class="go" id="done-next">Next</button></div><p class="pc-links"><a href="../">◂ Preconnect</a><a href="../feedback.html?from=pp">Feedback</a></p></div></div>
+<div class="overlay hidden" id="pc-drillov" style="z-index:25"><div class="box" id="pc-drillbox"></div></div>
+<div class="overlay hidden" id="setov" style="z-index:20"><div class="box">
+ <div class="flex"><h2 style="margin:0">Settings</h2><div class="sp"></div><button class="gear" id="set-close">Done</button></div>
+ <div class="sec">Display</div>
+ <div class="set"><div class="k">Text size</div><div class="seg2" data-set="text"><button data-val="normal">Normal</button><button data-val="large">Large</button></div></div>
+ <div class="set"><div class="k">Contrast<small>High: brighter text on black. Daylight: white text and bold edges, for sun and glare.</small></div><div class="seg2" data-set="contrast"><button data-val="normal">Off</button><button data-val="high">High</button><button data-val="day">Daylight</button></div></div>
+ <div class="set"><div class="k">Motion<small>Auto follows your phone's Reduce Motion setting.</small></div><div class="seg2" data-set="motion"><button data-val="auto">Auto</button><button data-val="off">Off</button></div></div>
+ <div class="sec">Feedback</div>
+ <div class="set"><div class="k">Sound<small>A tone for right and wrong, and a chime when you finish.</small></div><div class="seg2" data-set="sound"><button data-val="off">Off</button><button data-val="on">On</button></div></div>
+ <div class="set"><div class="k">Vibration<small>A tap you can feel on mistakes.</small></div><div class="seg2" data-set="haptics"><button data-val="off">Off</button><button data-val="on">On</button></div></div>
+ <div class="sec">Privacy</div>
+ <div class="set"><div class="k">Anonymous statistics<small>Counts like "someone finished the hazard drill." Never names. <a href="../privacy.html" style="color:var(--acc)">Details</a></small></div><div class="seg2" data-set="stats"><button data-val="off">Off</button><button data-val="on">On</button></div></div>
+ <p class="stat" style="margin-top:10px">Settings apply to every Preconnect module on this phone.</p>
+</div></div>
+<div class="overlay hidden" id="infoov" style="z-index:15"><div class="box"><div id="info-b"></div><button class="go" id="info-close" style="width:100%;margin-top:10px">Close</button></div></div>
+<script>
+/* =================== core =================== */
+const APP_VERSION='0.1.0';
+/* Screen wake lock: on while an activity runs, off at home and on a result. */
+const WAKE={s:null,want:false};
+function keepAwake(on){WAKE.want=!!on;const wl=(typeof navigator!=='undefined')&&navigator.wakeLock;if(!wl||!wl.request)return;
+  if(on){if(WAKE.s)return;try{wl.request('screen').then(s=>{WAKE.s=s;if(s.addEventListener)s.addEventListener('release',()=>{if(WAKE.s===s)WAKE.s=null;});}).catch(()=>{});}catch(e){}}
+  else if(WAKE.s){const s=WAKE.s;WAKE.s=null;try{Promise.resolve(s.release&&s.release()).catch(()=>{});}catch(e){}}}
+if(typeof document!=='undefined'&&document.addEventListener)document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&WAKE.want&&!WAKE.s)keepAwake(true);});
+const $=id=>document.getElementById(id);
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+let TIER=0,NOW=()=>performance.now()/1000;
+const pca=(f,...a)=>{try{const P=typeof window!=='undefined'&&window.PCA;if(P&&P[f])return P[f](...a);}catch(e){}};
+const KEY='purchase-point';
+function load(){let p=null;try{p=JSON.parse(localStorage.getItem(KEY));}catch(e){}if(!p||typeof p!=='object'||Array.isArray(p))p={runs:[]};p.runs=Array.isArray(p.runs)?p.runs.filter(r=>r&&typeof r==='object'):[];return p;}/* wrong-shape data (a bad backup) never bricks the page */
+function save(p){try{localStorage.setItem(KEY,JSON.stringify(p));}catch(e){}}
+/* every run carries href, the link to the activity itself, for the hub's Continue */
+const HREF={lesson:()=>'?lesson=1',drill:id=>'?drill='+id,exam:()=>'?exam=1',station:id=>'?station='+id,scenario:id=>'?scn='+id};
+function record(kind,id,score,extra){const p=load();p.runs=(p.runs||[]).concat([pcDrillStamp(Object.assign({kind,id,score,d:new Date().toISOString(),tier:TIER,href:'purchase-point/'+HREF[kind](id)},extra||{}))]).slice(-500);save(p);}
+function info(h){$('info-b').innerHTML=h;$('infoov').classList.remove('hidden');}$('info-close').onclick=()=>$('infoov').classList.add('hidden');
+/* =================== facts: the one table ===================
+   Every rule, distance, count or tool figure the app shows comes from here. `kind` says what it is:
+   common = a published common rule, shown as "a common rule"; maker = what the makers' rescue guides say; dept = Max's department answers;
+   sop = per department SOP (shown with the "per department SOP · to confirm" chip); modeled = a number made up for the game, labeled modeled.
+   `checked` is the date and who confirmed it. An entry nobody has confirmed may carry no number at all (the `facts` test enforces it). */
+const FACTS={
+ airbag:{kind:'common',side:5,driver:10,pass:20,get txt(){return `stay about ${this.side} inches from side and curtain bags, ${this.driver} inches from the driver's frontal bag and ${this.pass} inches from the passenger's frontal bag`;},src:'A common fire-service rule (Firehouse; FireRescue1; Fire Fighting in Canada). Some instructors call it outdated; peel and peek is the real lesson.',checked:'2026-10-12 Max, approved as "a common rule"'},
+ liftCrib:{kind:'common',txt:'lift an inch, crib an inch',src:'A common rescue rule (Firehouse, "Lifting Heavy Loads"; Fire Engineering, "Man Under")',checked:'2026-10-12 Max, department answers'},
+ reserve:{kind:'maker',txt:'Cutting the 12-volt does not instantly disarm the airbags. Many systems hold a reserve charge for a time after power is cut, and how long varies by maker: check the maker\'s rescue guide. Peel and peek still applies after power-down.',src:'Makers\' emergency response guides',checked:'2026-10-12 Max'},
+ circles:{kind:'common',txt:'an inner circle close around the car and an outer circle wide around the scene',src:'Common size-up practice (state vehicle rescue skill sheets)',checked:'2026-10-12 Max'},
+ fireProt:{kind:'sop',txt:'a charged handline or an extinguisher in place, staffed, before the first cut',src:'Max, October 12, 2026; which one is per department SOP',checked:'2026-10-12 Max (the rule)'},
+ tools:{kind:'dept',txt:'a battery-powered cutter, spreader and ram on Engine 10-2, a backup hydraulic set on Engine 10, and lifting airbags',src:'Max, department answers',checked:'2026-10-12 Max'},
+ spares:{kind:'sop',txt:'spare batteries staged at the tool area',src:'Max, department answers; how many is to confirm',checked:'2026-10-12 Max (spares staged)'},
+ fob:{kind:'sop',txt:'well away from the car, as the maker\'s guide says',src:'Sources vary; no distance until the department gives one',checked:null},
+ wire:{kind:'sop',txt:'a safe distance set by your department and the utility',src:'Utilities vary; no distance until the department gives one',checked:null},
+ cut12v:{kind:'sop',txt:'the negative cable first, then the positive',src:'Common practice; to confirm with the department',checked:null},
+ struts:{kind:'sop',txt:'whether your engine carries struts for a car on its side or roof',src:'Whether Engine 10-2 carries struts is to confirm',checked:null},
+ glass:{kind:'sop',txt:'a spring punch or glass tool and a glass saw',src:'Glass tools carried are to confirm',checked:null},
+ fuel:{kind:'sop',txt:'absorbent or foam',src:'Fuel leak control is to confirm',checked:null}};
+/* Department details still to confirm. Shown in About; nothing here is a phone number. */
+const TO_CONFIRM=['the utility and how it is called to a crash with wires down','who brings heavy rescue and the heavy wrecker for a heavy vehicle','whether Engine 10-2 carries struts for a car on its side or roof','how many spare batteries are staged, and how long one runs','the glass tools carried, and whether glass is taped first','how far the key or fob goes from the car','the zone held around a downed wire','the 12-volt cut order','fuel leak control: absorbent or foam','that side- and roof-resting stabilization is Operations work (the training officer)','the NFPA 2500 vehicle chapter this module maps to (the training officer)'];
+/* A point or a why may carry {sop}: rendered as the shared chip where the text is HTML. */
+const pt=x=>esc(x).replace(/\{sop\}/g,pcTag('sop'));
+/* =================== planned activities (home list) =================== */
+const PLAN={
+ drills:[['cut','Where to cut','Tap the zone on the car for the goal, around the hazards'],['tool','Tool for the job','Cutter, spreader, ram, saws, glass tools, cribbing, struts, lifting airbags'],['hazard','Hazard ID','Labels, trim, cables, struts, fluids and wires: what each means'],['first','What\'s first','The order of the work, and the traps in it'],['build','Vehicle construction','Posts, rockers, steel, glass: where cutters will and won\'t go']],
+ stations:[['stab','Stabilize it','Step chocks, cribbing and struts, on its wheels, side or roof'],['glass','Glass','Tempered out, laminated cut, the patient covered first'],['door','Make the door','The purchase point, latch side or hinge side'],['roof','Take the roof','Peel each post, cut, flap or lift it off'],['dash','Dash roll','Relief cuts, the ram, and cribbing as it rolls']],
+ scn:[['tree','Car versus tree, county road','The same driver as Patient Contact\'s call · three layouts, three tiers'],['ditch','Side-resting in a ditch off US-10','Struts first, then the roof down · three layouts, three tiers'],['field','Roof-resting in a farm field','Soft ground and a driver hanging in the belt · three layouts, three tiers'],['under','Pickup under a semi trailer','The trailer first, lift an inch, crib an inch · three layouts, three tiers'],['ev','EV on I-75','Out of ready mode, power in order, no cuts in the floor · three layouts, three tiers'],['pole','Car into a utility pole','Wires first, then the pedal · three layouts, three tiers'],['two','Two-car crash, two patients','One stable, one crashing · three layouts, three tiers']],
+ exam:[['exam','Exam practice','Fifteen questions from a bank of 36, every topic in the lesson']]};
+const ACTS=[['lesson','lesson'],...PLAN.drills.map(d=>['drill',d[0]]),...PLAN.stations.map(d=>['station',d[0]]),...PLAN.scn.map(s=>['scenario',s[0]]),['exam','exam']];
+const NAME=Object.fromEntries([...PLAN.drills,...PLAN.stations,...PLAN.scn,...PLAN.exam].map(x=>[x[0],x[1]]));
+/* What is built. Stations and scenarios arrive with the car-diagram engine (E2 and E3). */
+const built=(kind,id)=>kind==='lesson'||kind==='exam'||(kind==='drill'&&!!DRILLS[id]);
+function readiness(){const R=load().runs||[];const best={};R.forEach(r=>{const k=r.kind+':'+r.id;best[k]=Math.max(best[k]||0,+r.score||0);});const done=ACTS.filter(([k,i])=>best[k+':'+i]!==undefined).length;return {done,total:ACTS.length,pct:Math.round(done/ACTS.length*100),best};}
+function homeRender(){const R=readiness();
+  const runs=load().runs||[];let ndue=0;const chipT=(kind,id)=>{const b=R.best[kind+':'+id];const sp=pcSpacing(runs.filter(r=>r.kind===kind&&r.id===id));const dueNow=sp.status==='due'||sp.status==='missed';if(dueNow)ndue++;return b===undefined?null:dueNow?(sp.status==='missed'?'Again':'Due'):String(b);};
+  const item=(kind,[id,name,sub])=>{const ok=built(kind,id);const c=chipT(kind,id);return `<button class="scen${ok?'':' soon'}" data-${kind}="${id}"${ok?'':' disabled'}><span class="chip${c===null?' dim':''}${c==='Due'||c==='Again'?' due':''}" id="chip-${id}">${c===null?(ok?'—':'Soon'):c}</span><b>${esc(name)}</b><span>${esc(sub)}</span></button>`;};
+  {const c=chipT('lesson','lesson');const e=$('chip-lesson');if(e){const t=c===null?'—':c;if(e.textContent!==t)e.textContent=t;e.classList.toggle('dim',c===null);e.classList.toggle('due',c==='Due'||c==='Again');}}
+  const put=(el,h)=>{if($(el).innerHTML!==h)$(el).innerHTML=h;};
+  put('drills',PLAN.drills.map(d=>item('drill',d)).join(''));put('stations',PLAN.stations.map(d=>item('station',d)).join(''));put('scenarios',PLAN.scn.map(d=>item('scenario',d)).join(''));put('tests',PLAN.exam.map(d=>item('exam',d)).join(''));
+  const t=`${R.done} of ${R.total} activities`;if($('rdy-t').textContent!==t)$('rdy-t').textContent=t;
+  const sub=R.done?`${ndue?ndue+' due for review · ':''}${TIER===0?'Guided':TIER===1?'Recall':'Chaos'} mode`:'Start with the lesson, then a drill a day. Your best scores show up here.';if($('rdy-s').textContent!==sub)$('rdy-s').textContent=sub;
+  const n=R.pct+'%';if($('rdy-n').textContent!==n)$('rdy-n').textContent=n;const bar=$('rdy-bar');if(bar&&bar.style)bar.style.width=R.pct+'%';}
+function showHome(){keepAwake(false);['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));document.querySelectorAll('[data-tier]').forEach(b=>b.classList.toggle('on',+b.dataset.tier===TIER));$('tierhelp').textContent=pcTierHelp(TIER,['Every zone on the car is labeled, hidden hazards are marked and the next step is named.','You find the hazards under the trim and choose the order.','Cold-weather battery drain, one extra hidden hazard and one surprise per scenario.'][TIER]);homeRender();}
+document.querySelectorAll('[data-tier]').forEach(b=>b.onclick=()=>{TIER=+b.dataset.tier;showHome();});
+/* =================== reference, about, progress =================== */
+$('h-ref').onclick=()=>info(`<h2>Pocket reference</h2>
+ <div class="sec">The order</div><p>1 · Size-up: ${esc(FACTS.circles.txt)}. 2 · Traffic blocked, ${pt(FACTS.fireProt.txt)} {sop}. 3 · Stabilize before anyone goes in. 4 · Power in order: windows down, seats back, doors unlocked, the key or fob ${esc(FACTS.fob.txt)} {sop}, then the 12-volt off. 5 · Glass out. 6 · Peel and peek before every cut. 7 · Get in, then take the car off the patient.</p>
+ <div class="sec">Airbags</div><p>${esc(FACTS.reserve.txt)}</p><p>A common rule near an undeployed bag: ${esc(FACTS.airbag.txt)}. Never cut through an inflator.</p>
+ <div class="sec">Lifting</div><p>Lifting airbags lift; cribbing holds. A common rule: <b>${esc(FACTS.liftCrib.txt)}</b>. Never a hand under the load.</p>
+ <div class="sec">Electric and hybrid</div><p>Out of ready mode, park, power off, fob away. Open the maker's emergency response guide. Never cut or spread in the rockers or the floor, where the orange cables and the battery run.</p>
+ <div class="sec">Our tools</div><p>${esc(FACTS.tools.txt)}; ${pt(FACTS.spares.txt)} {sop}. A dead battery mid-spread: swap a staged spare, or call for Engine 10's hydraulic set.</p>
+ <div class="sec">Per department SOP</div><p>The 12-volt cut order (${esc(FACTS.cut12v.txt)}) {sop} · the zone around a downed wire {sop} · fuel leak control (${esc(FACTS.fuel.txt)}) {sop} · glass tools {sop}</p>
+ <p class="stat">On a real call, the maker's rescue guide for that vehicle and your department's procedures come first.</p>`.replace(/\{sop\}/g,pcTag('sop')));
+$('h-about').onclick=()=>info(`<h2>About Purchase Point</h2><p>Purchase Point is a free practice tool for vehicle extrication at the Operations level, in the same family as Charge the Line, Patient Contact, Bleed Control, BLS Ready and Upwind. It models the vehicle chapter of NFPA 2500 (the standard that absorbed NFPA 1670) in its own words. The big three: stabilize, gain access, disentangle. Heavy vehicles and anything past the Operations level are marked as the technician boundary.</p>
+ <p><b>It is practice, not certification, and not a reference.</b> On a call, use the maker's rescue guide for that vehicle and your department's procedures.</p>
+ <p><b>Department details still to confirm:</b> ${TO_CONFIRM.map(esc).join('; ')}. No phone numbers are built in.</p>
+ <p class="legal">NFPA 2500 and NFPA 1006 are standards of the National Fire Protection Association. Purchase Point is not affiliated with or endorsed by the NFPA, NHTSA, any vehicle maker or any tool maker, and it never names a tool brand.</p>`+pcAboutFoot('pp',APP_VERSION));
+const KIND={lesson:'Lesson',drill:'Drill',station:'Station',scenario:'Scenario',exam:'Exam'};
+$('h-prog').onclick=()=>{const p=load();const R=p.runs||[];const best=(k,id)=>{const r=R.filter(x=>x.kind===k&&x.id===id);return r.length?Math.max(...r.map(x=>x.score)):null;};
+  const line=(n,b,ok)=>`<div class="mrow"><span>${esc(n)}</span><b style="${b===null?'color:var(--soft)':''}">${b===null?(ok?'not yet':'soon'):b}</b></div>`;
+  const PR=pcProfile();info(`<h2>My progress</h2><input id="p-name" placeholder="Your name" value="${esc(PR.name||p.name||'')}" style="margin-bottom:6px"><input id="p-dept" placeholder="Department or organization" value="${esc(PR.org||p.dept||'')}" style="margin-bottom:10px">
+   <div class="sec">LESSON</div>${line('The lesson',best('lesson','lesson'),true)}<div class="sec">DRILLS</div>${PLAN.drills.map(d=>line(d[1],best('drill',d[0]),built('drill',d[0]))).join('')}<div class="sec">SKILL STATIONS</div>${PLAN.stations.map(s=>line(s[1],best('station',s[0]),false)).join('')}<div class="sec">SCENARIOS</div>${PLAN.scn.map(s=>line(s[1],best('scenario',s[0]),false)).join('')}<div class="sec">EXAM</div>${line('Exam practice',best('exam','exam'),true)}
+   <button id="p-csv" style="width:100%;margin-top:10px">Download practice record (CSV)</button>`);
+  const keep=()=>{const q=load();q.name=$('p-name').value.trim();q.dept=$('p-dept').value.trim();save(q);pcProfileSet(q.name,q.dept);return q;};$('p-name').onchange=keep;$('p-dept').onchange=keep;
+  $('p-csv').onclick=()=>{const q=keep();
+    const rows=[['Name','Organization','Type','Activity','Date','Mode','Score']].concat((q.runs||[]).map(r=>[q.name||'',q.dept||'',KIND[r.kind]||r.kind,r.kind==='lesson'?'The lesson':NAME[r.id]||r.id,String(r.d||'').slice(0,16).replace('T',' '),r.kind==='station'||r.kind==='scenario'?['Guided','Recall','Chaos'][r.tier]||'':'',r.score]));
+    const csv=pcCsv(rows);/* the core quotes every cell and defuses =, +, -, @ formulas */try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='purchase-point-practice-record.csv';a.click();}catch(e){}};};
+/* =================== the lesson (E1): 14 slides on the core engine, a check on each =================== */
+const LESSON=[
+ {t:'Two circles before anyone touches the car',pts:['Walk two circles first: '+FACTS.circles.txt+'.','The inner circle: who is inside, who is trapped and how, fluids under the car, airbags that did not go off, how the car is sitting.','The outer circle: anyone thrown from the car, a second vehicle down the bank, wires overhead or on the ground, fuel running toward a drain.','Then report: how many patients, how many trapped, the hazards, what you need. Ask for more early; it is easier to cancel than to wait.'],
+  q:'A car is on its roof in the median and the driver is talking to you through the window. What happens before anyone crawls in?',o:[['An inner and an outer circle, then the report','good'],['Crawl in to start care while the tools come off','bad'],['Stabilize it right away and skip the walk-around','bad']],
+  why:'The outer circle finds the patient in the ditch and the wire in the grass. The inner circle finds the hazards you will work beside for the next twenty minutes.'},
+ {t:'Traffic: the engine is your wall',pts:['Park the engine upstream of the crash, angled, so it blocks the lane you will work in.','Stage the ambulance past the crash, inside the protected area, so the patient loads away from traffic.','Everyone in high-visibility gear; scene lights on, headlights off toward oncoming drivers.','Ask law enforcement early to slow or close the road.'],
+  q:'Where does the engine go at a crash on a two-lane county road?',o:[['Upstream, angled across your work lane','good'],['Past the crash, closer to the tool work','bad'],['On the shoulder, out of the traffic flow','bad']],
+  why:'The engine takes the hit a distracted driver would deliver to your crew. Upstream and angled, it protects the whole work area.'},
+ {t:'Fire protection before the first cut',pts:['Fire protection goes in before anyone cuts: '+FACTS.fireProt.txt+'. {sop}','Look under the car for fuel, oil and coolant. Fuel near a hot exhaust or a cutting tool is how a crash becomes a fire.','Control ignition: the car off, no flares near a leak, nobody smoking.','A fuel leak stops the cutting until it is contained ('+FACTS.fuel.txt+'). {sop}'],
+  q:'The crew is ready to cut the first post. What must already be in place by the car?',o:[['A charged line or an extinguisher, staffed','good'],['The ambulance, backed in with the doors open','bad'],['A tarp under the car to catch the glass','bad']],
+  why:'A cutter near a fuel leak or a damaged battery can start a fire with the patient still trapped. Protection is ready before the first cut, not fetched after the first flame.'},
+ {t:'Wires: everything is live until the utility says not',pts:['Treat every downed wire as live, and the car and the ground around it too.','Nobody touches the car. Tell the people inside to stay in and keep still.','Hold everyone back: '+FACTS.wire.txt+'. {sop}','Only the utility says a line is dead. The extrication starts when they confirm it.','If fire forces someone out, they jump clear with feet together, never touching the car and the ground at the same time.'],
+  q:'A wire lies across the hood. The driver opens her door to get out. What do you tell her?',o:[['Stay inside and keep still for now','good'],['Step out fast and walk to me','bad'],['Climb out the far side, away from it','bad']],
+  why:'Stepping out puts her body between the car and the ground. Inside, she is safe from the current until the utility confirms the line is dead.'},
+ {t:'Airbags: peel and peek before every cut',pts:['Frontal, side, curtain, knee and belt bags may not have gone off. Assume any bag that did not deploy still can.','Peel and peek: strip the trim and look for inflators, wiring and gas cylinders before a cutter goes on any post or rail.','A common rule near an undeployed bag: '+FACTS.airbag.txt+'. Keep your body and tools out of its path.','Never cut through an inflator. Move the cut, or take that part off another way.'],
+  q:'You are about to cut the B-post. What comes first?',o:[['Strip the trim and look for an inflator','good'],['Cut low on the post, under where a bag sits','bad'],['Cut the 12-volt, then cut wherever you like','bad']],
+  why:'Inflators sit in posts and roof rails, and a cutter through one can make it fire or burst. Power-down alone does not make a cut safe.'},
+ {t:'Pretensioners and gas struts',pts:['Belt pretensioners fire a small charge to snug the belt in a crash. They sit at the base of the B-post, in the buckle or in the seat.','Cut the belt webbing, never the retractor or the pretensioner, and only once someone is holding the patient.','Gas struts hold up hoods, hatches and trunks. Heated in a fire or cut under pressure, they can launch.','Peel and peek finds these too. A cylinder you did not expect is a reason to move the cut.'],
+  q:'Where do you cut a seat belt to free the driver?',o:[['The webbing, clear of the buckle and retractor','good'],['The retractor at the base of the B-post','bad'],['The buckle, where it is easiest for you to reach','bad']],
+  why:'The retractor and buckle can hold a pretensioner charge. The webbing is just fabric.'},
+ {t:'Power in the right order',pts:['Use the car\'s own power first: windows down, seats back, doors unlocked, the steering column up if it moves.','Then the car off and the key or fob '+FACTS.fob.txt+'. {sop}','Then the 12-volt off: '+FACTS.cut12v.txt+'. {sop}','Some cars have a second battery, or one in the trunk or under a seat. Find them all.',FACTS.reserve.txt],
+  q:'The crew wants the 12-volt off the moment they arrive. Why hold off a minute?',o:[['The windows and seats still need power to move','good'],['A cold battery can spark if it is cut off too soon','bad'],['The dash lights help keep the patient calm','bad']],
+  why:'Once the 12-volt is off, the windows and seats are stuck where they are. Lower and move them first; it buys glass work and space for nothing.'},
+ {t:'Electric and hybrid vehicles',pts:['Look for the signs: badges, no tailpipe, a charge port, orange cables. A silent car may still be on.','Open the maker\'s emergency response guide; NHTSA\'s database collects them, and most makers post their own.','Out of ready mode: park, power off, the key or fob away. Then the 12-volt, in the same order as any car.','Orange high-voltage cables run through the rockers and under the floor, and the battery sits in the floor. Never cut or spread there.','Smoke or hissing from under the floor is the battery: stop, get the patient out fast, call for water. Upwind\'s battery fire and Charge the Line\'s EV fire go further.'],
+  q:'Where on an electric car do you never cut?',o:[['The rockers and the floor','good'],['The door hinges, once peeled','bad'],['The roof posts, once peeled','bad']],
+  why:'The high-voltage cables and the battery live low in the car. The guide shows the no-cut zones for that model.'},
+ {t:'How cars are built',pts:['Posts hold up the roof: A at the windshield, B between the doors, C behind the rear door, D at the back of a wagon or SUV.','The rocker is the sill under the doors. The latch pin on the B-post holds the front door shut.','Ultra-high-strength steel in posts, rockers and bumper beams can stop a cutter. Read the maker\'s sheet, cut where the steel is thinner, or make relief cuts.','A relief cut is a small cut that tells the metal where to bend, so a roll or a flap goes where you want it.'],
+  q:'The cutter stalls halfway through a B-post. What now?',o:[['Check the sheet and move to a thinner spot','good'],['Keep squeezing until the blades get through','bad'],['Twist the cutter to work the blades in','bad']],
+  why:'Squeezing harder will not beat that steel, and twisting can break the blades. A thinner spot or a relief cut gets the post off.'},
+ {t:'Stabilize before anyone goes in',pts:['Nobody works through a door until the car stops moving.','On its wheels: step chocks or box cribbing under the rockers and the wheels chocked.','On its side: struts on the roof side and cribbing in the gaps; nobody climbs until it is locked. Ask '+FACTS.struts.txt+'. {sop}','On its roof: crib between the roof, hood or trunk and the ground; on soft ground, a wide base.','Lifting airbags lift; they do not hold. A common rule: '+FACTS.liftCrib.txt+'. Never a hand under the load.'],
+  q:'You lift a car with a lifting airbag to free a leg. How does the cribbing keep up?',o:[['Lift an inch, crib an inch, all the way up','good'],['Lift it all the way, then crib it quickly','bad'],['Crib once it stops; the bag holds till then','bad']],
+  why:'A bag can slip or deflate. Cribbing that follows the load inch by inch means the car never drops more than an inch.'},
+ {t:'Glass: covered, then out',pts:['Tempered glass, in most side and rear windows, breaks into small cubes. Break it in a low corner, away from the patient, with a glass tool.','Laminated glass, in windshields and more and more side windows, holds together. Cut it with a glass saw or a reciprocating saw.','Cover the patient first: a blanket and hard protection, and tell them before the glass goes.','Take the glass out before you cut posts; it shatters when the frame flexes. Tools carried: '+FACTS.glass.txt+'. {sop}'],
+  q:'Before the windshield is cut, what does the patient need?',o:[['Cover, hard protection and a warning','good'],['Eyes shut and head turned toward you','bad'],['Nothing; that glass stays in one sheet','bad']],
+  why:'Cutting laminated glass throws dust and chips. A cover and a board protect the patient; a warning keeps them from jumping.'},
+ {t:'The tools',pts:['Our first tools: '+FACTS.tools.txt+'. Battery tools are fast to set up, with no power unit and no hoses.','Stage spare batteries at the tool area before you start. {sop} If a battery dies mid-spread, swap in a spare, or call for Engine 10\'s hydraulic set.','Cold shortens a battery\'s run. Keep the spares out of the cold until you need them.','Spreader: push, pull and crush. Cutter: posts and hinges. Ram: long pushes, for a dash roll or a dash lift.','Reciprocating saws for glass and thin metal; hand tools for a quick purchase point; cribbing, struts and lifting airbags to hold it all still.'],
+  q:'The spreader dies mid-spread with the door half open. What now?',o:[['Swap in a staged spare, or call for the hydraulic set','good'],['Pry the door the rest of the way open with a heavy bar','bad'],['Keep pulling the trigger until it catches again','bad']],
+  why:'A staged spare is seconds away. Prying a loaded door by hand can drop it on the patient or your crew.'},
+ {t:'Getting in: the door and the roof',pts:['A purchase point is the first opening a tool can bite into: pinch or crush the door edge, or open a gap with a bar.','Latch side: spread at the latch until the pin lets go. Hinge side: expose the hinges, then spread or cut them. Pick the side that frees the patient soonest.','Roof: peel every post, cut A, B and C, then lift it off or flap it with relief cuts in the roof rail.','Third door: on a two-door car, cut behind the B-post and fold the panel down. Side removal: both doors and the B-post come off together.'],
+  q:'The latch side is jammed against a tree. The hinge side is open to you. Where is your purchase point?',o:[['The hinge side, exposed first','good'],['The latch side; latch first, always','bad'],['The roof, before either door','bad']],
+  why:'Work the side you can reach. Exposed hinges are a fine purchase point, and the door comes off the same way.'},
+ {t:'The car comes off the patient',pts:['Dash roll: relief cuts at the base of the A-post, the ram from the B-post base to the A-post, cribbing in the cut as it opens. Dash lift: the dash raised in place with the ram.','Pedal displacement: pull the pedal away with a strap, or cut the pedal arm, to free a trapped foot.','An EMS provider inside holds the head, talks to the patient and calls the changes. Hard and soft protection go between the patient and every tool.','If the patient crashes, switch to rapid extrication: the fastest way out, even if it is rougher.','Finish the job: the car made safe, the scene handed to law enforcement and the tow.'],
+  q:'The provider inside says the driver is getting worse fast. The dash roll needs five more minutes. What now?',o:[['Rapid extrication, the fastest way out','good'],['Finish the roll; clean is safer for her','bad'],['Pull her out the window this second','bad']],
+  why:'The patient\'s condition drives the plan. Rapid extrication is still a plan: the fastest prepared path out, not a grab through a window.'}];
+
+/* =================== drills (E1): four banks on the core quiz engine; Where to cut runs on the car diagram (E2) =================== */
+const Q=(q,a,d,why)=>({q,a,d,why});
+const DRILLS={
+ tool:{name:'Tool for the job',bank:()=>pcShuf([
+  Q('Cut through a B-post after the trim is peeled.','The cutter',['The spreader','The ram'],'Posts and hinges are cutter work.'),
+  Q('Push the dash forward a long way for a dash roll.','The ram',['The spreader','The cutter'],'The ram pushes farther than a spreader opens.'),
+  Q('Open a gap at a jammed door\'s latch.','The spreader',['The cutter','A lifting airbag'],'The spreader tips bite, then spread the latch apart.'),
+  Q('Break a tempered side window, away from the patient.','A glass punch or glass tool',['The spreader tips','A reciprocating saw through the frame'],'Tempered glass gives way to a sharp point in a low corner.'),
+  Q('Get through a laminated windshield.','A glass saw or reciprocating saw',['A spring-loaded glass punch','The cutter, straight across the glass edge'],'Laminated glass holds together; it has to be cut.'),
+  Q('Raise the edge of a trailer an inch at a time off a pickup cab.','Lifting airbags, with cribbing',['The ram, braced on the cab','A jack under the trailer\'s rear bumper'],'Bags lift; cribbing follows: '+FACTS.liftCrib.txt+'.'),
+  Q('Keep a car on its side from tipping over.','Struts and cribbing',['Lifting airbags alone','Step chocks alone'],'Struts lock the roof side; cribbing fills the gaps.'),
+  Q('Stop a car on its wheels from rocking.','Step chocks or box cribbing',['Struts set against both roof rails','A lifting airbag'],'Under the rockers, the car sits on the cribbing instead of its springs.'),
+  Q('The spreader battery dies and spares are staged. Quickest fix?','Swap in a staged spare',['Let the battery rest a minute','Pry the rest of the way by bar'],'A staged spare is seconds away.'),
+  Q('Every battery is spent and the door is still pinned. What do you call for?','Engine 10\'s hydraulic set',['The heavy wrecker','A battery charger plugged into the engine'],'Engine 10 carries the backup hydraulic set.'),
+  Q('Make a quick purchase point at a door edge.','A pry bar',['A reciprocating saw','The ram'],'A bar opens the first gap; the spreader takes it from there.'),
+  Q('Free a foot pinned behind the brake pedal.','A strap on the pedal, or a cut arm',['The ram, from the floor up','The spreader, set under the front seat'],'Pedal displacement: pull it clear or cut the pedal arm.'),
+  Q('Cut the seat belt once the patient is held.','A belt cutter or shears',['The cutter, at the retractor','A saw, at the buckle'],'Cut the webbing, clear of the retractor and buckle.')]).slice(0,8)},
+ hazard:{name:'Hazard ID',bank:()=>pcShuf([
+  Q('An "SRS" or "AIRBAG" label on the C-post trim means…','A curtain bag inflator may be inside',['The post is ultra-high-strength steel','The seat belt has a pretensioner'],'Peel and peek before any cut there.'),
+  Q('Orange cables run under the floor and along the rocker.','High voltage: never cut or spread there',['Airbag wiring: cut it after power-down','Fuel lines: cap them off and carry on cutting'],'Orange marks high-voltage cable on an electric or hybrid car.'),
+  Q('Under the B-post trim you find a small metal cylinder.','A gas generator: move the cut',['A drain plug: cut through it','A speaker magnet: ignore it'],'Inflators and pretensioners look like this. Never cut one.'),
+  Q('The hatch is held up by two thin pistons.','Gas struts that can launch',['Hinges that need to be cut first','Wiring for the rear camera'],'Heated or cut under pressure, a strut can fly.'),
+  Q('Rainbow sheen and a gasoline smell under the car.','A fuel leak: stop cutting',['Coolant: keep working beside it','Rain runoff: nothing to do'],'Contain it and control ignition before the next cut ('+FACTS.fuel.txt+').'),
+  Q('A wire lies across the roof of the car.','Assume the car is energized',['Fine if the driver is unhurt','Fine once the 12-volt is cut'],'Nobody touches the car until the utility confirms the line is dead.'),
+  Q('The 12-volt was cut a minute ago. Is the driver\'s frontal bag safe now?','Not yet; it may hold a reserve',['Yes; no power at all means no airbag','Yes, once the key is out'],FACTS.reserve.txt),
+  Q('The car is silent, but "READY" glows on the dash.','An electric car still powered on',['A car that has shut itself off after the crash','A warning light from the crash'],'Out of ready mode, park, power off, fob away.'),
+  Q('The cutter won\'t close on a B-post.','Strong steel: move or relief cut',['A dull blade: squeeze harder and longer','A jammed tool: twist it free'],'Ultra-high-strength steel stops cutters. Check the maker\'s sheet.'),
+  Q('There is a child seat in the back, and no child.','Search wide: the outer circle',['The seat was empty on the trip','Ask after the extrication'],'A child may have been thrown or carried off. Find out now.'),
+  Q('Smoke and a hiss rise from under an electric car\'s floor.','The battery: get the patient out fast',['Steam from the radiator: carry on','Airbag residue: open a window'],'Stop, rapid extrication, call for water.'),
+  Q('The knee bag under the steering column did not deploy.','Keep out of its path, peel and peek',['It is too small to matter','It fires only with the engine on'],'Knee bags are live like any other undeployed bag.'),
+  Q('After a minute the 12-volt is off. What does that change for an airbag?','Less risk, not none: still peel and peek',['Every bag in the car is now dead','Only the side bags stay live'],FACTS.reserve.txt)]).slice(0,8)},
+ first:{name:'What\'s first',bank:()=>pcShuf([
+  Q('You arrive at a crash. First?','An inner and an outer circle',['Pull the tools off the engine','Start breaking the glass'],'Size-up first: '+FACTS.circles.txt+'.'),
+  Q('The outer circle finds…','Ejected patients, other cars, wires',['The airbags and the fuel tank','The seat belts and the pedals'],'The inner circle is the car; the outer circle is everything around it.'),
+  Q('The crew is about to cut. What is in place first?','A charged line or extinguisher',['The tow truck, ready to pull','The patient\'s belongings, bagged'],'Fire protection before the first cut. Which one is per department SOP.'),
+  Q('Before the 12-volt comes off…','Windows down, seats back, unlocked',['The posts cut and the whole roof lifted off','The glass broken out'],'Use the car\'s own power first.'),
+  Q('The 12-volt is off. Before you cut a post…','Peel the trim and look',['Cut; power-down made it safe','Wait ten minutes, then cut'],FACTS.reserve.txt),
+  Q('Before anyone goes in through a door…','The car is stabilized',['The glass is all out','The patient is collared'],'Nobody works through a door until the car stops moving.'),
+  Q('Before you cut the posts…','The glass comes out',['The tires are let down','The seats are removed'],'Glass shatters when the frame flexes.'),
+  Q('A car on its roof. Before the belt is cut…','Someone supports the patient',['The roof is cut away','The doors are removed'],'Otherwise the patient drops onto the roof.'),
+  Q('A wire is on the car. First?','Stay back; call the utility',['Cut the 12-volt and go in','Pull her out through a window'],'Nobody touches the car until the utility confirms the line is dead.'),
+  Q('An electric car. First?','Identify it and open the guide',['Cut the orange cable loop','Spread the rocker to make room for the door'],'The maker\'s guide shows how to shut it down and where not to cut.'),
+  Q('The patient crashes mid-roll. First?','Switch to rapid extrication',['Finish the dash roll','Wait for Medic 1 to decide'],'The patient\'s condition drives the plan.'),
+  Q('A lifting airbag goes under the car. As it rises…','Crib follows it, inch by inch',['Crib it once it stops','A hand on the load to steady it as it rises'],'A common rule: '+FACTS.liftCrib.txt+'.'),
+  Q('Two cars, two patients, one getting worse fast. First?','The one crashing gets the fast way out',['The easier car first, to free hands','Both at the same steady pace'],'Triage first; the patient who is crashing drives the plan.')]).slice(0,8)},
+ build:{name:'Vehicle construction',bank:()=>pcShuf([
+  Q('The B-post is…','Between the front and rear doors',['At the edge of the windshield','Behind the rear door'],'A, B, C from the front; D at the back of a wagon.'),
+  Q('The A-post is…','At the edge of the windshield',['Between the front and rear doors','At the very back of an SUV'],'The windshield sits between the two A-posts.'),
+  Q('The rocker is…','The sill under the doors',['The roof rail over the doors','The beam behind the bumper'],'Strong, and on electric cars, home to high-voltage cables.'),
+  Q('What holds the front door shut?','The latch on the B-post\'s pin',['The hinges on the A-post','The lock in the handle'],'Spread at the latch until the pin lets go.'),
+  Q('Where is ultra-high-strength steel common?','B-posts, rockers, roof rails',['Doors, hoods and fenders','Trunk lids, spare tire wells and dash panels'],'It protects the cabin, which is where you cut.'),
+  Q('Tempered glass…','Breaks into small cubes',['Holds together in one sheet','Must always be cut with a saw'],'Most side and rear windows.'),
+  Q('Laminated glass…','Holds together when broken',['Breaks into small cubes','Is used only in sunroofs'],'Windshields, and more and more side windows.'),
+  Q('Crumple zones are…','Front and rear, built to crush',['The cabin, built to crush','The doors, built to fold'],'The cabin is built to resist; that is where you work.'),
+  Q('A relief cut…','Tells the metal where to bend',['Removes a whole post in one clean piece','Releases a gas strut safely'],'Used for dash rolls and roof flaps.'),
+  Q('A curtain bag inflator usually sits…','In the roof rail or a rear post',['Inside the steering wheel','Under the front seat cushion'],'Peel and peek before any roof cut.'),
+  Q('An electric car\'s battery usually sits…','In the floor, between the axles',['Under the hood, front left','In the trunk, behind the rear seat back'],'Never cut or spread into the floor.'),
+  Q('Seat-belt pretensioners sit…','At the B-post base or the buckle',['Inside the roof rail','Behind the dashboard'],'Cut the webbing, never the pretensioner.'),
+  Q('The D-post is…','The rearmost post of a wagon or SUV',['The post between the doors','The post at the windshield'],'Sedans stop at C.')]).slice(0,8)}};
+
+/* =================== exam practice (E1): 15 of 36, every topic in the lesson =================== */
+const EXAM=[
+ Q('What is the outer circle in a crash size-up?','A wide walk around the whole scene',['A close look around the car','A walk around the engine'],'It finds ejected patients, other vehicles, wires and fuel.'),
+ Q('Who walks the inner and outer circles?','Two people, at the same time',['The officer, after the cutting','Whoever is free once inside'],'Both circles in the first minute, then the report.'),
+ Q('Where is the ambulance best staged?','Past the crash, inside the block',['Upstream, behind the engine','On the far side of the road'],'The patient loads out of traffic.'),
+ Q('What goes in place before the first cut?','A charged line or an extinguisher',['The tow truck, hooked up','A second ambulance'],'Fire protection first; which one is per department SOP.'),
+ Q('A fuel leak appears mid-extrication. First?','Stop cutting until it is contained',['Cut faster to finish sooner','Move the patient out through the open window'],'A cutter near fuel is an ignition source.'),
+ Q('A wire is down on the car. Who says it is dead?','Only the utility',['Your officer, after a look','A meter on the door handle'],'Treat it as live until the utility confirms.'),
+ Q('Why tell occupants to stay in a car with a wire on it?','Stepping out can make them the path to ground',['The airbags may still fire','The doors may be jammed shut'],'Inside, they are out of the path to ground.'),
+ Q('What does peel and peek mean?','Strip the trim and look before you cut',['Cut a small hole in the trim and look inside it','Check behind the seats for patients'],'It finds inflators, wiring and gas cylinders.'),
+ Q('An inflator sits where you planned to cut. What now?','Move the cut',['Cut through it quickly','Cut it after power-down'],'Never cut through an inflator.'),
+ Q('A common rule: how far do you stay from an undeployed passenger frontal bag?','About '+FACTS.airbag.pass+' inches',['About '+FACTS.airbag.side+' inches','About '+FACTS.airbag.driver+' inches'],'A common rule, not a standard: '+FACTS.airbag.txt+'. Peel and peek is the real lesson.'),
+ Q('Does cutting the 12-volt instantly disarm the airbags?','No; many hold a reserve charge',['Yes, in every modern car','Yes, once the key fob is well away from the car'],FACTS.reserve.txt),
+ Q('Where do you cut a seat belt?','The webbing',['The retractor','The buckle'],'Pretensioners sit in the retractor or buckle.'),
+ Q('Why can a hatch strut be dangerous?','It can launch if heated or cut',['It holds the airbag wiring','It carries high voltage'],'Gas struts are under pressure.'),
+ Q('What is first in power management?','Windows down, seats back, unlocked',['The 12-volt off','The key in your pocket'],'Use the car\'s power while you have it.'),
+ Q('What happens if the 12-volt is cut first?','Windows and seats stop moving',['Every airbag fires at once','The doors lock themselves'],'You lose the space and glass the car could have given you.'),
+ Q('What should you look for after cutting one 12-volt battery?','A second battery',['A fuse to replace','A spare tire'],'Some cars have two, or one in the trunk or under a seat.'),
+ Q('A silent car with "READY" on the dash is…','Still powered on',['Shut down','In a crash mode'],'Out of ready mode, park, power off, fob away.'),
+ Q('Where do high-voltage cables usually run?','Through the rockers and floor',['Along the roof rails','Inside the A-posts beside the windshield'],'They are orange.'),
+ Q('Where do makers publish the details for an electric car?','In their emergency response guide',['On the window sticker','In the owner\'s manual in the glove box only'],'NHTSA\'s database collects them too.'),
+ Q('Smoke rises from under an electric car\'s floor. What changes?','Get the patient out fast; call for water',['Nothing; keep cutting as planned','Open the hood and look'],'The battery is heating. Rapid extrication.'),
+ Q('Which post sits between the front and rear doors?','The B-post',['The A-post','The C-post'],'A, B, C from the front.'),
+ Q('What is a relief cut for?','To control where metal bends',['To drain fluids first','To test the steel\'s strength'],'Dash rolls and roof flaps use them.'),
+ Q('The cutter will not get through a post. Why?','Ultra-high-strength steel',['The battery is too cold','The post is hollow'],'Move to a thinner spot or make relief cuts.'),
+ Q('When is a car "stabilized"?','When it can no longer move',['When the tires are let down','When the engine is off'],'Chocks, cribbing and struts, then nobody climbs until it is locked.'),
+ Q('What holds a car on its side?','Struts and cribbing',['Lifting airbags alone','The tires on one side'],'Struts on the roof side, cribbing in the gaps.'),
+ Q('Lifting airbags…','Lift, but do not hold',['Hold, but do not lift','Replace the cribbing'],'A common rule: '+FACTS.liftCrib.txt+'.'),
+ Q('Which glass breaks into small cubes?','Tempered',['Laminated','Both kinds'],'Most side and rear windows.'),
+ Q('What comes before cutting the windshield?','Cover and protect the patient',['Break the side glass','Cut the A-posts'],'A blanket and a board, and a warning.'),
+ Q('Why take the glass out before cutting posts?','It shatters when the frame flexes',['It makes the posts weaker','The cutter blades cannot reach the post through it'],'Out first, on your terms.'),
+ Q('Engine 10-2\'s first rescue tools run on…','Batteries',['A hydraulic power unit','Compressed air'],'Battery cutter, spreader and ram; Engine 10 carries a hydraulic set.'),
+ Q('The spreader battery dies mid-spread. Right answers?','A staged spare, or Engine 10\'s set',['Pry by hand, or wait it out','Pull the trigger, or twist it'],'Spares are staged before the work starts.'),
+ Q('Which tool pushes the dash for a dash roll?','The ram',['The cutter','A glass saw'],'Rams push long distances.'),
+ Q('What is a purchase point?','The first gap a tool can bite into',['The spot where the car is cribbed','The place the patient is lifted out'],'A pinch, a crush or a bar opens it.'),
+ Q('What is a third-door conversion?','A cut behind the B-post on a two-door',['A door added to the roof','A rear door taken off its hinges'],'Fold the panel down for room to the back seat.'),
+ Q('Who inside the car calls the patient\'s changes?','The EMS provider inside',['The officer at the tool area','The driver of the engine'],'Their report can change the whole plan.'),
+ Q('When do you switch to rapid extrication?','When the patient crashes',['When the tools run slow','When traffic builds up'],'The fastest prepared path out.')];
+
+/* =================== lesson, drills and exam on the core engines =================== */
+let LS=null,QZ=null,AGAIN=null,DONEGUARD=0;
+function showDone(t,score,html,again,next){keepAwake(false);pcFx('done');DONEGUARD=NOW()+.7;$('done-t').textContent=t;pcBand($('done-s'),score);countUp($('done-s'),score,600);$('done-b').innerHTML=html;AGAIN=again;NEXT=next||null;$('done-next').classList.toggle('hidden',!NEXT);$('done-row').classList.toggle('two',!NEXT);$('done-menu').classList.toggle('go',!NEXT);$('doneov').classList.remove('hidden');pcCool('#done-row button',700);}
+/* One voice: Next on every result is the next built activity in the home list's order (ACTS). */
+let NEXT=null;function opener(k,x){return k==='lesson'?()=>lessonStart():k==='drill'?()=>drillStart(x):k==='exam'?()=>examStart():null;}
+function nextOf(kind,id){const i=ACTS.findIndex(([k,x])=>k===kind&&x===id);for(let j=i+1;j<ACTS.length;j++){const [k,x]=ACTS[j];if(built(k,x))return opener(k,x);}return null;}
+$('done-next').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(NEXT)NEXT();};
+$('done-again').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(AGAIN)AGAIN();};$('done-menu').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');showHome();};
+function lessonStart(){keepAwake(true);pca('begin','pp','lesson',()=>LS?`slide-${LS.i+1}`:'');LS=pcLessonStart({slides:LESSON,point:pt,onDone:lessonDone,onQuit:()=>{pca('abandon');LS=null;showHome();}});}
+function lessonAct(ds){pcLessonAct(LS,ds);}
+function lessonDone(score,right,n){pca('end',pca('bkt',score));record('lesson','lesson',score);
+  showDone('Lesson complete',score,pcDebriefBody({score,compare:pcBestPrev((load().runs||[]).filter(x=>x.kind==='lesson').slice(0,-1)),kicker:'Next: the quick drills, one a day.',metrics:[['Slides',`${n} of ${n}`],['Right on the first try',`${right} of ${n}`]],clean:false}),()=>lessonStart(),nextOf('lesson','lesson'));LS=null;}
+$('lesson-box').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-l]');if(b)lessonAct(b.dataset);};
+$('h-learn').onclick=()=>lessonStart();
+function quizBegin(name,qs,kind,id,next,actName){keepAwake(true);pca('begin','pp',actName,()=>QZ&&QZ.qs?`question-${QZ.i+1}`:'');
+  QZ=pcQuizStart({name,qs,kind,id,note:sc=>sc>=85?'Solid. Keep it sharp.':'Review the lesson and try again.',menuAction:'quit',from:'pp',next,
+    onDone:sc=>{keepAwake(false);pca('end',pca('bkt',sc));record(kind,id,sc);},onQuit:()=>{pca('abandon');$('quizov').classList.add('hidden');QZ=null;showHome();}});}
+function drillStart(id){const D=DRILLS[id];if(!D)return;const ks=PLAN.drills.map(d=>d[0]).filter(k=>DRILLS[k]),m=ks.indexOf(id)+1;quizBegin(D.name,D.bank().slice(0,8),'drill',id,m<ks.length?()=>drillStart(ks[m]):nextOf('drill',id),'drill-'+id);}
+function examStart(){quizBegin('Exam practice',pcShuf(EXAM).slice(0,15),'exam','exam',nextOf('exam','exam'),'exam');}
+function quizAct(ds){const a=ds.q;if(a==='again'){const id=QZ.id,k=QZ.kind;if(k==='exam')examStart();else drillStart(id);return;}pcQuizAct(QZ,ds);}
+$('qz-body').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-q]');if(b)quizAct(b.dataset);};$('qz-foot').onclick=$('qz-body').onclick;
+$('drills').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-drill]');if(b&&!b.disabled){$('drillpick').classList.add('hidden');drillStart(b.dataset.drill);}};
+$('tests').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-exam]');if(b&&!b.disabled)examStart();};
+$('h-drills').onclick=()=>{$('drillpick').classList.remove('hidden');$('drillpick').scrollTop=0;};$('dp-close').onclick=()=>$('drillpick').classList.add('hidden');
+/* =================== instructor switch (the floating button and the injects arrive with the scenarios) =================== */
+let INST=false;
+const instOn=()=>INST||!!pcDrill();
+function instSync(){const b=$('b-inst');if(b){b.textContent='Instructor mode: '+(INST?'on':pcDrill()?'on (Drill Night)':'off');b.classList.toggle('on',instOn());}}
+$('b-inst').onclick=()=>{INST=!INST;const p=load();p.inst=INST;save(p);instSync();};
+/* =================== boot =================== */
+if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+applySettings();settingsBind();INST=!!load().inst;pcDrillBind();showHome();instSync();
+/* deep links for the hub's daily drill and Continue: ?drill=<id>, ?exam=1, ?lesson=1 (unknown ids, and ids not built yet, are ignored) */
+{const P=new URLSearchParams((typeof location!=='undefined'&&location.search)||'');const q=P.get('drill');if(q&&DRILLS[q])drillStart(q);else if(P.get('exam'))examStart();else if(P.get('lesson'))lessonStart();}
+</script>
+</body>
+</html>

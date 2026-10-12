@@ -1,0 +1,11 @@
+{
+ "runs": [
+  {"kind": "lesson", "id": "lesson", "score": 100, "d": "2026-10-12T11:00:00.000Z", "tier": 0, "href": "purchase-point/?lesson=1"},
+  {"kind": "drill", "id": "hazard", "score": 75, "d": "2026-10-12T11:10:00.000Z", "tier": 0, "href": "purchase-point/?drill=hazard"},
+  {"kind": "scenario", "id": "ghost", "score": 90, "d": "2026-10-12T11:20:00.000Z", "tier": 1, "variant": "B"},
+  null,
+  {"kind": "station", "id": "stab", "score": 80, "d": "2026-10-12T11:30:00.000Z", "tier": 2}
+ ],
+ "name": "Jo Test",
+ "dept": "Station 9"
+}

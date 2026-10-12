@@ -1,0 +1,16 @@
+{
+  "name": "Purchase Point",
+  "short_name": "Purchase Pt",
+  "description": "Vehicle extrication practice at the Operations level: size-up, stabilization, power in order, glass, access and disentanglement.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0c0f",
+  "theme_color": "#0a0c0f",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
