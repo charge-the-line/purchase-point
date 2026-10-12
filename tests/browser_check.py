@@ -91,6 +91,7 @@ with sync_playwright() as p:
         pg.goto(URL + '?station=roof&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?station=roof&v=B', measure(pg) + (0 if pg.is_visible('#runov') and pg.evaluate("S&&S.id==='roof'&&S.v==='B'") else 99)))
         tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); rows.append((w, 'stop and go back', 0 if pg.is_visible('#home') and not pg.is_visible('#runov') else 99))
         pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="2"]'); pg.evaluate("window.FORCE_V={door:'A'}"); tap(pg, '[data-station="door"]'); pg.wait_for_timeout(650)
+        tool_tap(pg, 'cover'); pg.wait_for_timeout(520); tool_tap(pg, 'line'); pg.wait_for_timeout(520)
         tool_tap(pg, 'bar'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
         tool_tap(pg, 'spreader'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
         rows.append((w, 'chaos door: a spreader on a rocking car shifts it', measure(pg) + (0 if pg.evaluate("S&&S.stab==='shifted'&&S.score===90") and 'Shifted' in pg.text_content('#pp-stab') else 99)))
