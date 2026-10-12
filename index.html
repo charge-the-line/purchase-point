@@ -74,13 +74,26 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 .slide h2{font-size:30px}.slide ul{margin:0 0 12px;padding-left:20px;font-size:16px;line-height:1.5}.slide li{margin-bottom:4px}
 .dots{display:flex;gap:4px;justify-content:center;margin:8px 0}.dots i{width:8px;height:8px;border-radius:50%;background:#233a40}.dots i.on2{background:var(--acc)}
 #b-inst.on{background:#3b2a6b!important;border-color:var(--purple)!important;color:#fff}
+/* the workbench (E2): the car diagram, the bars, the tray */
+#runov{padding:4px}#runov .box{padding:10px;max-width:520px;margin:0 auto}
+.pp-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;padding-right:50px}.pp-head h2{font-size:22px;margin:0;flex:1;line-height:1.05;font-weight:600}.pp-clock{font-family:"Saira Condensed",sans-serif;font-size:20px;color:var(--soft);min-width:48px;text-align:right}
+.pp-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:6px}.pp-st{background:var(--deck2);border-radius:6px;padding:6px 8px;min-width:0}.pp-st i{display:block;font-style:normal;font-family:"Saira Condensed",sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--soft)}.pp-st b{display:block;font-family:"Saira Condensed",sans-serif;font-size:18px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{display:flex;gap:2px;margin-top:5px}.seg span{flex:1;height:5px;border-radius:2px;background:var(--line)}.seg span.on{background:var(--acc)}.seg span.g{background:var(--good)}.seg span.w{background:var(--warm)}.seg span.h{background:var(--hot)}
+#pp-map{background:#0d1116;border-radius:8px;overflow:hidden;margin:0 -10px}#pp-svg{display:block;width:100%;height:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.zone{cursor:pointer;outline:none}.zone .hit{fill:transparent}.zone .dot{fill:rgba(44,198,220,.16);stroke:var(--acc);stroke-width:1.5;stroke-dasharray:4 3}.zone.peel .dot{fill:rgba(44,198,220,.32)}.zone.done .dot{fill:rgba(57,227,111,.22);stroke:var(--good);stroke-dasharray:none}.zone.sel .dot{stroke-width:3;stroke-dasharray:none}.zone.right .dot{stroke:var(--good);stroke-width:3;stroke-dasharray:none}.zone.wrong .dot{stroke:var(--hot);stroke-width:3;stroke-dasharray:none}
+.zone text{font-family:"Saira Condensed",sans-serif;font-size:13px;fill:#dce6f0;text-anchor:middle;pointer-events:none;letter-spacing:.5px}.zone .haz{fill:none;stroke:var(--warm);stroke-width:2.5;stroke-dasharray:3 3}.zone .cut{stroke:var(--hot);stroke-width:3;stroke-linecap:round;pointer-events:none}.zone:focus-visible .dot{stroke-width:3;stroke:#fff}
+#pp-now{min-height:44px;font-size:15px;line-height:1.4;padding:8px 10px;margin:6px 0;border-left:4px solid var(--acc);background:var(--deck2);border-radius:6px}#pp-now.bad{border-left-color:var(--hot)}#pp-now.good{border-left-color:var(--good)}#pp-now.in{animation:pp-in .3s ease-out}@keyframes pp-in{from{transform:translateX(-6px);opacity:.4}to{transform:none;opacity:1}}html[data-motion="off"] #pp-now.in{animation:none}
+#pp-step{font-size:15px;color:var(--soft);line-height:1.4;margin:0 0 6px}#pp-step b{color:var(--ink)}#pp-q{font-size:16px;line-height:1.4;margin:0 0 8px}#pp-q b{color:var(--acc)}
+#pp-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}#pp-tray button{padding:8px 6px;font-size:15px;min-height:48px;line-height:1.15;min-width:0}#pp-tray button small{display:block;font-size:13px;color:var(--soft);font-weight:400}#pp-tray button.on small{color:#cfe}
+.pp-foot{display:flex;gap:6px;margin-top:8px}.pp-foot button{flex:1}
+.pp-pt{display:none}
 </style>
 </head>
 <body>
 <div id="pc-drill" class="pc-drillbar hidden" data-hub="../"></div>
 <div id="home">
   <div class="flex" style="margin:0 0 8px"><a href="../" style="display:inline-flex;align-items:center;min-height:44px;font-family:'Saira Condensed';font-size:15px;font-weight:600;letter-spacing:1px;color:#ff8a3d;text-decoration:none">◂ PRECONNECT</a><div class="sp"></div><a href="../feedback.html?from=pp" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;color:var(--soft);text-decoration:none;margin-right:12px">Feedback</a><button class="gear" id="h-set">Settings</button></div>
-  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.1.0</span></h1></div></div>
+  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.2.0</span></h1></div></div>
   <div class="card rdy" id="rdy"><div class="flex"><div><div class="small">Your readiness</div><b id="rdy-t" style="display:block;font-family:'Saira Condensed';font-size:22px;line-height:1.05"></b><div class="small" id="rdy-s"></div></div><div class="sp"></div><div class="num" id="rdy-n"></div></div><div class="bar" style="margin-top:10px"><div id="rdy-bar" style="transition:width .6s ease-out"></div></div></div>
   <div class="card"><div class="small">What this is</div><p style="margin:4px 0 0;font-size:15px;line-height:1.45">Vehicle extrication at the Operations level: size it up, make it safe, stabilize, get in, and <b>take the car off the patient</b> while the EMS provider inside keeps them safe. Modeled on the vehicle chapter of NFPA 2500, in our own words. <b>On a real call, follow your department's procedures and the maker's rescue guide.</b></p></div>
   <button class="scen" id="h-learn"><span class="chip dim" id="chip-lesson">—</span><b>The lesson</b><span>14 short slides with a check each: the two circles, traffic, fire protection, wires, airbags, power in order, EVs, how cars are built, stabilization, glass, tools, access, disentanglement</span></button>
@@ -100,6 +113,17 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
   <p class="legal">A practice tool. It does not replace an official course, a department's procedures or a maker's rescue guide, and it does not issue certification. Operations-level crews work on common passenger vehicles and call for technician resources for heavy vehicles. Not affiliated with or endorsed by the NFPA, NHTSA, any vehicle maker or any tool maker.</p>
 </div>
 <div class="overlay hidden" id="drillpick" style="z-index:11"><div class="box"><h2 style="margin:0 0 8px">Quick drills</h2><p class="stat" style="margin:0 0 10px">Eight questions a run. Due and Again chips follow the spacing.</p><div id="drills"></div><button class="go" id="dp-close" style="width:100%;margin-top:10px">Close</button></div></div>
+<div class="overlay hidden" id="runov" style="z-index:12"><div class="box">
+  <div class="pp-head"><h2 id="pp-title">Station</h2><span class="pp-clock" id="pp-clock">0:00</span></div>
+  <div class="pp-pt" id="pp-pt"></div>
+  <div class="pp-bars" id="pp-bars"><div class="pp-st"><i>Stability</i><b id="pp-stab">—</b><div class="seg" id="pp-stabseg"><span></span><span></span><span></span></div></div><div class="pp-st" id="pp-spacebox"><i>Space</i><b id="pp-space">—</b><div class="seg" id="pp-spaceseg"><span></span><span></span><span></span><span></span></div></div><div class="pp-st" id="pp-battbox"><i>Battery</i><b id="pp-batt">—</b><div class="seg" id="pp-battseg"><span></span><span></span><span></span><span></span><span></span></div></div></div>
+  <p id="pp-q" class="hidden"></p>
+  <div id="pp-map"></div>
+  <div id="pp-now" aria-live="polite"></div>
+  <p id="pp-step"></p>
+  <div id="pp-tray"></div>
+  <div class="pp-foot"><button id="pp-next" class="go hidden">Next</button><button id="pp-quit">Stop and go back</button></div>
+</div></div>
 <div class="overlay hidden" id="lessonov" style="z-index:12"><div class="box slide" id="lesson-box"></div></div>
 <div class="overlay hidden" id="quizov" style="z-index:12"><div class="box"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 id="qz-title" style="margin:0">Drill</h2><span id="qz-meta" class="stat"></span></div><div id="qz-body" style="margin-top:10px"></div><div id="qz-foot" style="margin-top:10px"></div></div></div>
 <div class="overlay hidden" id="doneov" style="z-index:13"><div class="box"><h2 id="done-t"></h2><div class="big" id="done-s"></div><div id="done-b"></div>
@@ -121,7 +145,7 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 <div class="overlay hidden" id="infoov" style="z-index:15"><div class="box"><div id="info-b"></div><button class="go" id="info-close" style="width:100%;margin-top:10px">Close</button></div></div>
 <script>
 /* =================== core =================== */
-const APP_VERSION='0.1.0';
+const APP_VERSION='0.2.0';
 /* Screen wake lock: on while an activity runs, off at home and on a result. */
 const WAKE={s:null,want:false};
 function keepAwake(on){WAKE.want=!!on;const wl=(typeof navigator!=='undefined')&&navigator.wakeLock;if(!wl||!wl.request)return;
@@ -157,7 +181,8 @@ const FACTS={
  cut12v:{kind:'sop',txt:'the negative cable first, then the positive',src:'Common practice; to confirm with the department',checked:null},
  struts:{kind:'sop',txt:'whether your engine carries struts for a car on its side or roof',src:'Whether Engine 10-2 carries struts is to confirm',checked:null},
  glass:{kind:'sop',txt:'a spring punch or glass tool and a glass saw',src:'Glass tools carried are to confirm',checked:null},
- fuel:{kind:'sop',txt:'absorbent or foam',src:'Fuel leak control is to confirm',checked:null}};
+ fuel:{kind:'sop',txt:'absorbent or foam',src:'Fuel leak control is to confirm',checked:null},
+ space:{kind:'modeled',need:12,push:4,txt:'the room needed to take the car off her and what each push of the ram gains are modeled numbers for the game',src:'modeled for the game',checked:'2026-10-12 modeled, labeled as such'}};
 /* Department details still to confirm. Shown in About; nothing here is a phone number. */
 const TO_CONFIRM=['the utility and how it is called to a crash with wires down','who brings heavy rescue and the heavy wrecker for a heavy vehicle','whether Engine 10-2 carries struts for a car on its side or roof','how many spare batteries are staged, and how long one runs','the glass tools carried, and whether glass is taped first','how far the key or fob goes from the car','the zone held around a downed wire','the 12-volt cut order','fuel leak control: absorbent or foam','that side- and roof-resting stabilization is Operations work (the training officer)','the NFPA 2500 vehicle chapter this module maps to (the training officer)'];
 /* A point or a why may carry {sop}: rendered as the shared chip where the text is HTML. */
@@ -170,8 +195,8 @@ const PLAN={
  exam:[['exam','Exam practice','Fifteen questions from a bank of 36, every topic in the lesson']]};
 const ACTS=[['lesson','lesson'],...PLAN.drills.map(d=>['drill',d[0]]),...PLAN.stations.map(d=>['station',d[0]]),...PLAN.scn.map(s=>['scenario',s[0]]),['exam','exam']];
 const NAME=Object.fromEntries([...PLAN.drills,...PLAN.stations,...PLAN.scn,...PLAN.exam].map(x=>[x[0],x[1]]));
-/* What is built. Stations and scenarios arrive with the car-diagram engine (E2 and E3). */
-const built=(kind,id)=>kind==='lesson'||kind==='exam'||(kind==='drill'&&!!DRILLS[id]);
+/* What is built. The scenarios arrive with E3. */
+const built=(kind,id)=>kind==='lesson'||kind==='exam'||(kind==='drill'&&(id==='cut'||!!DRILLS[id]))||(kind==='station'&&!!STN[id]);
 function readiness(){const R=load().runs||[];const best={};R.forEach(r=>{const k=r.kind+':'+r.id;best[k]=Math.max(best[k]||0,+r.score||0);});const done=ACTS.filter(([k,i])=>best[k+':'+i]!==undefined).length;return {done,total:ACTS.length,pct:Math.round(done/ACTS.length*100),best};}
 function homeRender(){const R=readiness();
   const runs=load().runs||[];let ndue=0;const chipT=(kind,id)=>{const b=R.best[kind+':'+id];const sp=pcSpacing(runs.filter(r=>r.kind===kind&&r.id===id));const dueNow=sp.status==='due'||sp.status==='missed';if(dueNow)ndue++;return b===undefined?null:dueNow?(sp.status==='missed'?'Again':'Due'):String(b);};
@@ -182,7 +207,7 @@ function homeRender(){const R=readiness();
   const t=`${R.done} of ${R.total} activities`;if($('rdy-t').textContent!==t)$('rdy-t').textContent=t;
   const sub=R.done?`${ndue?ndue+' due for review · ':''}${TIER===0?'Guided':TIER===1?'Recall':'Chaos'} mode`:'Start with the lesson, then a drill a day. Your best scores show up here.';if($('rdy-s').textContent!==sub)$('rdy-s').textContent=sub;
   const n=R.pct+'%';if($('rdy-n').textContent!==n)$('rdy-n').textContent=n;const bar=$('rdy-bar');if(bar&&bar.style)bar.style.width=R.pct+'%';}
-function showHome(){keepAwake(false);['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));document.querySelectorAll('[data-tier]').forEach(b=>b.classList.toggle('on',+b.dataset.tier===TIER));$('tierhelp').textContent=pcTierHelp(TIER,['Every zone on the car is labeled, hidden hazards are marked and the next step is named.','You find the hazards under the trim and choose the order.','Cold-weather battery drain, one extra hidden hazard and one surprise per scenario.'][TIER]);homeRender();}
+function showHome(){keepAwake(false);S=null;['infoov','lessonov','quizov','doneov','drillpick','runov'].forEach(i=>$(i).classList.add('hidden'));document.querySelectorAll('[data-tier]').forEach(b=>b.classList.toggle('on',+b.dataset.tier===TIER));$('tierhelp').textContent=pcTierHelp(TIER,['Hidden hazards are marked on the car and the next step is named.','Nothing is marked: you peel to find the hazards and choose the order.','Cold-weather battery drain, no spare staged, a car the first crew never cribbed, and an extra hidden hazard.'][TIER]);homeRender();}
 document.querySelectorAll('[data-tier]').forEach(b=>b.onclick=()=>{TIER=+b.dataset.tier;showHome();});
 /* =================== reference, about, progress =================== */
 $('h-ref').onclick=()=>info(`<h2>Pocket reference</h2>
@@ -201,7 +226,7 @@ const KIND={lesson:'Lesson',drill:'Drill',station:'Station',scenario:'Scenario',
 $('h-prog').onclick=()=>{const p=load();const R=p.runs||[];const best=(k,id)=>{const r=R.filter(x=>x.kind===k&&x.id===id);return r.length?Math.max(...r.map(x=>x.score)):null;};
   const line=(n,b,ok)=>`<div class="mrow"><span>${esc(n)}</span><b style="${b===null?'color:var(--soft)':''}">${b===null?(ok?'not yet':'soon'):b}</b></div>`;
   const PR=pcProfile();info(`<h2>My progress</h2><input id="p-name" placeholder="Your name" value="${esc(PR.name||p.name||'')}" style="margin-bottom:6px"><input id="p-dept" placeholder="Department or organization" value="${esc(PR.org||p.dept||'')}" style="margin-bottom:10px">
-   <div class="sec">LESSON</div>${line('The lesson',best('lesson','lesson'),true)}<div class="sec">DRILLS</div>${PLAN.drills.map(d=>line(d[1],best('drill',d[0]),built('drill',d[0]))).join('')}<div class="sec">SKILL STATIONS</div>${PLAN.stations.map(s=>line(s[1],best('station',s[0]),false)).join('')}<div class="sec">SCENARIOS</div>${PLAN.scn.map(s=>line(s[1],best('scenario',s[0]),false)).join('')}<div class="sec">EXAM</div>${line('Exam practice',best('exam','exam'),true)}
+   <div class="sec">LESSON</div>${line('The lesson',best('lesson','lesson'),true)}<div class="sec">DRILLS</div>${PLAN.drills.map(d=>line(d[1],best('drill',d[0]),built('drill',d[0]))).join('')}<div class="sec">SKILL STATIONS</div>${PLAN.stations.map(s=>line(s[1],best('station',s[0]),built('station',s[0]))).join('')}<div class="sec">SCENARIOS</div>${PLAN.scn.map(s=>line(s[1],best('scenario',s[0]),false)).join('')}<div class="sec">EXAM</div>${line('Exam practice',best('exam','exam'),true)}
    <button id="p-csv" style="width:100%;margin-top:10px">Download practice record (CSV)</button>`);
   const keep=()=>{const q=load();q.name=$('p-name').value.trim();q.dept=$('p-dept').value.trim();save(q);pcProfileSet(q.name,q.dept);return q;};$('p-name').onchange=keep;$('p-dept').onchange=keep;
   $('p-csv').onclick=()=>{const q=keep();
@@ -351,11 +376,247 @@ const EXAM=[
  Q('Who inside the car calls the patient\'s changes?','The EMS provider inside',['The officer at the tool area','The driver of the engine'],'Their report can change the whole plan.'),
  Q('When do you switch to rapid extrication?','When the patient crashes',['When the tools run slow','When traffic builds up'],'The fastest prepared path out.')];
 
+/* =================== the car diagram and the skill stations (E2) ===================
+   One SVG per run (carBuild), then attribute-only updates (carUpd). Tool first, then the zone. Every zone has a transparent hit
+   rect (HIT, about 44 px on a 320 px phone), role=button and a name. Hidden hazards sit under the trim: a peel shows them,
+   Guided marks them. A cut without a peel still happens (rule 14), costs points, and the line says what you cut into.
+   Two clocks: the scene clock is game time (each step takes scene seconds); the person is measured in real seconds (the dead-tool
+   wait, the re-crib wait), frozen while the screen is off (rule 15, pcOnPause → freezeRun/thawRun). */
+const PEN={blind:5,cover:5,fire:5,order:10,shift:10,recrib:5,enter:5,misfire:2,dead:5,noCrib:5,belt:10};
+const WAIT={dead:20,recrib:20};/* real seconds before the wait itself costs points */
+const HAZ={
+ inflator:{n:'the curtain airbag inflator',kind:'never',pen:30,why:'Never cut through an airbag inflator: a stored-gas cylinder that can fire or fragment when cut. Peel the trim, find it, cut beside it.'},
+ curtain:{n:'the curtain airbag tube',kind:'bad',pen:10,why:'The curtain bag runs along the roof rail and down the A-post. Peel first and cut below it.'},
+ pretensioner:{n:'the seat-belt pretensioner',kind:'bad',pen:10,why:'A pyrotechnic pretensioner sits at the base of the B-post. It can fire when crushed or cut. Peel first and keep the tool off it.'},
+ strutgas:{n:'a gas strut',kind:'bad',pen:10,why:'A gas strut cut through becomes a projectile. Peel, find it, cut beside it.'},
+ uhss:{n:'ultra-high-strength steel',kind:'stall',pen:5,why:'The label in the trim says boron steel. The cutter stalls there: move the cut above or below the hardened section.'},
+ hv:{n:'an orange high-voltage cable',kind:'never',pen:30,why:'Never cut an orange cable or into the battery. Nothing gets cut or spread in the rockers or the floor of an electric car.'},
+ lam:{n:'laminated side glass',kind:'info',pen:0,why:'Laminated side glass stars but holds. It gets the saw, not the punch.'}};
+/* zones: id → [x, y, short label, name, peelable]. Side view and the end view (a car on its side or its roof) share one table. */
+const ZONES={
+ hood:[64,152,'12-volt','Hood, the 12-volt battery'],wshield:[116,92,'Windshield','Windshield'],fwin:[190,96,'Front glass','Front door window'],rwin:[256,96,'Rear glass','Rear door window'],rglass:[330,104,'Back glass','Rear window'],
+ rail:[270,58,'Roof rail','Roof rail',1],apost:[146,106,'A-post','A-post',1],bpost:[208,112,'B-post','B-post',1],cpost:[324,118,'C-post','C-post',1],
+ hinge:[136,168,'Hinges','Front door, hinge side'],latch:[200,172,'Latch','Front door, latch side'],cab:[268,178,'Patient','The patient'],
+ abase:[126,238,'A-post base','A-post base, at the rocker',1],bbase:[206,238,'B-post base','B-post base',1],rocker:[330,202,'Rocker','Rocker panel',1],
+ wheel:[100,190,'Wheels','The wheels'],cribF:[170,216,'Crib front','Under the front rocker'],cribR:[250,216,'Crib rear','Under the rear rocker'],cribC:[296,240,'Crib it','Under the rocker'],
+ eRoofHi:[134,70,'Roof, high','Roof side, high'],eUnderHi:[264,70,'Underside','Underside, high'],eRoofG:[140,186,'Roof edge','Roof edge at the ground'],eRockG:[258,186,'Rocker','Rocker at the ground'],eCab:[200,120,'Patient','The patient'],eRailL:[136,186,'Left rail','Roof rail, left'],eRailR:[264,186,'Right rail','Roof rail, right']};
+const HIT=[62,60];/* the transparent hit rect, in viewBox units of a 400-wide drawing: about 48 by 46 px on a 320 px phone */
+const SIDE_Z=['hood','wshield','fwin','rwin','rglass','rail','apost','bpost','cpost','hinge','latch','cab','abase','bbase','rocker','wheel','cribF','cribR','cribC'];
+const END_Z=['eRoofHi','eUnderHi','eRoofG','eRockG','eCab','eRailL','eRailR'];
+const TOOLS={hands:{n:'Hands',s:'reach, unlock, lower, lift'},cover:{n:'Protect the patient',s:'hard protection over her',solo:1},line:{n:'Fire protection',s:'a line or an extinguisher',solo:1},ems:{n:'Send the EMS provider in',s:'once it is stable',solo:1},
+ peel:{n:'Peel the trim',s:'peel and peek'},bar:{n:'Pry bar',s:'a purchase point'},spreader:{n:'Spreader',s:'battery',heavy:1},cutter:{n:'Cutter',s:'battery',heavy:1,cut:1},ram:{n:'Ram',s:'battery',heavy:1},saw:{n:'Recip saw',s:'battery',heavy:1,cut:1},
+ glass:{n:'Glass punch',s:'tempered glass'},shears:{n:'Belt cutter',s:''},crib:{n:'Cribbing',s:''},chock:{n:'Step chocks',s:''},strut:{n:'Struts',s:'to confirm'},spare:{n:'Spare battery',s:''},hyd:{n:"Engine 10's hydraulics",s:'the backup set'}};
+const stepTools=s=>Array.isArray(s.tool)?s.tool:[s.tool];
+const zlow=n=>/^[ABC]-post/.test(n)?n:n.charAt(0).toLowerCase()+n.slice(1);/* a zone name mid-sentence */
+const mmss=t=>{t=Math.max(0,Math.floor(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');};
+/* the five stations, three layouts each. A step: {id, tool|[tools], zone, name, t (scene seconds), after:[step ids that must be done], before:[step ids
+   that must be done first or the power-order trap fires], dead:{…} (what the step becomes after the trap), alt:{haz,zone|tool,name} (where the cut moves
+   when a peel finds that hazard), gain (space), needCrib (a push that wants cribbing since the last push), needStable, stab:1 (counts toward stable)} */
+const TALK={id:'talk',tool:'hands',zone:'cab',name:'Tell her who you are and not to move',t:15,res:'She knows you are here. Nobody goes in until the car is stable.'};
+const EMS={id:'ems',tool:'ems',name:'Send the EMS provider in',t:20,needStable:1,res:'The EMS provider is in with her: head and neck held, the first look done.'};
+const COVER={id:'cover',tool:'cover',name:'Hard protection over the patient',t:20,res:'A hard shield and a blanket over her; the EMS provider inside says go.'};
+const LINE={id:'line',tool:'line',name:'Fire protection in place {sop}',t:30,res:FACTS.fireProt.txt.replace(/^./,c=>c.toUpperCase())+'. {sop}'};
+const POWER=(before,extra)=>Object.assign({id:'power',tool:'hands',zone:'hood',name:'12-volt off: windows, seats and locks first, then the battery',t:60,before,res:'Power is off. '+FACTS.reserve.txt},extra||{});
+const STN={
+ stab:{name:'Stabilize it',note:'Struts: '+FACTS.struts.txt+' {sop}',vs:{
+  A:{vname:'On its wheels',pose:'wheels',zones:['wheel','cribF','cribR','cab'],pos:{cab:[200,150]},tools:['hands','chock','crib','strut','ems'],stab:'rocking',
+   steps:[TALK,{id:'chock',tool:'chock',zone:'wheel',name:'Step chocks at the wheels, both sides',t:40,stab:1},{id:'cribF',tool:'crib',zone:'cribF',name:'Crib the front rocker, both sides',t:40,stab:1},{id:'cribR',tool:'crib',zone:'cribR',name:'Crib the rear rocker, both sides',t:40,stab:1},EMS],
+   wrong:{strut:'Struts are for a car on its side or its roof. On its wheels: chocks and cribbing.'}},
+  B:{vname:'On its side',pose:'side',zones:['eRoofHi','eUnderHi','eRoofG','eRockG','eCab'],tools:['hands','chock','crib','strut','ems'],stab:'rocking',
+   steps:[Object.assign({},TALK,{zone:'eCab'}),{id:'strut1',tool:'strut',zone:'eRoofHi',name:'A strut from the roof side, high, down to the ground {sop}',t:60,stab:1},{id:'strut2',tool:'strut',zone:'eUnderHi',name:'A strut from the underside, high {sop}',t:60,stab:1},{id:'cribG1',tool:'crib',zone:'eRoofG',name:'Crib the roof edge where it meets the ground',t:40,stab:1},{id:'cribG2',tool:'crib',zone:'eRockG',name:'Crib the rocker where it meets the ground',t:40,stab:1},EMS],
+   wrong:{chock:'Step chocks do nothing for a car on its side. Struts high, cribbing at the ground.'}},
+  C:{vname:'On its roof',pose:'roof',zones:['eRailL','eRailR','eCab'],tools:['hands','crib','strut','shears','ems'],stab:'rocking',
+   steps:[Object.assign({},TALK,{zone:'eCab',name:'Tell her not to move: she is hanging in the belt',res:'She knows you are here and that the belt is holding her. Nobody cuts it yet.'}),{id:'cribL',tool:['crib','strut'],zone:'eRailL',name:'Box cribbing or a strut under the left roof rail and post',t:50,stab:1},{id:'cribR',tool:['crib','strut'],zone:'eRailR',name:'Box cribbing or a strut under the right roof rail and post',t:50,stab:1},EMS],
+   traps:{'shears:eCab':{pen:PEN.belt,msg:'Cut the belt now and she drops onto her head and neck. The EMS provider cuts it once she is supported on a board.'}}}}},
+ glass:{name:'Glass',vs:{
+  A:{vname:'Tempered and laminated',pose:'wheels',zones:['hood','wshield','fwin','rwin','rglass'],tools:['cover','hands','glass','saw','peel'],
+   steps:[COVER,{id:'window',tool:'hands',zone:'fwin',name:'Front window down with the switch, while the power is on',t:10,dead:{tool:'glass',name:'Punch the front window: the switches died with the power'}},POWER(['window']),{id:'rwin',tool:'glass',zone:'rwin',name:'Punch the rear door glass at a corner: tempered',t:30},{id:'ws',tool:'saw',zone:'wshield',name:'Cut the windshield: laminated',t:60},{id:'rg',tool:'glass',zone:'rglass',name:'Punch the back glass: tempered',t:30}]},
+  B:{vname:'Laminated side glass',pose:'wheels',zones:['hood','wshield','fwin','rwin'],tools:['cover','hands','glass','saw','peel'],hazards:{fwin:'lam'},
+   steps:[COVER,POWER([],{name:'12-volt off: the door is jammed and the glass will not move, so nothing is lost'}),{id:'check',tool:'hands',zone:'fwin',name:'Look at the edge of the front glass: tempered or laminated?',t:10,reveal:1,res:'A plastic layer in the edge: laminated side glass. The punch will not clear it.'},{id:'fwin',tool:'saw',zone:'fwin',name:'Cut the front glass with the saw: laminated',t:50},{id:'rwin',tool:'glass',zone:'rwin',name:'Punch the rear door glass: tempered',t:30},{id:'ws',tool:'saw',zone:'wshield',name:'Cut the windshield: laminated',t:60}],
+   traps:{'glass:fwin':{pen:PEN.misfire,msg:'It stars and holds: laminated side glass. The saw.'}}},
+  C:{vname:'Power already off',pose:'wheels',zones:['hood','wshield','fwin','rwin','rglass'],tools:['cover','hands','glass','saw','peel'],
+   steps:[COVER,{id:'fwin',tool:'glass',zone:'fwin',name:'Punch the front glass: the first crew already cut the power',t:30},{id:'rwin',tool:'glass',zone:'rwin',name:'Punch the rear door glass',t:30},{id:'ws',tool:'saw',zone:'wshield',name:'Cut the windshield: laminated',t:60},{id:'rg',tool:'glass',zone:'rglass',name:'Punch the back glass',t:30}],
+   free:{'hands:hood':'Already off. '+FACTS.reserve.txt}}}},
+ door:{name:'Make the door',vs:{
+  A:{vname:'Latch side',pose:'wheels',zones:['hood','hinge','latch','bbase'],tools:['cover','line','hands','peel','bar','spreader','cutter','crib'],hazards:{bbase:'pretensioner'},batt:100,drain:22,spares:1,
+   steps:[COVER,LINE,{id:'unlock',tool:'hands',zone:'latch',name:'Try the handle and unlock the doors',t:10,dead:{skip:1,note:'The locks died with the power. The door stays shut; you pry it.'}},POWER(['unlock']),{id:'peelB',tool:'peel',zone:'bbase',name:'Peel the B-post trim at the base',t:30},{id:'purchase',tool:'bar',zone:'latch',name:'Open a purchase point at the latch',t:40},{id:'spread',tool:'spreader',zone:'latch',name:'Spread the latch side until it pops',t:90,after:['purchase'],afterMsg:'The tips slip off the sheet metal. Make a purchase point first.'},{id:'hinges',tool:['spreader','cutter'],zone:'hinge',name:'Take it off the hinges',t:90,after:['spread'],afterMsg:'The latch still holds it. Pop the latch first.',gain:12,res:'The door is off and away from the car. Room to work.'}]},
+  B:{vname:'Hinge side',pose:'wheels',zones:['hood','hinge','latch','bbase'],tools:['cover','line','hands','peel','bar','spreader','cutter','crib'],hazards:{bbase:'pretensioner'},batt:100,drain:22,spares:1,
+   steps:[COVER,LINE,{id:'unlock',tool:'hands',zone:'latch',name:'Try the handle and unlock the doors',t:10,dead:{skip:1,note:'The locks died with the power. The door stays shut; you pry it.'}},POWER(['unlock']),{id:'peelB',tool:'peel',zone:'bbase',name:'Peel the B-post trim at the base',t:30},{id:'purchase',tool:'bar',zone:'hinge',name:'Open a purchase point at the top hinge: the latch side is crushed against the tree',t:40},{id:'spread',tool:'spreader',zone:'hinge',name:'Spread the hinge side: top hinge, then bottom',t:100,after:['purchase'],afterMsg:'The tips slip. Make a purchase point first.'},{id:'latch',tool:'spreader',zone:'latch',name:'Roll the door off the latch',t:60,after:['spread'],afterMsg:'The hinges still hold it.',gain:12,res:'The door is off. Room to work.'}]},
+  C:{vname:'The battery dies',pose:'wheels',zones:['hood','hinge','latch','bbase'],tools:['cover','line','hands','peel','bar','spreader','cutter','crib'],hazards:{bbase:'pretensioner'},batt:30,drain:22,spares:1,
+   steps:[COVER,LINE,{id:'unlock',tool:'hands',zone:'latch',name:'Try the handle and unlock the doors',t:10,dead:{skip:1,note:'The locks died with the power. The door stays shut; you pry it.'}},POWER(['unlock']),{id:'peelB',tool:'peel',zone:'bbase',name:'Peel the B-post trim at the base',t:30},{id:'purchase',tool:'bar',zone:'latch',name:'Open a purchase point at the latch',t:40},{id:'spread',tool:'spreader',zone:'latch',name:'Spread the latch side until it pops',t:90,after:['purchase'],afterMsg:'The tips slip. Make a purchase point first.'},{id:'hinges',tool:['spreader','cutter'],zone:'hinge',name:'Take it off the hinges',t:90,after:['spread'],afterMsg:'The latch still holds it.',gain:12,res:'The door is off. Room to work.'}]}}},
+ roof:{name:'Take the roof',vs:{
+  A:{vname:'Full removal',pose:'wheels',zones:['apost','bpost','cpost','rail'],tools:['cover','line','peel','cutter','saw','hands','crib'],hazards:{cpost:'inflator'},batt:100,drain:20,spares:1,chaosHaz:{apost:'curtain'},
+   steps:[COVER,LINE,{id:'peelA',tool:'peel',zone:'apost',name:'Peel the A-post trim',t:30},{id:'peelB',tool:'peel',zone:'bpost',name:'Peel the B-post trim',t:30},{id:'peelC',tool:'peel',zone:'cpost',name:'Peel the C-post trim',t:30},{id:'cutA',tool:['cutter','saw'],zone:'apost',name:'Cut the A-posts, and the windshield between them',t:80},{id:'cutB',tool:['cutter','saw'],zone:'bpost',name:'Cut the B-posts high',t:60},{id:'cutC',tool:['cutter','saw'],zone:'cpost',name:'Cut the C-posts beside the inflator',t:60},{id:'lift',tool:'hands',zone:'rail',name:'Four people lift the roof off and walk it away',t:40,after:['cutA','cutB','cutC'],afterMsg:'It is still attached. Finish the cuts.',gain:12,res:'The roof is off and on the ground away from the car. Room above her.'}]},
+  B:{vname:'Roof flap',pose:'wheels',zones:['apost','bpost','cpost','rail'],tools:['cover','line','peel','cutter','saw','hands','crib'],hazards:{rail:'inflator'},batt:100,drain:20,spares:1,chaosHaz:{apost:'curtain'},
+   steps:[COVER,LINE,{id:'peelA',tool:'peel',zone:'apost',name:'Peel the A-post trim',t:30},{id:'peelB',tool:'peel',zone:'bpost',name:'Peel the B-post trim',t:30},{id:'peelR',tool:'peel',zone:'rail',name:'Peel the roof rail behind the B-post',t:30},{id:'cutA',tool:['cutter','saw'],zone:'apost',name:'Cut the A-posts, and the windshield between them',t:80},{id:'cutB',tool:['cutter','saw'],zone:'bpost',name:'Cut the B-posts high',t:60},{id:'relief',tool:['cutter','saw'],zone:'rail',name:'Relief cuts in the roof rails behind the B-posts, beside the inflator',t:50,after:['cutA','cutB'],afterMsg:'Cut the posts first; the relief cut is the last one.'},{id:'fold',tool:'hands',zone:'rail',name:'Fold the roof back as a flap and tie it',t:40,after:['relief'],afterMsg:'It will not fold without the relief cuts.',gain:12,res:'The roof is folded back and tied. Room above her.'}]},
+  C:{vname:'Boron steel in the B-post',pose:'wheels',zones:['apost','bpost','cpost','rail'],tools:['cover','line','peel','cutter','saw','hands','crib'],hazards:{bpost:'uhss',cpost:'inflator'},batt:100,drain:20,spares:1,chaosHaz:{apost:'curtain'},
+   steps:[COVER,LINE,{id:'peelA',tool:'peel',zone:'apost',name:'Peel the A-post trim',t:30},{id:'peelB',tool:'peel',zone:'bpost',name:'Peel the B-post trim',t:30},{id:'peelC',tool:'peel',zone:'cpost',name:'Peel the C-post trim',t:30},{id:'cutA',tool:['cutter','saw'],zone:'apost',name:'Cut the A-posts, and the windshield between them',t:80},{id:'cutB',tool:['cutter','saw'],zone:'bpost',name:'Cut the B-posts high',t:60,alt:{haz:'uhss',zone:'rail',name:'Cut the B-posts at the roof rail, above the hardened section (the peel runs up to it)'}},{id:'cutC',tool:['cutter','saw'],zone:'cpost',name:'Cut the C-posts beside the inflator',t:60},{id:'lift',tool:'hands',zone:'rail',name:'Four people lift the roof off and walk it away',t:40,after:['cutA','cutB','cutC'],afterMsg:'It is still attached. Finish the cuts.',gain:12,res:'The roof is off. Room above her.'}]}}},
+ dash:{name:'Dash roll',note:'The room needed and what each push gains are modeled numbers.',vs:{
+  A:{vname:'Relief cut and roll',pose:'wheels',zones:['hood','apost','abase','bbase'],tools:['cover','line','peel','cutter','saw','ram','crib','hands'],hazards:{apost:'curtain'},batt:100,drain:20,spares:1,steps:'DASH'},
+  B:{vname:'Boron steel in the A-post',pose:'wheels',zones:['hood','apost','abase','bbase'],tools:['cover','line','peel','cutter','saw','ram','crib','hands'],hazards:{apost:'uhss'},batt:100,drain:20,spares:1,steps:'DASH',cutAlt:{haz:'uhss',tool:'saw',name:'The cutter stalls on the A-post: finish the cut with the recip saw'}},
+  C:{vname:'The battery dies',pose:'wheels',zones:['hood','apost','abase','bbase'],tools:['cover','line','peel','cutter','saw','ram','crib','hands'],hazards:{apost:'curtain'},batt:25,drain:20,spares:1,steps:'DASH'}}}};
+function dashSteps(v){const push=FACTS.space.push;const s=[COVER,LINE,{id:'peelA',tool:'peel',zone:'apost',name:'Peel the A-post trim',t:30},{id:'peelBase',tool:'peel',zone:'abase',name:'Peel the trim at the base of the A-post and the rocker',t:30},
+  {id:'cutA',tool:['cutter','saw'],zone:'apost',name:'Cut the A-post high, above the dash',t:60,alt:v.cutAlt},{id:'relief',tool:['cutter','saw'],zone:'abase',name:'Relief cut at the base of the A-post, down into the rocker',t:60,after:['cutA'],afterMsg:'Cut the A-post high first, or the dash has nowhere to go.'},
+  {id:'crib1',tool:'crib',zone:'abase',name:'Cribbing under the rocker at the relief cut',t:30,after:['relief'],afterMsg:'The relief cut first; the cribbing goes where it opens.',crib:1}];
+  for(let i=1;i<=3;i++){s.push({id:'push'+i,tool:'ram',zone:'apost',name:i===1?'Ram from the B-post base to the A-post: push':'Push again',t:40,after:[i===1?'crib1':'push'+(i-1)],afterMsg:i===1?'Crib the relief cut first.':'Push the first one home first.',gain:push,needCrib:1});
+   if(i<3)s.push({id:'crib'+(i+1),tool:'crib',zone:'abase',name:'Crib it: '+FACTS.liftCrib.txt,t:20,after:['push'+i],crib:1});}
+  s[s.length-1].res='The dash is up and off her legs. The EMS provider says she is free.';return s;}
+let S=null;
+function pickStation(id){const d=pcDrill();if(d)return 'A';const f=(typeof window!=='undefined'&&window.FORCE_V&&window.FORCE_V[id]);if(f&&STN[id].vs[f])return f;return ['A','B','C'][Math.floor(Math.random()*3)];}
+function stationDef(id,v){const base=STN[id].vs[v];const def=JSON.parse(JSON.stringify(Object.assign({},base,{steps:[]})));def.id=id;def.v=v;def.name=STN[id].name;def.note=STN[id].note||'';
+  def.steps=(base.steps==='DASH'?dashSteps(base):base.steps).map(s=>Object.assign({},s));def.hazards=Object.assign({},base.hazards||{});def.tools=base.tools.slice();def.zones=base.zones.slice();def.pos=Object.assign({},base.pos||{});def.traps=base.traps||{};def.free=base.free||{};def.wrong=base.wrong||{};
+  def.batt=base.batt===undefined?100:base.batt;def.drain=base.drain||20;def.spares=base.spares===undefined?1:base.spares;def.stab=base.stab||'stable';def.need=def.steps.some(s=>s.gain)?FACTS.space.need:0;def.pose=base.pose;
+  if(TIER===2){def.drain*=2;def.spares=Math.max(0,def.spares-1);if(base.chaosHaz)Object.assign(def.hazards,base.chaosHaz);
+    if(def.stab==='stable'&&def.pose==='wheels'){def.stab='rocking';if(!def.zones.includes('cribC'))def.zones.unshift('cribC');if(!def.tools.includes('crib'))def.tools.push('crib');def.steps.unshift({id:'crib0',tool:'crib',zone:'cribC',name:'Crib it first: the first crew never did',t:40,stab:1});}}
+  return def;}
+function stationStart(id,v){if(!STN[id])return;v=v&&STN[id].vs[v]?v:pickStation(id);const def=stationDef(id,v);
+  S={mode:'station',def,id,v,steps:def.steps,done:{},peeled:{},tool:null,stab:def.stab,batt:def.batt,spares:def.spares,dead:false,deadAt:null,hyd:false,swaps:0,shiftAt:null,shifted:0,space:0,score:100,pens:[],log:[],blind:0,t0:NOW(),frozenAt:null,guard:0,scene:0,flags:{},cribbed:false};
+  keepAwake(true);pca('begin','pp','station-'+id,()=>S?`step-${Object.keys(S.done).length+1}`:'');
+  ['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));
+  $('pp-title').textContent=def.name+' · '+def.vname;$('pp-next').classList.add('hidden');$('pp-tray').classList.remove('hidden');$('pp-bars').classList.remove('hidden');$('pp-q').classList.add('hidden');$('pp-battbox').classList.toggle('hidden',!def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)));
+  carBuild(def);trayBuild(def);now(TIER===0?'Tool first, then tap where it goes. The next step is named below.':'Tool first, then tap where it goes.','');carRender();$('runov').classList.remove('hidden');$('runov').scrollTop=0;
+  pcCool('#pp-tray button, #pp-svg .zone',500);S.guard=NOW()+.45;}
+function runQuit(){if(!S)return;pca('abandon');S=null;keepAwake(false);$('runov').classList.add('hidden');showHome();}
+function now(h,cls){const e=$('pp-now');e.innerHTML=h;e.className=cls||'';if(cls&&motionOK()){e.classList.add('in');}}
+function pen(n,why){if(!S)return;S.score=Math.max(0,S.score-n);S.pens.push(`−${n} · ${why}`);pcFx('bad');}
+/* a mistake that happened: it costs, and the line says what and why (rule 14; never a refusal) */
+function cost(n,m){pen(n,m);now(m,'bad');}
+function stepDone(st,res){S.done[st.id]=true;S.scene+=st.t||0;S.log.push({name:st.name.replace(/\s*\{sop\}/,''),at:mmss(S.scene),ok:true});if(st.crib)S.cribbed=true;
+  if(st.stab&&S.steps.filter(s=>s.stab).every(s=>S.done[s.id])&&S.stab!=='stable'){S.stab='stable';S.shiftAt=null;res=(res||'')+' <b>Stable.</b> Now someone can go in.';}
+  if(res){now(res.replace(/\{sop\}/g,pcTag('sop')),'good');pcCue('good');}}
+function applyAlt(st,alt){if(!alt)return;if(alt.zone){st.zone=alt.zone;S.peeled[alt.zone]=true;}/* the peel that found it runs up to the new cut line */if(alt.tool)st.tool=alt.tool;if(alt.name)st.name=alt.name;st.alted=true;}
+function reveal(z){S.peeled[z]=true;const h=S.def.hazards[z];if(h){S.steps.forEach(s=>{if(s.alt&&s.alt.haz===h&&!S.done[s.id]&&s.zone===z)applyAlt(s,s.alt);});}return h;}
+function carAct(tool,zone){if(!S||S.mode!=='station'||S.frozenAt!==null)return false;if(NOW()<S.guard)return false;S.guard=NOW()+.45;const T=TOOLS[tool];if(!T)return false;const def=S.def;zone=zone||null;const zn=zone?zlow(ZONES[zone][3]):'';
+  const done=()=>{carRender();if(S&&S.steps.every(s=>S.done[s.id]))stationFinish();return true;};
+  if(tool==='spare'){if(!S.dead){now('The battery is fine. Keep working.','');return done();}if(S.spares<=0){now('No spare staged. Call for Engine 10\'s set.','bad');return done();}S.spares--;S.swaps++;S.batt=100;S.dead=false;deadWait();now('Fresh battery in. Back on the '+(S.lastHeavy?TOOLS[S.lastHeavy].n.toLowerCase():'tool')+'.','good');pcCue('good');return done();}
+  if(tool==='hyd'){if(S.hyd){now('Engine 10\'s set is already running.','');return done();}S.hyd=true;S.scene+=90;if(S.dead){deadWait();S.dead=false;}now('Engine 10\'s hydraulic set is up and running: the backup for a dead battery tool.','good');pcCue('good');return done();}
+  if(T.heavy&&S.dead&&!S.hyd){now('The battery is dead. Swap a staged spare or call for Engine 10\'s set.','bad');return done();}
+  const st=S.steps.find(s=>!S.done[s.id]&&stepTools(s).includes(tool)&&(s.zone||null)===zone);
+  const hz=zone?def.hazards[zone]:null,peelable=zone&&ZONES[zone][4],H=hz?HAZ[hz]:null;
+  const cutting=T.cut||T.heavy;
+  if(!st){/* no step wants this: a trap, a free tap, a hazard cut, or nothing to do */
+    const k=tool+':'+zone;if(def.traps[k]){cost(def.traps[k].pen,def.traps[k].msg);return done();}
+    if(def.free[k]){now(def.free[k],'');return done();}
+    if(tool==='peel'&&peelable){const h=reveal(zone);now(h?`Peeled: <b>${HAZ[h].n}</b> under the trim at the ${zn}. ${HAZ[h].why}`:`Peeled: plain steel under the trim at the ${zn}. Nothing hiding there.`,h?'bad':'good');if(!h)pcCue('good');return done();}
+    if(cutting&&zone&&H&&H.kind!=='info'&&(H.kind!=='stall'||tool==='cutter')){if(peelable&&!S.peeled[zone]){S.blind++;pen(PEN.blind,'Cut blind at the '+zn+': peel and peek first');}hazHit(H,zn,zone);return done();}
+    if(def.wrong[tool]){cost(PEN.misfire,def.wrong[tool]);return done();}
+    cost(PEN.misfire,zone?`The ${T.n} has no job at the ${zn} right now.`:`Nothing to do with that right now.`);return done();}
+  if(st.after&&st.after.some(id=>!S.done[id])){cost(PEN.misfire,st.afterMsg||('Not yet: '+S.steps.find(s=>s.id===st.after.find(id=>!S.done[id])).name+' first.'));return done();}
+  let res=st.res||`${st.name.replace(/\s*\{sop\}/,'')}: done.`;
+  if(st.needStable&&S.stab!=='stable'){pen(PEN.enter,'The EMS provider went in while the car was still '+S.stab);res='She is in with her, in a car that is still '+S.stab+'. Nobody goes in until it is stable.';}
+  if((cutting||tool==='glass')&&!S.flags.coverPen&&S.steps.some(s=>s.id==='cover')&&!S.done.cover){S.flags.coverPen=1;pen(PEN.cover,'Glass or a tool went to work before the patient was covered');res='Nobody covered her first. '+res;}
+  if(cutting&&!S.flags.firePen&&S.steps.some(s=>s.id==='line')&&!S.done.line){S.flags.firePen=1;pen(PEN.fire,'The first cut before fire protection was in place');res='No line or extinguisher in place before the first cut. '+res;}
+  if(T.heavy&&S.stab!=='stable'){S.stab='shifted';S.shifted++;S.shiftAt=NOW();S.flags.recribPen=0;pen(PEN.shift,'The car shifted under the '+T.n.toLowerCase()+' because it was never stabilized');res='<b>The car shifted</b> when the '+T.n.toLowerCase()+' loaded it. Crib it now, then carry on.';if(S.def.pose==='wheels'&&!S.def.zones.includes('cribC'))S.def.zones.push('cribC');if(!S.def.tools.includes('crib')){S.def.tools.push('crib');trayAdd('crib');}}
+  if(T.heavy&&!S.hyd){if(S.batt<S.def.drain){S.dead=true;S.deadAt=NOW();S.lastHeavy=tool;S.batt=0;now(`The ${T.n} dies halfway. <b>Battery.</b> Swap a staged spare or call for Engine 10's set.`,'bad');pcFx('bad');return done();}S.batt-=S.def.drain;}
+  if(tool==='peel'){const h=reveal(zone);stepDone(st,h?`Peeled: <b>${HAZ[h].n}</b> under the trim at the ${zn}. ${HAZ[h].why}`:`Peeled: plain steel at the ${zn}. Nothing hiding there.`);return done();}
+  if(st.reveal){reveal(zone);stepDone(st,res);return done();}
+  if(cutting&&zone){if(peelable&&!S.peeled[zone]){S.blind++;pen(PEN.blind,'Cut blind at the '+zn+': peel and peek first');res='Cut blind, nothing peeled. '+res;}
+    if(H&&H.kind==='stall'&&tool==='cutter'){hazHit(H,zn,zone);return done();}
+    if(H&&H.kind!=='info'&&H.kind!=='stall'){if(S.peeled[zone]){res=`You see ${H.n} and cut beside it. `+res;}else{hazHit(H,zn,zone,true);stepDone(st,null);return done();}}}
+  if(st.before){const miss=st.before.filter(id=>!S.done[id]);if(miss.length){pen(PEN.order,'Power cut out of order: '+miss.map(id=>S.steps.find(s=>s.id===id).name.toLowerCase()).join(', ')+' first');res='<b>Out of order.</b> The windows, seats and locks just died with the power. '+res;
+    miss.forEach(id=>{const s=S.steps.find(x=>x.id===id);if(s.dead&&s.dead.skip){S.done[s.id]=true;S.log.push({name:s.name,detail:'skipped: '+s.dead.note,at:mmss(S.scene),ok:false});}else if(s.dead)Object.assign(s,s.dead);});}}
+  if(st.needCrib){if(!S.cribbed){pen(PEN.noCrib,'A push without cribbing since the last one: '+FACTS.liftCrib.txt);S.space+=1;res='The relief cut closes behind the ram and the dash drops back. '+FACTS.liftCrib.txt.replace(/^./,c=>c.toUpperCase())+'.';}else S.space+=st.gain||0;S.cribbed=false;}
+  else if(st.gain)S.space+=st.gain;
+  if(S.def.need)S.space=Math.min(S.space,S.def.need);
+  if((tool==='crib'||tool==='strut'||tool==='chock')&&S.stab==='shifted'){S.stab='stable';recribWait();res='Cribbed. Stable again. '+res;}
+  stepDone(st,res);return done();}
+function hazHit(H,zn,zone){const m=H.kind==='never'?`<b>Never:</b> you cut into ${H.n} at the ${zn}. ${H.why}`:H.kind==='stall'?`The cutter stalls on ${H.n} at the ${zn}. ${H.why}`:`You cut into ${H.n} at the ${zn}. ${H.why}`;
+  pen(H.pen,H.kind==='never'?'Never: cut into '+H.n+' at the '+zn:H.kind==='stall'?'The cutter stalls on '+H.n+' at the '+zn:'Cut into '+H.n+' at the '+zn);if(H.kind==='stall'){reveal(zone);}now(m,'bad');}
+function deadWait(){if(S.deadAt===null)return;const w=NOW()-S.deadAt;S.deadSec=(S.deadSec||0)+w;S.deadAt=null;}
+function recribWait(){if(S.shiftAt===null)return;S.shiftAt=null;}
+function freezeRun(){if(S&&S.frozenAt===null)S.frozenAt=NOW();}
+function thawRun(){if(!S||S.frozenAt===null)return;const d=NOW()-S.frozenAt;S.t0+=d;S.guard+=d;if(S.deadAt!==null)S.deadAt+=d;if(S.shiftAt!==null)S.shiftAt+=d;S.frozenAt=null;}
+pcOnPause(()=>{if(S)freezeRun();},()=>{if(S&&S.frozenAt!==null){thawRun();if(S.mode==='station')now('<b>Paused</b> while the screen was off. Pick up where you were.','');}});
+function runTick(){if(!S||S.frozenAt!==null)return;const c=$('pp-clock'),t=mmss(NOW()-S.t0);if(c.textContent!==t)c.textContent=t;if(S.mode!=='station')return;
+  if(S.deadAt!==null&&!S.flags.deadPen&&NOW()-S.deadAt>WAIT.dead){S.flags.deadPen=1;pen(PEN.dead,'Twenty seconds with a dead tool on the car before a spare or the backup set');now('Twenty seconds with a dead tool. A spare battery or Engine 10\'s set, now.','bad');}
+  if(S.shiftAt!==null&&!S.flags.recribPen&&NOW()-S.shiftAt>WAIT.recrib){S.flags.recribPen=1;pen(PEN.recrib,'Twenty seconds shifted with nobody cribbing it');now('The car is still shifted. Crib it before anything else.','bad');}}
+if(typeof setInterval==='function')setInterval(runTick,250);
+/* ---- the drawing: built once per run, then attributes only ---- */
+function carSVG(def){const pose=def.pose,end=pose!=='wheels';const zs=end?END_Z:SIDE_Z;
+  const car=end?`<g id="pp-car" transform="${pose==='side'?'rotate(-90 200 120)':'rotate(180 200 118)'}"><rect x="122" y="84" width="156" height="88" rx="10" fill="#1c2026" stroke="#3a414c" stroke-width="2"/><path d="M146,84 L160,44 L240,44 L254,84 Z" fill="#1c2026" stroke="#3a414c" stroke-width="2"/><path d="M164,80 L172,50 L228,50 L236,80 Z" fill="rgba(44,198,220,.18)" stroke="#2cc6dc" stroke-width="1"/><rect x="128" y="166" width="24" height="32" rx="4" fill="#0a0c0f" stroke="#3a414c"/><rect x="248" y="166" width="24" height="32" rx="4" fill="#0a0c0f" stroke="#3a414c"/><rect x="136" y="150" width="128" height="10" rx="3" fill="#262c35"/></g><line x1="20" y1="${pose==='side'?200:198}" x2="380" y2="${pose==='side'?200:198}" stroke="#3a414c" stroke-width="2"/>`
+   :`<g id="pp-car" transform="translate(0 26)"><line x1="20" y1="198" x2="380" y2="198" stroke="#3a414c" stroke-width="2"/><path d="M20,166 L20,126 L60,112 L126,104 L152,56 Q158,48 170,48 L292,48 Q306,48 318,62 L344,108 L378,114 L382,166 Z" fill="#1c2026" stroke="#3a414c" stroke-width="2"/>
+     <g id="pp-roof"><path d="M152,56 Q158,48 170,48 L292,48 Q306,48 318,62 L344,108 L126,104 Z" fill="#20252c"/><polygon id="pp-ws" points="130,104 154,58 170,54 148,104" fill="rgba(44,198,220,.22)" stroke="#2cc6dc" stroke-width="1"/><polygon id="pp-fw" points="158,100 178,58 212,58 212,100" fill="rgba(44,198,220,.22)"/><polygon id="pp-rw" points="222,100 222,58 288,58 300,78 304,100" fill="rgba(44,198,220,.22)"/><polygon id="pp-rg" points="300,76 290,58 306,58 332,100 310,100" fill="rgba(44,198,220,.22)"/><line id="pp-a" x1="128" y1="106" x2="154" y2="56" stroke="#4a525e" stroke-width="7" stroke-linecap="round"/><line id="pp-b" x1="216" y1="104" x2="216" y2="54" stroke="#4a525e" stroke-width="7" stroke-linecap="round"/><line id="pp-c" x1="292" y1="54" x2="330" y2="104" stroke="#4a525e" stroke-width="7" stroke-linecap="round"/><line x1="156" y1="50" x2="300" y2="50" stroke="#4a525e" stroke-width="4"/></g>
+     <line x1="126" y1="106" x2="344" y2="110" stroke="#3a414c" stroke-width="2"/><rect x="60" y="156" width="282" height="9" rx="3" fill="#262c35"/><g id="pp-door"><path d="M138,108 L212,108 L214,154 L140,154 Z" fill="none" stroke="#3a414c" stroke-width="1.5"/><rect x="192" y="124" width="14" height="4" rx="2" fill="#4a525e"/></g><path d="M218,108 L296,110 L296,154 L218,154 Z" fill="none" stroke="#3a414c" stroke-width="1.5"/><line x1="216" y1="110" x2="216" y2="156" stroke="#4a525e" stroke-width="6"/>
+     <circle cx="102" cy="172" r="26" fill="#0a0c0f" stroke="#3a414c" stroke-width="3"/><circle cx="102" cy="172" r="11" fill="#1c2026" stroke="#3a414c"/><circle cx="306" cy="172" r="26" fill="#0a0c0f" stroke="#3a414c" stroke-width="3"/><circle cx="306" cy="172" r="11" fill="#1c2026" stroke="#3a414c"/><rect x="24" y="116" width="100" height="36" rx="4" fill="none" stroke="#2a2f37" stroke-dasharray="3 3"/></g>`;
+  const zone=z=>{const Z=ZONES[z],p=def.pos[z]||Z,x=p[0],y=p[1];return `<g class="zone" data-z="${z}" role="button" tabindex="0" aria-label="${esc(Z[3])}" display="none"><rect class="hit" x="${x-HIT[0]/2}" y="${y-HIT[1]/2}" width="${HIT[0]}" height="${HIT[1]}"/><circle class="haz" cx="${x}" cy="${y}" r="18" display="none"/><circle class="dot" cx="${x}" cy="${y}" r="11"/><line class="cut" x1="${x-8}" y1="${y+8}" x2="${x+8}" y2="${y-8}" display="none"/><text x="${x}" y="${y+25}">${esc(Z[2])}</text></g>`;};
+  return `<svg id="pp-svg" viewBox="0 0 400 274" aria-label="Car diagram">${car}${zs.map(zone).join('')}</svg>`;}
+function carBuild(def){$('pp-map').innerHTML=carSVG(def);}
+function trayBuild(def){const ts=def.tools.slice();if(def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)))ts.push('spare','hyd');
+  $('pp-tray').innerHTML=ts.map(t=>`<button data-tool="${t}"><span>${esc(TOOLS[t].n)}</span><small id="tsub-${t}">${esc(TOOLS[t].s)}</small></button>`).join('');}
+function trayAdd(t){const b=document.createElement('button');b.dataset.tool=t;b.innerHTML=`<span>${esc(TOOLS[t].n)}</span><small id="tsub-${t}">${esc(TOOLS[t].s)}</small>`;$('pp-tray').appendChild&&$('pp-tray').appendChild(b);}
+function zoneEl(z){const m=$('pp-map');return m.querySelector?m.querySelector(`[data-z="${z}"]`):null;}
+/* what a zone shows right now: shown, peeled, done, the Guided next step, a hazard marker (Guided, or once peeled), a cut mark */
+function zoneState(z){const st=S.mode==='station',def=S.def;const on=(st?def.zones:S.zones).includes(z);if(!on)return {on:false};
+  const nextZ=st&&TIER===0?(S.steps.find(s=>!S.done[s.id]&&(!s.after||s.after.every(id=>S.done[id])))||{}).zone:null;const peeled=st&&!!S.peeled[z];
+  return {on:true,peeled,done:st&&S.steps.some(s=>S.done[s.id]&&s.zone===z)&&!S.steps.some(s=>!S.done[s.id]&&s.zone===z),next:st&&z===nextZ,right:!st&&S.mark===z,wrong:!st&&S.markWrong===z,
+    haz:st&&!!def.hazards[z]&&HAZ[def.hazards[z]].kind!=='info'&&(TIER===0||peeled),cut:st&&S.steps.some(s=>S.done[s.id]&&s.zone===z&&stepTools(s).some(t=>TOOLS[t].cut))};}
+function carRender(){if(!S)return;const def=S.def,st=S.mode==='station';
+  const setT=(id,t)=>{const e=$(id);if(e.textContent!==t)e.textContent=t;};
+  /* zones: attributes and classes only, from zoneState */
+  SIDE_Z.concat(END_Z).forEach(z=>{const g=zoneEl(z);if(!g)return;const q=zoneState(z);g.setAttribute('display',q.on?'inline':'none');if(!q.on)return;
+    g.classList.toggle('peel',q.peeled);g.classList.toggle('done',q.done);g.classList.toggle('sel',q.next);g.classList.toggle('right',q.right);g.classList.toggle('wrong',q.wrong);
+    const h=g.querySelector('.haz');if(h)h.setAttribute('display',q.haz?'inline':'none');const c=g.querySelector('.cut');if(c)c.setAttribute('display',q.cut?'inline':'none');});
+  if(!st)return;
+  /* the car itself: door off, roof off, glass out */
+  const opa=(id,v)=>{const e=$(id);if(e&&e.setAttribute)e.setAttribute('opacity',v);};
+  if(def.pose==='wheels'){opa('pp-door',S.done.hinges||S.done.latch?.2:1);opa('pp-roof',S.done.lift||S.done.fold?.25:1);opa('pp-ws',S.done.ws?.15:1);opa('pp-fw',S.done.window||S.done.fwin?.15:1);opa('pp-rw',S.done.rwin?.15:1);opa('pp-rg',S.done.rg?.15:1);}
+  /* bars */
+  setT('pp-stab',S.stab==='stable'?'Stable':S.stab==='rocking'?'Rocking':'Shifted');const ss=$('pp-stabseg');if(ss.querySelectorAll)ss.querySelectorAll('span').forEach((sp,i)=>{sp.className=S.stab==='stable'?'g':S.stab==='rocking'?(i<1?'w':''):(i<2?'h':'');});
+  $('pp-spacebox').classList.toggle('hidden',!def.need);if(def.need){setT('pp-space',`${S.space} / ${def.need} in`);const sp=$('pp-spaceseg');if(sp.querySelectorAll)sp.querySelectorAll('span').forEach((x,i)=>x.className=S.space>=def.need*(i+1)/4?'on':'');}
+  const bt=S.hyd?'Hydraulic':S.dead?'Dead':S.batt+'%';setT('pp-batt',bt);const bs=$('pp-battseg');if(bs.querySelectorAll)bs.querySelectorAll('span').forEach((x,i)=>x.className=S.hyd?'on':S.batt>=(i+1)*20?(S.batt<=40?'w':'on'):'');
+  const sub=$('tsub-spare');if(sub){const t=S.spares>0?`${S.spares} staged`:'none staged';if(sub.textContent!==t)sub.textContent=t;}
+  const tray=$('pp-tray');if(tray.querySelectorAll)tray.querySelectorAll('[data-tool]').forEach(b=>{b.classList.toggle('on',b.dataset.tool===S.tool);b.classList.toggle('dim',S.dead&&!S.hyd&&!!TOOLS[b.dataset.tool].heavy);});
+  /* the step line */
+  const n=S.steps.filter(s=>S.done[s.id]).length,m=S.steps.length;const nx=S.steps.find(s=>!S.done[s.id]&&(!s.after||s.after.every(id=>S.done[id])));
+  const pick=S.tool?`<b>${esc(TOOLS[S.tool].n)}</b> in hand → tap where it goes.`:'';
+  $('pp-step').innerHTML=(TIER===0&&nx?`Next: <b>${esc(nx.name.replace(/\s*\{sop\}/,''))}</b> (${stepTools(nx).map(t=>TOOLS[t].n).join(' or ')}${nx.zone?' → '+esc(ZONES[nx.zone][3]):''}). `:`Steps: ${n} of ${m} done. `)+pick;
+  runTick();}
+function carPick(tool){if(!S||S.mode!=='station'||S.frozenAt!==null)return;if(!TOOLS[tool])return;if(TOOLS[tool].solo||tool==='spare'||tool==='hyd'){carAct(tool,null);return;}if(NOW()<S.guard)return;S.tool=tool;carRender();}
+function carTap(z){if(!S||S.frozenAt!==null)return;if(S.mode==='cut'){cutTap(z);return;}if(!S.tool){if(NOW()<S.guard)return;S.guard=NOW()+.3;now('Pick a tool first, then tap where it goes.','');return;}carAct(S.tool,z);}
+function stationFinish(){const def=S.def,real=NOW()-S.t0,score=S.score;keepAwake(false);pca('end',pca('bkt',score));const R=load().runs||[];
+  record('station',S.id,score,{variant:S.v});const found=Object.keys(def.hazards).filter(z=>HAZ[def.hazards[z]].kind!=='info'),peeled=found.filter(z=>S.peeled[z]);
+  const metrics=[['Time',mmss(real)],['Scene time',mmss(S.scene)],['Stability',S.shifted?`Shifted ${S.shifted===1?'once':S.shifted+' times'}`:'Never moved'],['Hazards found by peeling',found.length?`${peeled.length} of ${found.length}`:'none hidden here'],['Cuts made blind',String(S.blind)]];
+  if(def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)))metrics.push(['Battery',S.hyd?'Engine 10\'s set':S.swaps?`${S.swaps} spare${S.swaps>1?'s':''} swapped in`:'never ran down']);
+  if(def.need)metrics.push(['Space gained',`${S.space} of ${def.need} in · modeled`]);
+  const html=pcDebriefBody({score,compare:pcBestPrev(R.filter(r=>r.kind==='station'&&r.id===S.id)),kicker:score===100?'Clean station.':score>=80?'Solid. Look at what cost points.':'Run it again with the list below in mind.',metrics,feedback:S.pens,steps:S.log,extra:def.note?`<p class="stat">${def.note.replace(/\{sop\}/g,pcTag('sop'))}</p>`:'',clean:S.pens.length===0});
+  const id=S.id;S=null;$('runov').classList.add('hidden');showDone(def.name+' · '+def.vname,score,html,()=>stationStart(id),nextOf('station',id));}
+/* ---- Where to cut: a drill on the diagram. Twelve prompts, eight a run, the first tap counts. ---- */
+const CUT_SET=['hood','apost','bpost','cpost','rail','hinge','latch','cab','abase','bbase','rocker'];
+const CUTQ=[
+ ['Pop the front door on the latch side. Once the purchase point is open, where does the spreader bite?','latch','The spreader goes in at the latch and spreads until the latch lets go.'],
+ ['The latch will not let go. Take the door off the other way: where do you cut or spread?','hinge','Cut or spread the hinges, top then bottom, and roll the door off the latch.'],
+ ['Roof off. The first posts you cut on each side, with the windshield between them.','apost','The A-posts first, then B and C, then four people lift it off.'],
+ ['The peel shows a seat-belt pretensioner at the base of the B-post. For a roof removal, where do you cut the B-post?','bpost','High, up the post toward the roof. The pretensioner stays untouched at the base.'],
+ ['Dash roll: where does the relief cut go?','abase','At the base of the A-post, down into the rocker, so the dash has somewhere to hinge.'],
+ ['Dash roll: where does the base of the ram sit while the tip pushes the A-post?','bbase','The ram sits against the B-post base and pushes the A-post up and forward.'],
+ ['Power down in order: windows, seats, locks and the fob are done. The last thing: where is it?','hood','The 12-volt under the hood is last, and the airbags may still hold a charge afterward.'],
+ ['An electric car. The zone where nothing ever gets cut or spread.','rocker','The orange high-voltage cables and the battery run in the rockers and the floor.'],
+ ['The label on the peeled B-post trim says boron steel. Where does the B-post cut go for a roof removal?','rail','At the roof rail, above the hardened section, where the cutter will go through.'],
+ ['Before the first cut, hard protection goes where?','cab','Over the patient and the EMS provider inside: a shield, then a blanket.'],
+ ['Peel and peek: the curtain airbag\'s inflator most often hides in which post?','cpost','The C-post, or the roof rail near it. Peel it before the cut.'],
+ ['Third door: the B-post comes out. After the top cut, the bottom cut goes where, once the trim is peeled and the pretensioner found?','bbase','At the base of the B-post, with the pretensioner located and the cut placed away from it.']];
+function cutStart(){S={mode:'cut',qs:pcShuf(CUTQ.map((q,i)=>i)).slice(0,8),i:0,right:0,answered:false,mark:null,markOK:false,miss:[],zones:CUT_SET,t0:NOW(),frozenAt:null,guard:0,def:{pose:'wheels',pos:{},zones:CUT_SET,hazards:{}}};
+  keepAwake(true);pca('begin','pp','drill-cut',()=>S?`question-${S.i+1}`:'');['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));
+  $('pp-title').textContent='Where to cut';$('pp-tray').classList.add('hidden');$('pp-tray').innerHTML='';$('pp-bars').classList.add('hidden');$('pp-q').classList.remove('hidden');
+  carBuild(S.def);cutShow();$('runov').classList.remove('hidden');$('runov').scrollTop=0;pcCool('#pp-svg .zone',500);S.guard=NOW()+.45;}
+function cutShow(){const q=CUTQ[S.qs[S.i]];S.answered=false;S.mark=null;S.markWrong=null;$('pp-q').innerHTML=`<b>${S.i+1} of ${S.qs.length}.</b> ${esc(q[0])}`;$('pp-step').innerHTML='';now('Tap the zone on the car.','');$('pp-next').classList.add('hidden');carRender();}
+function cutTap(z){if(S.answered||NOW()<S.guard)return;S.guard=NOW()+.45;const q=CUTQ[S.qs[S.i]];S.answered=true;const ok=z===q[1];S.mark=q[1];S.markOK=true;S.markWrong=ok?null:z;
+  if(ok){S.right++;now(`<b>Right.</b> ${esc(q[2])}`,'good');pcCue('good');}else{S.miss.push(q);now(`<b>Not there.</b> ${esc(ZONES[q[1]][3])}: ${esc(q[2])}`,'bad');pcFx('bad');}
+  $('pp-next').textContent=S.i+1<S.qs.length?'Next':'Results';$('pp-next').classList.remove('hidden');pcCool('#pp-next',450);carRender();}
+function cutNext(){if(!S||S.mode!=='cut'||!S.answered||NOW()<S.guard)return;S.i++;if(S.i<S.qs.length){cutShow();S.guard=NOW()+.45;return;}
+  const score=Math.round(S.right/S.qs.length*100),right=S.right,n=S.qs.length,miss=S.miss;keepAwake(false);pca('end',pca('bkt',score));const R=load().runs||[];record('drill','cut',score);S=null;$('runov').classList.add('hidden');
+  showDone('Where to cut',score,pcDebriefBody({score,compare:pcBestPrev(R.filter(r=>r.kind==='drill'&&r.id==='cut')),kicker:score>=85?'Solid. Keep it sharp.':'Walk the car again in the lesson\'s construction slide.',metrics:[['Right',`${right} of ${n}`]],feedback:miss.map(q=>`${ZONES[q[1]][3]}: ${q[2]}`),clean:!miss.length}),()=>cutStart(),()=>openDrill('tool'));}
+function openDrill(id){if(id==='cut')cutStart();else drillStart(id);}
+$('pp-map').onclick=e=>{const g=e.target.closest&&e.target.closest('[data-z]');if(g&&!pcIsCool(g))carTap(g.dataset.z);};
+$('pp-map').onkeydown=e=>{if(e.key!=='Enter'&&e.key!==' ')return;const g=e.target.closest&&e.target.closest('[data-z]');if(g){e.preventDefault();carTap(g.dataset.z);}};
+$('pp-tray').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-tool]');if(b&&!pcIsCool(b))carPick(b.dataset.tool);};
+$('pp-next').onclick=()=>cutNext();$('pp-quit').onclick=()=>runQuit();
+$('stations').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-station]');if(b&&!b.disabled)stationStart(b.dataset.station);};
 /* =================== lesson, drills and exam on the core engines =================== */
 let LS=null,QZ=null,AGAIN=null,DONEGUARD=0;
 function showDone(t,score,html,again,next){keepAwake(false);pcFx('done');DONEGUARD=NOW()+.7;$('done-t').textContent=t;pcBand($('done-s'),score);countUp($('done-s'),score,600);$('done-b').innerHTML=html;AGAIN=again;NEXT=next||null;$('done-next').classList.toggle('hidden',!NEXT);$('done-row').classList.toggle('two',!NEXT);$('done-menu').classList.toggle('go',!NEXT);$('doneov').classList.remove('hidden');pcCool('#done-row button',700);}
 /* One voice: Next on every result is the next built activity in the home list's order (ACTS). */
-let NEXT=null;function opener(k,x){return k==='lesson'?()=>lessonStart():k==='drill'?()=>drillStart(x):k==='exam'?()=>examStart():null;}
+let NEXT=null;function opener(k,x){return k==='lesson'?()=>lessonStart():k==='drill'?()=>openDrill(x):k==='station'?()=>stationStart(x):k==='exam'?()=>examStart():null;}
 function nextOf(kind,id){const i=ACTS.findIndex(([k,x])=>k===kind&&x===id);for(let j=i+1;j<ACTS.length;j++){const [k,x]=ACTS[j];if(built(k,x))return opener(k,x);}return null;}
 $('done-next').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(NEXT)NEXT();};
 $('done-again').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(AGAIN)AGAIN();};$('done-menu').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');showHome();};
@@ -368,11 +629,11 @@ $('h-learn').onclick=()=>lessonStart();
 function quizBegin(name,qs,kind,id,next,actName){keepAwake(true);pca('begin','pp',actName,()=>QZ&&QZ.qs?`question-${QZ.i+1}`:'');
   QZ=pcQuizStart({name,qs,kind,id,note:sc=>sc>=85?'Solid. Keep it sharp.':'Review the lesson and try again.',menuAction:'quit',from:'pp',next,
     onDone:sc=>{keepAwake(false);pca('end',pca('bkt',sc));record(kind,id,sc);},onQuit:()=>{pca('abandon');$('quizov').classList.add('hidden');QZ=null;showHome();}});}
-function drillStart(id){const D=DRILLS[id];if(!D)return;const ks=PLAN.drills.map(d=>d[0]).filter(k=>DRILLS[k]),m=ks.indexOf(id)+1;quizBegin(D.name,D.bank().slice(0,8),'drill',id,m<ks.length?()=>drillStart(ks[m]):nextOf('drill',id),'drill-'+id);}
+function drillStart(id){const D=DRILLS[id];if(!D)return;const ks=PLAN.drills.map(d=>d[0]).filter(k=>built('drill',k)),m=ks.indexOf(id)+1;quizBegin(D.name,D.bank().slice(0,8),'drill',id,m<ks.length?()=>openDrill(ks[m]):nextOf('drill',id),'drill-'+id);}
 function examStart(){quizBegin('Exam practice',pcShuf(EXAM).slice(0,15),'exam','exam',nextOf('exam','exam'),'exam');}
 function quizAct(ds){const a=ds.q;if(a==='again'){const id=QZ.id,k=QZ.kind;if(k==='exam')examStart();else drillStart(id);return;}pcQuizAct(QZ,ds);}
 $('qz-body').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-q]');if(b)quizAct(b.dataset);};$('qz-foot').onclick=$('qz-body').onclick;
-$('drills').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-drill]');if(b&&!b.disabled){$('drillpick').classList.add('hidden');drillStart(b.dataset.drill);}};
+$('drills').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-drill]');if(b&&!b.disabled){$('drillpick').classList.add('hidden');openDrill(b.dataset.drill);}};
 $('tests').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-exam]');if(b&&!b.disabled)examStart();};
 $('h-drills').onclick=()=>{$('drillpick').classList.remove('hidden');$('drillpick').scrollTop=0;};$('dp-close').onclick=()=>$('drillpick').classList.add('hidden');
 /* =================== instructor switch (the floating button and the injects arrive with the scenarios) =================== */
@@ -383,8 +644,8 @@ $('b-inst').onclick=()=>{INST=!INST;const p=load();p.inst=INST;save(p);instSync(
 /* =================== boot =================== */
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 applySettings();settingsBind();INST=!!load().inst;pcDrillBind();showHome();instSync();
-/* deep links for the hub's daily drill and Continue: ?drill=<id>, ?exam=1, ?lesson=1 (unknown ids, and ids not built yet, are ignored) */
-{const P=new URLSearchParams((typeof location!=='undefined'&&location.search)||'');const q=P.get('drill');if(q&&DRILLS[q])drillStart(q);else if(P.get('exam'))examStart();else if(P.get('lesson'))lessonStart();}
+/* deep links for the hub's daily drill and Continue: ?drill=<id>, ?station=<id>[&v=A|B|C], ?exam=1, ?lesson=1 (unknown ids, and ids not built yet, are ignored) */
+{const P=new URLSearchParams((typeof location!=='undefined'&&location.search)||'');const q=P.get('drill'),st=P.get('station');if(q&&built('drill',q))openDrill(q);else if(st&&STN[st])stationStart(st,P.get('v')||undefined);else if(P.get('exam'))examStart();else if(P.get('lesson'))lessonStart();}
 </script>
 </body>
 </html>

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Real-browser check. Needs: pip install playwright (Chromium is pre-installed in the cloud container).
-Opens the home screen, the lesson, every drill, exam practice, Settings, the pocket reference, About, My progress, the tiers,
-the instructor switch, the Drill Night picker, large text, Daylight, the deep links and landscape at phone sizes, with slow
-real taps on buttons found by their visible text. Fails on any JavaScript error, anything off the right edge, a button under
+Opens the home screen, the lesson, every drill, exam practice, the five skill stations and the Where to cut drill on the car
+diagram (played to the end with real taps: the tool by its visible name, the zone by its hit rect, a spare battery when the tool
+dies), Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text,
+Daylight, the deep links and landscape at phone sizes, with slow real taps on buttons found by their visible text. Fails on any JavaScript error, anything off the right edge, a button under
 44 px tall or wide, or text under the floor (15 px for a sentence, 13 px for a caption).
 With PC_ALL=1 every built activity is also played to the end with real taps at 390 px, proved by the saved record.
 Usage: python3 tests/browser_check.py      PC_ALL=1 python3 tests/browser_check.py"""
@@ -38,6 +39,34 @@ def quiz_full(pg):   # a quiz to the end: the right answer by its visible text, 
     pg.wait_for_timeout(300)
 def saved(pg, test): return pg.evaluate("(()=>{const p=JSON.parse(localStorage.getItem('purchase-point')||'{}');return %s;})()" % test)
 DRILLS = ('tool', 'hazard', 'first', 'build')
+STATIONS = ('stab', 'glass', 'door', 'roof', 'dash')
+HITMIN = "(()=>{let m=1e9;document.querySelectorAll('#pp-svg g.zone').forEach(g=>{if(g.getAttribute('display')==='none')return;const r=g.querySelector('.hit').getBoundingClientRect();m=Math.min(m,r.width,r.height);});return Math.floor(m);})()"
+NEXTSTEP = "(()=>{if(typeof S==='undefined'||!S||S.mode!=='station')return null;if(S.dead&&!S.hyd)return {tool:S.spares>0?'spare':'hyd',zone:null};const s=S.steps.find(x=>!S.done[x.id]&&(!x.after||x.after.every(i=>S.done[i])));return s?{tool:Array.isArray(s.tool)?s.tool[0]:s.tool,zone:s.zone||null}:null;})()"
+def tool_tap(pg, tool):   # the tray button, found by the tool's visible name
+    name = pg.evaluate(f"TOOLS['{tool}'].n")
+    tap(pg, f'#pp-tray button:has(span:text-is("{name}"))')
+def station_full(pg, sid, v, w):   # a station to the end with real taps; returns the rows it measured
+    out = []
+    pg.goto(URL); pg.wait_for_timeout(200); pg.evaluate("window.FORCE_V={%s:'%s'}" % (sid, v)); tap(pg, f'[data-station="{sid}"]'); pg.wait_for_timeout(650)
+    out.append((w, f'station {sid} {v}', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.v") == v else 99)))
+    for _ in range(40):
+        st = pg.evaluate(NEXTSTEP)
+        if not st: break
+        tool_tap(pg, st['tool']); pg.wait_for_timeout(120)
+        if st['zone']: tap(pg, f'#pp-svg g.zone[data-z="{st["zone"]}"]')
+        pg.wait_for_timeout(520)
+    pg.wait_for_timeout(400)
+    out.append((w, f'station {sid} {v} result', measure(pg) + (0 if pg.evaluate("S===null") and saved(pg, f"(p.runs||[]).some(r=>r.kind==='station'&&r.id==='{sid}'&&r.variant==='{v}'&&r.score===100)") else 99)))
+    return out
+def cut_full(pg, w):   # the Where to cut drill: the right zone tapped each time, then Next / Results
+    pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, '[data-drill="cut"]'); pg.wait_for_timeout(650)
+    first = measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.mode==='cut'") else 99)
+    for _ in range(10):
+        if not pg.evaluate("!!(S&&S.mode==='cut')"): break
+        tap(pg, '#pp-svg g.zone[data-z="%s"]' % pg.evaluate("CUTQ[S.qs[S.i]][1]")); pg.wait_for_timeout(520)
+        tap_text(pg, '#pp-next', 'Next' if pg.evaluate("S.i+1<S.qs.length") else 'Results'); pg.wait_for_timeout(520)
+    pg.wait_for_timeout(300)
+    return [(w, 'drill cut', first), (w, 'drill cut (full)', measure(pg) + (0 if saved(pg, "(p.runs||[]).some(r=>r.kind==='drill'&&r.id==='cut'&&r.score===100)") else 99))]
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path=EXE) if EXE else p.chromium.launch()
     for w in (320, 390):
@@ -48,12 +77,25 @@ with sync_playwright() as p:
         tap_text(pg, '[data-l="ans"]', pg.evaluate("LESSON[LS.i].o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(120)
         tap(pg, '#l-next'); pg.wait_for_timeout(150); rows.append((w, 'lesson slide 2', measure(pg) + (0 if pg.evaluate('LS.i') == 1 else 99)))
         pg.evaluate("LS.i=2;pcLessonRender(LS)"); pg.wait_for_timeout(100); rows.append((w, 'lesson slide 3 (SOP chip)', measure(pg) + (0 if pg.locator('#lesson-box .pc-tag').count() >= 1 else 99))); tap(pg, '[data-l="quit"]')
-        tap(pg, '#h-drills'); pg.wait_for_timeout(150); rows.append((w, 'drill picker', measure(pg) + (0 if pg.is_disabled('[data-drill="cut"]') else 99))); tap(pg, '#dp-close')
+        tap(pg, '#h-drills'); pg.wait_for_timeout(150); rows.append((w, 'drill picker', measure(pg) + (0 if pg.is_enabled('[data-drill="cut"]') else 99))); tap(pg, '#dp-close')
         for did in DRILLS:
             pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, f'[data-drill="{did}"]'); pg.wait_for_timeout(150)
             tap_text(pg, '[data-q="ans"]', pg.evaluate("QZ.qs[QZ.i].a")); pg.wait_for_timeout(120)
             rows.append((w, 'drill ' + did, measure(pg) + (0 if pg.evaluate('QZ.right') == 1 else 99)))
+        pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '[data-exam="exam"]'); pg.wait_for_timeout(150); rows.append((w, 'exam', measure(pg) + (0 if pg.evaluate("QZ.kind==='exam'&&QZ.qs.length===15") else 99)))
+        for sid, v in ((('stab', 'B'), ('glass', 'B'), ('door', 'C')) if w == 320 else (('stab', 'A'), ('stab', 'C'), ('glass', 'A'), ('door', 'A'), ('roof', 'C'), ('dash', 'A'))):   # every station, both views, the dead battery, boron steel
+            rows.extend(station_full(pg, sid, v, w))
+        if w == 390: rows.extend(cut_full(pg, w))
+        pg.evaluate("localStorage.removeItem('purchase-point')")
+        pg.goto(URL + '?station=roof&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?station=roof&v=B', measure(pg) + (0 if pg.is_visible('#runov') and pg.evaluate("S&&S.id==='roof'&&S.v==='B'") else 99)))
+        tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); rows.append((w, 'stop and go back', 0 if pg.is_visible('#home') and not pg.is_visible('#runov') else 99))
+        pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="2"]'); pg.evaluate("window.FORCE_V={door:'A'}"); tap(pg, '[data-station="door"]'); pg.wait_for_timeout(650)
+        tool_tap(pg, 'bar'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
+        tool_tap(pg, 'spreader'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
+        rows.append((w, 'chaos door: a spreader on a rocking car shifts it', measure(pg) + (0 if pg.evaluate("S&&S.stab==='shifted'&&S.score===90") and 'Shifted' in pg.text_content('#pp-stab') else 99)))
+        tool_tap(pg, 'crib'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="cribC"]'); pg.wait_for_timeout(520); rows.append((w, 'chaos door: cribbing makes it stable', 0 if pg.evaluate("S&&S.stab==='stable'") else 99))
+        tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200)
         if w == 390:   # one drill and the exam to the end with real taps
             pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, '[data-drill="hazard"]'); quiz_full(pg)
             rows.append((w, 'drill hazard (full)', measure(pg) + (0 if pg.evaluate('QZ.score') == 100 and saved(pg, "(p.runs||[]).some(r=>r.id==='hazard'&&r.score===100)") else 99)))
@@ -87,7 +129,11 @@ with sync_playwright() as p:
             rows.append((390, f'ALL drill {did} (full)', measure(pg) + (0 if saved(pg, f"(p.runs||[]).some(r=>r.kind==='drill'&&r.id==='{did}'&&r.score===100)") else 99)))
         pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-exam="exam"]'); pg.wait_for_timeout(200); quiz_full(pg)
         rows.append((390, 'ALL exam (full)', measure(pg) + (0 if saved(pg, "(p.runs||[]).some(r=>r.kind==='exam'&&r.score===100)") else 99)))
-        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '6 of 19 activities' else 99)))
+        for sid in STATIONS:
+            for v in ('A', 'B', 'C'):
+                rows.extend(station_full(pg, sid, v, 390))
+        rows.extend(cut_full(pg, 390))
+        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '12 of 19 activities' else 99)))
         pg.close()
     b.close()
 bad = 0
