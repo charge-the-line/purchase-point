@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Real-browser check. Needs: pip install playwright (Chromium is pre-installed in the cloud container).
-Opens the home screen, the lesson, every drill, exam practice, the five skill stations and the Where to cut drill on the car
+Opens the home screen, the lesson, every drill, exam practice, the five skill stations, the Where to cut drill and the three scenarios on the car
 diagram (played to the end with real taps: the tool by its visible name, the zone by its hit rect, a spare battery when the tool
-dies), Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text,
+dies, a decision card by its visible text, Fast-forward only when it shows, the instructor sheet with a frozen clock and an inject), Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text,
 Daylight, the deep links and landscape at phone sizes, with slow real taps on buttons found by their visible text. Fails on any JavaScript error, anything off the right edge, a button under
 44 px tall or wide, or text under the floor (15 px for a sentence, 13 px for a caption).
 With PC_ALL=1 every built activity is also played to the end with real taps at 390 px, proved by the saved record.
@@ -40,8 +40,9 @@ def quiz_full(pg):   # a quiz to the end: the right answer by its visible text, 
 def saved(pg, test): return pg.evaluate("(()=>{const p=JSON.parse(localStorage.getItem('purchase-point')||'{}');return %s;})()" % test)
 DRILLS = ('tool', 'hazard', 'first', 'build')
 STATIONS = ('stab', 'glass', 'door', 'roof', 'dash')
+SCENARIOS = ('tree', 'ditch', 'field')
 HITMIN = "(()=>{let m=1e9;document.querySelectorAll('#pp-svg g.zone').forEach(g=>{if(g.getAttribute('display')==='none')return;const r=g.querySelector('.hit').getBoundingClientRect();m=Math.min(m,r.width,r.height);});return Math.floor(m);})()"
-NEXTSTEP = "(()=>{if(typeof S==='undefined'||!S||S.mode!=='station')return null;if(S.dead&&!S.hyd)return {tool:S.spares>0?'spare':'hyd',zone:null};const s=S.steps.find(x=>!S.done[x.id]&&(!x.after||x.after.every(i=>S.done[i])));return s?{tool:Array.isArray(s.tool)?s.tool[0]:s.tool,zone:s.zone||null}:null;})()"
+NEXTSTEP = "(()=>{if(typeof S==='undefined'||!S||S.mode==='cut')return null;if(S.dec)return {card:S.dec.c.o.find(o=>o[1]==='good')[0]};if(S.hydAt!==null&&S.hydAt!==undefined&&!S.hyd)return ffWhy()===''?{ff:1}:{wait:1};if(S.dead&&!S.hyd)return {tool:S.spares>0?'spare':'hyd',zone:null};if(S.stab==='shifted'&&S.mode==='scenario')return {tool:'crib',zone:recribZone()};const s=S.steps.find(x=>!S.done[x.id]&&(x.ph===undefined||x.ph===S.phN)&&(!x.after||x.after.every(i=>S.done[i])));if(s&&s.kind==='wait')return ffWhy()===''?{ff:1}:{wait:1};return s?{tool:Array.isArray(s.tool)?s.tool[0]:s.tool,zone:s.zone||null}:null;})()"
 def tool_tap(pg, tool):   # the tray button, found by the tool's visible name
     name = pg.evaluate(f"TOOLS['{tool}'].n")
     tap(pg, f'#pp-tray button:has(span:text-is("{name}"))')
@@ -57,6 +58,26 @@ def station_full(pg, sid, v, w):   # a station to the end with real taps; return
         pg.wait_for_timeout(520)
     pg.wait_for_timeout(400)
     out.append((w, f'station {sid} {v} result', measure(pg) + (0 if pg.evaluate("S===null") and saved(pg, f"(p.runs||[]).some(r=>r.kind==='station'&&r.id==='{sid}'&&r.variant==='{v}'&&r.score===100)") else 99)))
+    return out
+def scenario_full(pg, sid, v, w, tier=0):   # a scenario to the end with real taps: the cards answered by their visible text, Fast-forward tapped only when it shows
+    out = []
+    pg.goto(URL); pg.wait_for_timeout(200); tap(pg, f'[data-tier="{tier}"]'); pg.evaluate("window.FORCE_V={%s:'%s'}" % (sid, v)); tap(pg, f'[data-scenario="{sid}"]'); pg.wait_for_timeout(650)
+    out.append((w, f'scenario {sid} {v}{" chaos" if tier == 2 else ""} (first card)', measure(pg) + (0 if pg.is_visible('#decov') and pg.evaluate("S&&S.v") == v else 99)))
+    first = True
+    for _ in range(70):
+        st = pg.evaluate(NEXTSTEP)
+        if not st: break
+        if 'card' in st:
+            tap_text(pg, '#dec-box button', st['card']); pg.wait_for_timeout(500); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(520)
+            if first: out.append((w, f'scenario {sid} {v} (run screen)', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.is_visible('#pp-pt') else 99))); first = False
+            continue
+        if 'ff' in st: tap_text(pg, '#pp-ff', 'Fast-forward ▸▸'); pg.wait_for_timeout(520); continue
+        if 'wait' in st: pg.wait_for_timeout(500); continue
+        tool_tap(pg, st['tool']); pg.wait_for_timeout(120)
+        if st['zone']: tap(pg, f'#pp-svg g.zone[data-z="{st["zone"]}"]')
+        pg.wait_for_timeout(520)
+    pg.wait_for_timeout(400)
+    out.append((w, f'scenario {sid} {v} result', measure(pg) + (0 if pg.evaluate("S===null") and saved(pg, f"(p.runs||[]).some(r=>r.kind==='scenario'&&r.id==='{sid}'&&r.variant==='{v}'&&r.score===100)") else 99)))
     return out
 def cut_full(pg, w):   # the Where to cut drill: the right zone tapped each time, then Next / Results
     pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, '[data-drill="cut"]'); pg.wait_for_timeout(650)
@@ -87,6 +108,22 @@ with sync_playwright() as p:
         for sid, v in ((('stab', 'B'), ('glass', 'B'), ('door', 'C')) if w == 320 else (('stab', 'A'), ('stab', 'C'), ('glass', 'A'), ('door', 'A'), ('roof', 'C'), ('dash', 'A'))):   # every station, both views, the dead battery, boron steel
             rows.extend(station_full(pg, sid, v, w))
         if w == 390: rows.extend(cut_full(pg, w))
+        for sid, v in ((('tree', 'C'), ('field', 'B')) if w == 320 else (('tree', 'A'), ('ditch', 'A'), ('field', 'C'))):   # the crash and the rapid roof flap, soft ground, the shared patient, the ditch's wait and Fast-forward, the pickup's dash lift
+            rows.extend(scenario_full(pg, sid, v, w))
+        pg.evaluate("localStorage.removeItem('purchase-point')")
+        if w == 390:   # the instructor's sheet on a scenario: the floating button, the frozen clock, a crash inject answered on the card, Freeze and discuss
+            pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '#b-inst'); pg.evaluate("window.FORCE_V={tree:'A'}"); tap(pg, '[data-scenario="tree"]'); pg.wait_for_timeout(650)
+            tap_text(pg, '#dec-box button', pg.evaluate("S.dec.c.o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(500); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(520)
+            rows.append((w, 'instructor button on a scenario', measure(pg) + (0 if pg.is_visible('#inst-fab') else 99)))
+            tap_text(pg, '#inst-fab', 'Instructor'); pg.wait_for_timeout(300); c0 = pg.text_content('#pp-clock'); pg.wait_for_timeout(1500)
+            rows.append((w, 'instructor sheet (clock frozen)', measure(pg) + (0 if pg.is_visible('#instov') and pg.text_content('#pp-clock') == c0 and pg.evaluate("S.frozenAt!==null") else 99)))
+            tap_text(pg, '#inst-list button', 'A fuel leak'); pg.wait_for_timeout(300); tap_text(pg, '#inst-hold', 'Freeze and discuss'); pg.wait_for_timeout(300)
+            rows.append((w, 'freeze and discuss (fuel inject queued)', measure(pg) + (0 if not pg.is_visible('#instov') and pg.evaluate("S.frozenAt!==null&&S.dec&&S.dec.k==='fuel'") and 'Frozen' in pg.text_content('#inst-fab') else 99)))
+            tap_text(pg, '#inst-fab', 'Frozen — tap to resume'); pg.wait_for_timeout(300); rows.append((w, 'resume after the freeze', 0 if pg.evaluate("S.frozenAt===null") else 99))
+            tap_text(pg, '#dec-box button', pg.evaluate("S.dec.c.o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(500); rows.append((w, 'fuel card answered', measure(pg) + (0 if pg.evaluate("S.dec.ans!==null&&S.score===100") else 99))); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(400)
+            tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); tap(pg, '#b-inst'); pg.evaluate("localStorage.removeItem('purchase-point')")
+            pg.goto(URL + '?scn=ditch&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?scn=ditch&v=B', measure(pg) + (0 if pg.is_visible('#decov') and pg.evaluate("S&&S.id==='ditch'&&S.v==='B'") else 99)))
+            pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="2"]'); rows.extend(scenario_full(pg, 'tree', 'B', w, 2)); pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.goto(URL + '?station=roof&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?station=roof&v=B', measure(pg) + (0 if pg.is_visible('#runov') and pg.evaluate("S&&S.id==='roof'&&S.v==='B'") else 99)))
         tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); rows.append((w, 'stop and go back', 0 if pg.is_visible('#home') and not pg.is_visible('#runov') else 99))
@@ -134,7 +171,10 @@ with sync_playwright() as p:
             for v in ('A', 'B', 'C'):
                 rows.extend(station_full(pg, sid, v, 390))
         rows.extend(cut_full(pg, 390))
-        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '12 of 19 activities' else 99)))
+        for sid in SCENARIOS:
+            for v in ('A', 'B', 'C'):
+                rows.extend(scenario_full(pg, sid, v, 390))
+        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '15 of 19 activities' else 99)))
         pg.close()
     b.close()
 bad = 0

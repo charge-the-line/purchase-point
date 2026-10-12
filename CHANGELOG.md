@@ -2,6 +2,14 @@
 
 Vehicle extrication at the Operations level, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
 
+## 0.3.0 — October 12, 2026 — E3, the first three scenarios
+- Three scenarios on the workbench, three layouts each, Guided, Recall and Chaos: Car versus tree on a county road (Patient Contact's driver, the same patient seen from the crew's side, with a link each way), Side-resting in a ditch off US-10, Roof-resting in a farm field.
+- A patient strip at the top of the run: pulse, blood pressure and mental state that drift with the scene clock, and the line from inside the car; a crash on cue or by inject opens the rapid-extrication card.
+- Decision cards (the size-up, the pin, the crash, the handoff, soft ground, a fuel leak), each answered before the car takes a tap; wrong calls, Operations work left for someone else, and the never items cost points with the why and the right call.
+- Fast-forward only on pure waits: Medic 1 pulling in, Engine 10's set coming up.
+- Instructor mode: the floating button during a scenario, the clock frozen while the sheet is open, four injects (the patient crashes, a tool battery dies, a fuel leak, the car shifts), Freeze and discuss.
+- `?scn=<id>&v=<layout>` opens a scenario on a layout; the hub's Continue and Patient Contact use it.
+
 ## 0.2.0 — October 12, 2026 · E2: the car diagram, the Where to cut drill and the five skill stations
 
 - The workbench: one car drawing per run (a side view on its wheels; an end view for a car on its side or its roof), tool first, then the zone. Three bars: stability (stable, rocking, shifted), space (inches gained against the room needed, modeled) and the tool battery. A "what just happened" line that stays. Guided names the next step and marks the hidden hazards; Recall marks nothing; Chaos doubles the cold-weather battery drain, stages no spare, starts on a car the first crew never cribbed, and hides an extra hazard.

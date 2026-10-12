@@ -86,14 +86,14 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 #pp-step{font-size:15px;color:var(--soft);line-height:1.4;margin:0 0 6px}#pp-step b{color:var(--ink)}#pp-q{font-size:16px;line-height:1.4;margin:0 0 8px}#pp-q b{color:var(--acc)}
 #pp-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}#pp-tray button{padding:8px 6px;font-size:15px;min-height:48px;line-height:1.15;min-width:0}#pp-tray button small{display:block;font-size:13px;color:var(--soft);font-weight:400}#pp-tray button.on small{color:#cfe}
 .pp-foot{display:flex;gap:6px;margin-top:8px}.pp-foot button{flex:1}
-.pp-pt{display:none}
+.pp-pt{display:none;grid-template-columns:auto auto 1fr;gap:2px 12px;align-items:baseline;background:var(--deck2);border-left:4px solid var(--acc);padding:8px 10px;margin-bottom:6px;font-size:15px;line-height:1.3}.pp-pt.show{display:grid}.pp-pt i{font-style:normal;color:var(--soft);font-size:13px;text-transform:uppercase;letter-spacing:.06em;display:block}.pp-pt b{font-family:"Saira Condensed",sans-serif;font-size:22px;letter-spacing:.02em;line-height:1}.pp-pt span{display:block}.pp-pt .pt-l{grid-column:1/-1;font-style:italic;color:var(--ink)}.pp-pt.worse{border-left-color:#f0b323}.pp-pt.crash{border-left-color:#ff6b61}.pp-pt.crash b{color:#ff6b61}#pp-ff{margin-top:8px}#pp-ffwhy{margin:4px 0 0}.fab{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:21;border-radius:24px;padding:12px 16px;background:#3b2a6b;border-color:#7a5cff;color:#fff;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.4)}#instov{z-index:22}#instov .box{max-width:520px}.inj{width:100%;margin-bottom:6px;text-align:left;white-space:normal;line-height:1.3}.inj[disabled]{opacity:.45}#decov{z-index:14}#decov .box{max-width:520px}.dec-o{width:100%;margin-bottom:8px;text-align:left;white-space:normal;line-height:1.3;padding:10px 12px}.dec-o.pick{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc)}.dec-o.dim{opacity:.5}.dec-why{background:var(--deck2);border-left:4px solid var(--acc);padding:10px;margin:8px 0;font-size:15px;line-height:1.4}.dec-why.bad{border-left-color:#ff6b61}.dec-why.good{border-left-color:#49c76f}
 </style>
 </head>
 <body>
 <div id="pc-drill" class="pc-drillbar hidden" data-hub="../"></div>
 <div id="home">
   <div class="flex" style="margin:0 0 8px"><a href="../" style="display:inline-flex;align-items:center;min-height:44px;font-family:'Saira Condensed';font-size:15px;font-weight:600;letter-spacing:1px;color:#ff8a3d;text-decoration:none">◂ PRECONNECT</a><div class="sp"></div><a href="../feedback.html?from=pp" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;color:var(--soft);text-decoration:none;margin-right:12px">Feedback</a><button class="gear" id="h-set">Settings</button></div>
-  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.2.0</span></h1></div></div>
+  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.3.0</span></h1></div></div>
   <div class="card rdy" id="rdy"><div class="flex"><div><div class="small">Your readiness</div><b id="rdy-t" style="display:block;font-family:'Saira Condensed';font-size:22px;line-height:1.05"></b><div class="small" id="rdy-s"></div></div><div class="sp"></div><div class="num" id="rdy-n"></div></div><div class="bar" style="margin-top:10px"><div id="rdy-bar" style="transition:width .6s ease-out"></div></div></div>
   <div class="card"><div class="small">What this is</div><p style="margin:4px 0 0;font-size:15px;line-height:1.45">Vehicle extrication at the Operations level: size it up, make it safe, stabilize, get in, and <b>take the car off the patient</b> while the EMS provider inside keeps them safe. Modeled on the vehicle chapter of NFPA 2500, in our own words. <b>On a real call, follow your department's procedures and the maker's rescue guide.</b></p></div>
   <button class="scen" id="h-learn"><span class="chip dim" id="chip-lesson">—</span><b>The lesson</b><span>14 short slides with a check each: the two circles, traffic, fire protection, wires, airbags, power in order, EVs, how cars are built, stabilization, glass, tools, access, disentanglement</span></button>
@@ -103,7 +103,7 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
   <p class="stat" id="tierhelp" style="margin:0 0 10px"></p>
   <div class="sec">Drill night</div>
   <button id="b-inst" style="width:100%;margin-bottom:8px">Instructor mode: off</button>
-  <p class="stat" style="margin:0 0 6px">Live injects (the patient crashes, a tool battery dies, a fuel leak, the car shifts, a second patient) and a freeze while a scenario runs. On by itself during a Drill Night.</p>
+  <p class="stat" style="margin:0 0 6px">Live injects while a scenario runs (the patient crashes, a tool battery dies, a fuel leak, the car shifts; a second patient arrives with the two-car crash) and Freeze and discuss. On by itself during a Drill Night.</p>
   <div class="sec">Skill stations</div>
   <div id="stations"></div>
   <div class="sec">Scenarios</div>
@@ -121,9 +121,13 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
   <div id="pp-map"></div>
   <div id="pp-now" aria-live="polite"></div>
   <p id="pp-step"></p>
+  <button id="pp-ff" class="pc-ff hidden">Fast-forward ▸▸</button><p id="pp-ffwhy" class="pc-ffwhy hidden"></p>
   <div id="pp-tray"></div>
   <div class="pp-foot"><button id="pp-next" class="go hidden">Next</button><button id="pp-quit">Stop and go back</button></div>
 </div></div>
+<button id="inst-fab" class="fab hidden">Instructor</button>
+<div class="overlay hidden" id="decov"><div class="box" id="dec-box"></div></div>
+<div class="overlay hidden" id="instov"><div class="box"><div class="flex"><h2 style="margin:0">Instructor</h2><div class="sp"></div><button id="inst-close">Close</button></div><p class="stat" id="inst-state" style="margin:8px 0"></p><div id="inst-list"></div><button id="inst-hold" style="width:100%;margin-top:8px">Freeze and discuss</button><p class="stat" style="margin-top:8px">The clock is frozen while this sheet is open. An inject lands when you close it.</p></div></div>
 <div class="overlay hidden" id="lessonov" style="z-index:12"><div class="box slide" id="lesson-box"></div></div>
 <div class="overlay hidden" id="quizov" style="z-index:12"><div class="box"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 id="qz-title" style="margin:0">Drill</h2><span id="qz-meta" class="stat"></span></div><div id="qz-body" style="margin-top:10px"></div><div id="qz-foot" style="margin-top:10px"></div></div></div>
 <div class="overlay hidden" id="doneov" style="z-index:13"><div class="box"><h2 id="done-t"></h2><div class="big" id="done-s"></div><div id="done-b"></div>
@@ -145,7 +149,7 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 <div class="overlay hidden" id="infoov" style="z-index:15"><div class="box"><div id="info-b"></div><button class="go" id="info-close" style="width:100%;margin-top:10px">Close</button></div></div>
 <script>
 /* =================== core =================== */
-const APP_VERSION='0.2.0';
+const APP_VERSION='0.3.0';
 /* Screen wake lock: on while an activity runs, off at home and on a result. */
 const WAKE={s:null,want:false};
 function keepAwake(on){WAKE.want=!!on;const wl=(typeof navigator!=='undefined')&&navigator.wakeLock;if(!wl||!wl.request)return;
@@ -182,6 +186,7 @@ const FACTS={
  struts:{kind:'sop',txt:'whether your engine carries struts for a car on its side or roof',src:'Whether Engine 10-2 carries struts is to confirm',checked:null},
  glass:{kind:'sop',txt:'a spring punch or glass tool and a glass saw',src:'Glass tools carried are to confirm',checked:null},
  fuel:{kind:'sop',txt:'absorbent or foam',src:'Fuel leak control is to confirm',checked:null},
+ driver:{kind:'modeled',txt:'a woman about 30, a sedan nose-first into a tree at about 40 mph on a county road at 6:12 a.m., pinned at the legs under the dash, an arterial bleed on her left forearm, a deformed left thigh, sometimes an unstable pelvis; Medic 1 seven minutes out; Regional Medical Center',src:'Patient Contact\'s car-versus-tree call (the shared patient; a drift test reads that module)',checked:'2026-10-12 Max, decision 5: the driver stays unnamed in both modules'},
  space:{kind:'modeled',need:12,push:4,txt:'the room needed to take the car off her and what each push of the ram gains are modeled numbers for the game',src:'modeled for the game',checked:'2026-10-12 modeled, labeled as such'}};
 /* Department details still to confirm. Shown in About; nothing here is a phone number. */
 const TO_CONFIRM=['the utility and how it is called to a crash with wires down','who brings heavy rescue and the heavy wrecker for a heavy vehicle','whether Engine 10-2 carries struts for a car on its side or roof','how many spare batteries are staged, and how long one runs','the glass tools carried, and whether glass is taped first','how far the key or fob goes from the car','the zone held around a downed wire','the 12-volt cut order','fuel leak control: absorbent or foam','that side- and roof-resting stabilization is Operations work (the training officer)','the NFPA 2500 vehicle chapter this module maps to (the training officer)'];
@@ -195,8 +200,8 @@ const PLAN={
  exam:[['exam','Exam practice','Fifteen questions from a bank of 36, every topic in the lesson']]};
 const ACTS=[['lesson','lesson'],...PLAN.drills.map(d=>['drill',d[0]]),...PLAN.stations.map(d=>['station',d[0]]),...PLAN.scn.map(s=>['scenario',s[0]]),['exam','exam']];
 const NAME=Object.fromEntries([...PLAN.drills,...PLAN.stations,...PLAN.scn,...PLAN.exam].map(x=>[x[0],x[1]]));
-/* What is built. The scenarios arrive with E3. */
-const built=(kind,id)=>kind==='lesson'||kind==='exam'||(kind==='drill'&&(id==='cut'||!!DRILLS[id]))||(kind==='station'&&!!STN[id]);
+/* What is built. Three scenarios live since E3; the other four arrive with E4 and E5. */
+const built=(kind,id)=>kind==='lesson'||kind==='exam'||(kind==='drill'&&(id==='cut'||!!DRILLS[id]))||(kind==='station'&&!!STN[id])||(kind==='scenario'&&typeof SCN!=='undefined'&&!!SCN[id]);
 function readiness(){const R=load().runs||[];const best={};R.forEach(r=>{const k=r.kind+':'+r.id;best[k]=Math.max(best[k]||0,+r.score||0);});const done=ACTS.filter(([k,i])=>best[k+':'+i]!==undefined).length;return {done,total:ACTS.length,pct:Math.round(done/ACTS.length*100),best};}
 function homeRender(){const R=readiness();
   const runs=load().runs||[];let ndue=0;const chipT=(kind,id)=>{const b=R.best[kind+':'+id];const sp=pcSpacing(runs.filter(r=>r.kind===kind&&r.id===id));const dueNow=sp.status==='due'||sp.status==='missed';if(dueNow)ndue++;return b===undefined?null:dueNow?(sp.status==='missed'?'Again':'Due'):String(b);};
@@ -207,7 +212,7 @@ function homeRender(){const R=readiness();
   const t=`${R.done} of ${R.total} activities`;if($('rdy-t').textContent!==t)$('rdy-t').textContent=t;
   const sub=R.done?`${ndue?ndue+' due for review · ':''}${TIER===0?'Guided':TIER===1?'Recall':'Chaos'} mode`:'Start with the lesson, then a drill a day. Your best scores show up here.';if($('rdy-s').textContent!==sub)$('rdy-s').textContent=sub;
   const n=R.pct+'%';if($('rdy-n').textContent!==n)$('rdy-n').textContent=n;const bar=$('rdy-bar');if(bar&&bar.style)bar.style.width=R.pct+'%';}
-function showHome(){keepAwake(false);S=null;['infoov','lessonov','quizov','doneov','drillpick','runov'].forEach(i=>$(i).classList.add('hidden'));document.querySelectorAll('[data-tier]').forEach(b=>b.classList.toggle('on',+b.dataset.tier===TIER));$('tierhelp').textContent=pcTierHelp(TIER,['Hidden hazards are marked on the car and the next step is named.','Nothing is marked: you peel to find the hazards and choose the order.','Cold-weather battery drain, no spare staged, a car the first crew never cribbed, and an extra hidden hazard.'][TIER]);homeRender();}
+function showHome(){keepAwake(false);S=null;['infoov','lessonov','quizov','doneov','drillpick','runov','decov','instov'].forEach(i=>$(i).classList.add('hidden'));if(typeof instSync==='function')instSync();document.querySelectorAll('[data-tier]').forEach(b=>b.classList.toggle('on',+b.dataset.tier===TIER));$('tierhelp').textContent=pcTierHelp(TIER,['Hidden hazards are marked on the car and the next step is named.','Nothing is marked: you peel to find the hazards and choose the order.','Cold-weather battery drain, no spare staged, a car the first crew never cribbed, and an extra hidden hazard.'][TIER]);homeRender();}
 document.querySelectorAll('[data-tier]').forEach(b=>b.onclick=()=>{TIER=+b.dataset.tier;showHome();});
 /* =================== reference, about, progress =================== */
 $('h-ref').onclick=()=>info(`<h2>Pocket reference</h2>
@@ -226,7 +231,7 @@ const KIND={lesson:'Lesson',drill:'Drill',station:'Station',scenario:'Scenario',
 $('h-prog').onclick=()=>{const p=load();const R=p.runs||[];const best=(k,id)=>{const r=R.filter(x=>x.kind===k&&x.id===id);return r.length?Math.max(...r.map(x=>x.score)):null;};
   const line=(n,b,ok)=>`<div class="mrow"><span>${esc(n)}</span><b style="${b===null?'color:var(--soft)':''}">${b===null?(ok?'not yet':'soon'):b}</b></div>`;
   const PR=pcProfile();info(`<h2>My progress</h2><input id="p-name" placeholder="Your name" value="${esc(PR.name||p.name||'')}" style="margin-bottom:6px"><input id="p-dept" placeholder="Department or organization" value="${esc(PR.org||p.dept||'')}" style="margin-bottom:10px">
-   <div class="sec">LESSON</div>${line('The lesson',best('lesson','lesson'),true)}<div class="sec">DRILLS</div>${PLAN.drills.map(d=>line(d[1],best('drill',d[0]),built('drill',d[0]))).join('')}<div class="sec">SKILL STATIONS</div>${PLAN.stations.map(s=>line(s[1],best('station',s[0]),built('station',s[0]))).join('')}<div class="sec">SCENARIOS</div>${PLAN.scn.map(s=>line(s[1],best('scenario',s[0]),false)).join('')}<div class="sec">EXAM</div>${line('Exam practice',best('exam','exam'),true)}
+   <div class="sec">LESSON</div>${line('The lesson',best('lesson','lesson'),true)}<div class="sec">DRILLS</div>${PLAN.drills.map(d=>line(d[1],best('drill',d[0]),built('drill',d[0]))).join('')}<div class="sec">SKILL STATIONS</div>${PLAN.stations.map(s=>line(s[1],best('station',s[0]),built('station',s[0]))).join('')}<div class="sec">SCENARIOS</div>${PLAN.scn.map(s=>line(s[1],best('scenario',s[0]),built('scenario',s[0]))).join('')}<div class="sec">EXAM</div>${line('Exam practice',best('exam','exam'),true)}
    <button id="p-csv" style="width:100%;margin-top:10px">Download practice record (CSV)</button>`);
   const keep=()=>{const q=load();q.name=$('p-name').value.trim();q.dept=$('p-dept').value.trim();save(q);pcProfileSet(q.name,q.dept);return q;};$('p-name').onchange=keep;$('p-dept').onchange=keep;
   $('p-csv').onclick=()=>{const q=keep();
@@ -383,7 +388,7 @@ const EXAM=[
    Two clocks: the scene clock is game time (each step takes scene seconds); the person is measured in real seconds (the dead-tool
    wait, the re-crib wait), frozen while the screen is off (rule 15, pcOnPause → freezeRun/thawRun). */
 const PEN={blind:5,cover:5,fire:5,order:10,shift:10,recrib:5,enter:5,misfire:2,dead:5,noCrib:5,belt:10};
-const WAIT={dead:20,recrib:20};/* real seconds before the wait itself costs points */
+const WAIT={dead:20,recrib:20,hyd:20};/* real seconds before the wait itself costs points */
 const HAZ={
  inflator:{n:'the curtain airbag inflator',kind:'never',pen:30,why:'Never cut through an airbag inflator: a stored-gas cylinder that can fire or fragment when cut. Peel the trim, find it, cut beside it.'},
  curtain:{n:'the curtain airbag tube',kind:'bad',pen:10,why:'The curtain bag runs along the roof rail and down the A-post. Peel first and cut below it.'},
@@ -399,13 +404,14 @@ const ZONES={
  hinge:[136,168,'Hinges','Front door, hinge side'],latch:[200,172,'Latch','Front door, latch side'],cab:[268,178,'Patient','The patient'],
  abase:[126,238,'A-post base','A-post base, at the rocker',1],bbase:[206,238,'B-post base','B-post base',1],rocker:[330,202,'Rocker','Rocker panel',1],
  wheel:[100,190,'Wheels','The wheels'],cribF:[170,216,'Crib front','Under the front rocker'],cribR:[250,216,'Crib rear','Under the rear rocker'],cribC:[296,240,'Crib it','Under the rocker'],
- eRoofHi:[134,70,'Roof, high','Roof side, high'],eUnderHi:[264,70,'Underside','Underside, high'],eRoofG:[140,186,'Roof edge','Roof edge at the ground'],eRockG:[258,186,'Rocker','Rocker at the ground'],eCab:[200,120,'Patient','The patient'],eRailL:[136,186,'Left rail','Roof rail, left'],eRailR:[264,186,'Right rail','Roof rail, right']};
+ eRoofHi:[134,70,'Roof, high','Roof side, high',1],eUnderHi:[264,70,'Underside','Underside, high'],eRoofG:[140,186,'Roof edge','Roof edge at the ground',1],eRockG:[258,186,'Rocker','Rocker at the ground'],eCab:[200,120,'Patient','The patient'],eRailL:[136,186,'Left rail','Roof rail, left'],eRailR:[264,186,'Right rail','Roof rail, right'],
+ eWinHi:[200,56,'High glass','High door glass'],eDoor:[96,120,'Door','The door, now low',1],eHoodG:[200,196,'Hood edge','Hood edge at the ground'],eDash:[304,120,'Dash','The dash',1]};
 const HIT=[62,60];/* the transparent hit rect, in viewBox units of a 400-wide drawing: about 48 by 46 px on a 320 px phone */
 const SIDE_Z=['hood','wshield','fwin','rwin','rglass','rail','apost','bpost','cpost','hinge','latch','cab','abase','bbase','rocker','wheel','cribF','cribR','cribC'];
-const END_Z=['eRoofHi','eUnderHi','eRoofG','eRockG','eCab','eRailL','eRailR'];
+const END_Z=['eRoofHi','eUnderHi','eRoofG','eRockG','eCab','eRailL','eRailR','eWinHi','eDoor','eHoodG','eDash'];
 const TOOLS={hands:{n:'Hands',s:'reach, unlock, lower, lift'},cover:{n:'Protect the patient',s:'hard protection over her',solo:1},line:{n:'Fire protection',s:'a line or an extinguisher',solo:1},ems:{n:'Send the EMS provider in',s:'once it is stable',solo:1},
  peel:{n:'Peel the trim',s:'peel and peek'},bar:{n:'Pry bar',s:'a purchase point'},spreader:{n:'Spreader',s:'battery',heavy:1},cutter:{n:'Cutter',s:'battery',heavy:1,cut:1},ram:{n:'Ram',s:'battery',heavy:1},saw:{n:'Recip saw',s:'battery',heavy:1,cut:1},
- glass:{n:'Glass punch',s:'tempered glass'},shears:{n:'Belt cutter',s:''},crib:{n:'Cribbing',s:''},chock:{n:'Step chocks',s:''},strut:{n:'Struts',s:'to confirm'},spare:{n:'Spare battery',s:''},hyd:{n:"Engine 10's hydraulics",s:'the backup set'}};
+ glass:{n:'Glass punch',s:'tempered glass'},shears:{n:'Belt cutter',s:''},crib:{n:'Cribbing',s:''},chock:{n:'Step chocks',s:''},strut:{n:'Struts',s:'to confirm'},spare:{n:'Spare battery',s:''},hyd:{n:"Engine 10's hydraulics",s:'the backup set'},wait:{n:'Wait',s:''}};
 const stepTools=s=>Array.isArray(s.tool)?s.tool:[s.tool];
 const zlow=n=>/^[ABC]-post/.test(n)?n:n.charAt(0).toLowerCase()+n.slice(1);/* a zone name mid-sentence */
 const mmss=t=>{t=Math.max(0,Math.floor(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');};
@@ -470,13 +476,13 @@ function stationDef(id,v){const base=STN[id].vs[v];const def=JSON.parse(JSON.str
     if(def.stab==='stable'&&def.pose==='wheels'){def.stab='rocking';if(!def.zones.includes('cribC'))def.zones.unshift('cribC');if(!def.tools.includes('crib'))def.tools.push('crib');def.steps.unshift({id:'crib0',tool:'crib',zone:'cribC',name:'Crib it first: the first crew never did',t:40,stab:1});}}
   return def;}
 function stationStart(id,v){if(!STN[id])return;v=v&&STN[id].vs[v]?v:pickStation(id);const def=stationDef(id,v);
-  S={mode:'station',def,id,v,steps:def.steps,done:{},peeled:{},tool:null,stab:def.stab,batt:def.batt,spares:def.spares,dead:false,deadAt:null,hyd:false,swaps:0,shiftAt:null,shifted:0,space:0,score:100,pens:[],log:[],blind:0,t0:NOW(),frozenAt:null,guard:0,scene:0,flags:{},cribbed:false};
+  S={mode:'station',def,id,v,steps:def.steps,done:{},peeled:{},tool:null,stab:def.stab,batt:def.batt,spares:def.spares,dead:false,deadAt:null,hyd:false,hydAt:null,swaps:0,shiftAt:null,shifted:0,space:0,score:100,pens:[],log:[],blind:0,t0:NOW(),frozenAt:null,guard:0,scene:0,flags:{},cribbed:false,zonesOn:def.zones,tools:def.tools,dec:null,injects:[],crash:false,ff:0,waitAt:null,decs:[],missed:[]};
   keepAwake(true);pca('begin','pp','station-'+id,()=>S?`step-${Object.keys(S.done).length+1}`:'');
   ['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));
-  $('pp-title').textContent=def.name+' · '+def.vname;$('pp-next').classList.add('hidden');$('pp-tray').classList.remove('hidden');$('pp-bars').classList.remove('hidden');$('pp-q').classList.add('hidden');$('pp-battbox').classList.toggle('hidden',!def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)));
+  $('pp-title').textContent=def.name+' · '+def.vname;$('pp-next').classList.add('hidden');$('pp-tray').classList.remove('hidden');$('pp-bars').classList.remove('hidden');$('pp-q').classList.add('hidden');$('pp-battbox').classList.toggle('hidden',!def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)));$('pp-pt').classList.remove('show');
   carBuild(def);trayBuild(def);now(TIER===0?'Tool first, then tap where it goes. The next step is named below.':'Tool first, then tap where it goes.','');carRender();$('runov').classList.remove('hidden');$('runov').scrollTop=0;
   pcCool('#pp-tray button, #pp-svg .zone',500);S.guard=NOW()+.45;}
-function runQuit(){if(!S)return;pca('abandon');S=null;keepAwake(false);$('runov').classList.add('hidden');showHome();}
+function runQuit(){if(!S)return;pca('abandon');S=null;keepAwake(false);$('runov').classList.add('hidden');$('decov').classList.add('hidden');$('instov').classList.add('hidden');INSTHOLD=false;$('pp-pt').classList.remove('show');instSync();showHome();}
 function now(h,cls){const e=$('pp-now');e.innerHTML=h;e.className=cls||'';if(cls&&motionOK()){e.classList.add('in');}}
 function pen(n,why){if(!S)return;S.score=Math.max(0,S.score-n);S.pens.push(`−${n} · ${why}`);pcFx('bad');}
 /* a mistake that happened: it costs, and the line says what and why (rule 14; never a refusal) */
@@ -486,27 +492,30 @@ function stepDone(st,res){S.done[st.id]=true;S.scene+=st.t||0;S.log.push({name:s
   if(res){now(res.replace(/\{sop\}/g,pcTag('sop')),'good');pcCue('good');}}
 function applyAlt(st,alt){if(!alt)return;if(alt.zone){st.zone=alt.zone;S.peeled[alt.zone]=true;}/* the peel that found it runs up to the new cut line */if(alt.tool)st.tool=alt.tool;if(alt.name)st.name=alt.name;st.alted=true;}
 function reveal(z){S.peeled[z]=true;const h=S.def.hazards[z];if(h){S.steps.forEach(s=>{if(s.alt&&s.alt.haz===h&&!S.done[s.id]&&s.zone===z)applyAlt(s,s.alt);});}return h;}
-function carAct(tool,zone){if(!S||S.mode!=='station'||S.frozenAt!==null)return false;if(NOW()<S.guard)return false;S.guard=NOW()+.45;const T=TOOLS[tool];if(!T)return false;const def=S.def;zone=zone||null;const zn=zone?zlow(ZONES[zone][3]):'';
-  const done=()=>{carRender();if(S&&S.steps.every(s=>S.done[s.id]))stationFinish();return true;};
+function carAct(tool,zone){if(!S||S.mode==='cut'||S.frozenAt!==null||S.dec)return false;if(NOW()<S.guard)return false;S.guard=NOW()+.45;const T=TOOLS[tool];if(!T)return false;const def=S.def;zone=zone||null;const zn=zone?zlow(ZONES[zone][3]).replace(/^the /,''):'';
+  const done=()=>{if(S&&S.mode==='scenario')scnCheck(S.lastStep||null);if(S)S.lastStep=null;carRender();if(S&&S.steps.every(s=>S.done[s.id])&&!S.dec){if(S.mode==='scenario')scnFinish();else stationFinish();}return true;};
   if(tool==='spare'){if(!S.dead){now('The battery is fine. Keep working.','');return done();}if(S.spares<=0){now('No spare staged. Call for Engine 10\'s set.','bad');return done();}S.spares--;S.swaps++;S.batt=100;S.dead=false;deadWait();now('Fresh battery in. Back on the '+(S.lastHeavy?TOOLS[S.lastHeavy].n.toLowerCase():'tool')+'.','good');pcCue('good');return done();}
-  if(tool==='hyd'){if(S.hyd){now('Engine 10\'s set is already running.','');return done();}S.hyd=true;S.scene+=90;if(S.dead){deadWait();S.dead=false;}now('Engine 10\'s hydraulic set is up and running: the backup for a dead battery tool.','good');pcCue('good');return done();}
+  if(tool==='hyd'){if(S.hyd||S.hydAt!==null){now(S.hyd?'Engine 10\'s set is already running.':'Engine 10\'s set is being set up. Fast-forward if there is nothing else to do.','');return done();}if(S.mode==='scenario'){S.hydAt=NOW();if(S.dead)deadWait();now('Engine 10\'s set is called: the crew is setting it up now.','');return done();}S.hyd=true;S.scene+=90;if(S.dead){deadWait();S.dead=false;}now('Engine 10\'s hydraulic set is up and running: the backup for a dead battery tool.','good');pcCue('good');return done();}
+  if(T.heavy&&S.hydAt!==null&&!S.hyd){now('Engine 10\'s set is still being set up.','');return done();}
   if(T.heavy&&S.dead&&!S.hyd){now('The battery is dead. Swap a staged spare or call for Engine 10\'s set.','bad');return done();}
-  const st=S.steps.find(s=>!S.done[s.id]&&stepTools(s).includes(tool)&&(s.zone||null)===zone);
+  const st=S.steps.find(s=>!S.done[s.id]&&(s.ph===undefined||s.ph===S.phN)&&stepTools(s).includes(tool)&&(s.zone||null)===zone);
   const hz=zone?def.hazards[zone]:null,peelable=zone&&ZONES[zone][4],H=hz?HAZ[hz]:null;
   const cutting=T.cut||T.heavy;
   if(!st){/* no step wants this: a trap, a free tap, a hazard cut, or nothing to do */
+    if((tool==='crib'||tool==='strut')&&S.stab==='shifted'&&zone===recribZone()){S.stab='stable';recribWait();now('Cribbed. Stable again. Check the patient, then carry on.','good');pcCue('good');return done();}
     const k=tool+':'+zone;if(def.traps[k]){cost(def.traps[k].pen,def.traps[k].msg);return done();}
     if(def.free[k]){now(def.free[k],'');return done();}
     if(tool==='peel'&&peelable){const h=reveal(zone);now(h?`Peeled: <b>${HAZ[h].n}</b> under the trim at the ${zn}. ${HAZ[h].why}`:`Peeled: plain steel under the trim at the ${zn}. Nothing hiding there.`,h?'bad':'good');if(!h)pcCue('good');return done();}
     if(cutting&&zone&&H&&H.kind!=='info'&&(H.kind!=='stall'||tool==='cutter')){if(peelable&&!S.peeled[zone]){S.blind++;pen(PEN.blind,'Cut blind at the '+zn+': peel and peek first');}hazHit(H,zn,zone);return done();}
     if(def.wrong[tool]){cost(PEN.misfire,def.wrong[tool]);return done();}
     cost(PEN.misfire,zone?`The ${T.n} has no job at the ${zn} right now.`:`Nothing to do with that right now.`);return done();}
-  if(st.after&&st.after.some(id=>!S.done[id])){cost(PEN.misfire,st.afterMsg||('Not yet: '+S.steps.find(s=>s.id===st.after.find(id=>!S.done[id])).name+' first.'));return done();}
+  if(st.after&&st.after.some(id=>!S.done[id])){if(st.trap){cost(st.trap.pen,st.trap.msg);return done();}cost(PEN.misfire,st.afterMsg||('Not yet: '+S.steps.find(s=>s.id===st.after.find(id=>!S.done[id])).name+' first.'));return done();}
   let res=st.res||`${st.name.replace(/\s*\{sop\}/,'')}: done.`;
   if(st.needStable&&S.stab!=='stable'){pen(PEN.enter,'The EMS provider went in while the car was still '+S.stab);res='She is in with her, in a car that is still '+S.stab+'. Nobody goes in until it is stable.';}
   if((cutting||tool==='glass')&&!S.flags.coverPen&&S.steps.some(s=>s.id==='cover')&&!S.done.cover){S.flags.coverPen=1;pen(PEN.cover,'Glass or a tool went to work before the patient was covered');res='Nobody covered her first. '+res;}
   if(cutting&&!S.flags.firePen&&S.steps.some(s=>s.id==='line')&&!S.done.line){S.flags.firePen=1;pen(PEN.fire,'The first cut before fire protection was in place');res='No line or extinguisher in place before the first cut. '+res;}
-  if(T.heavy&&S.stab!=='stable'){S.stab='shifted';S.shifted++;S.shiftAt=NOW();S.flags.recribPen=0;pen(PEN.shift,'The car shifted under the '+T.n.toLowerCase()+' because it was never stabilized');res='<b>The car shifted</b> when the '+T.n.toLowerCase()+' loaded it. Crib it now, then carry on.';if(S.def.pose==='wheels'&&!S.def.zones.includes('cribC'))S.def.zones.push('cribC');if(!S.def.tools.includes('crib')){S.def.tools.push('crib');trayAdd('crib');}}
+  if(T.heavy&&S.stab!=='stable'){shiftCar('The car shifted under the '+T.n.toLowerCase()+' because it was never stabilized');res='<b>The car shifted</b> when the '+T.n.toLowerCase()+' loaded it. Crib it now, then carry on.';}
+  else if(T.heavy&&S.flags.soft){S.flags.soft=0;shiftCar('The crib stack sank into the soft ground under the load',true);res='<b>Shifted:</b> the crib stack sank into the soft ground under the load. Boards under the stacks, crib it again, check the patient.';}
   if(T.heavy&&!S.hyd){if(S.batt<S.def.drain){S.dead=true;S.deadAt=NOW();S.lastHeavy=tool;S.batt=0;now(`The ${T.n} dies halfway. <b>Battery.</b> Swap a staged spare or call for Engine 10's set.`,'bad');pcFx('bad');return done();}S.batt-=S.def.drain;}
   if(tool==='peel'){const h=reveal(zone);stepDone(st,h?`Peeled: <b>${HAZ[h].n}</b> under the trim at the ${zn}. ${HAZ[h].why}`:`Peeled: plain steel at the ${zn}. Nothing hiding there.`);return done();}
   if(st.reveal){reveal(zone);stepDone(st,res);return done();}
@@ -519,15 +528,15 @@ function carAct(tool,zone){if(!S||S.mode!=='station'||S.frozenAt!==null)return f
   else if(st.gain)S.space+=st.gain;
   if(S.def.need)S.space=Math.min(S.space,S.def.need);
   if((tool==='crib'||tool==='strut'||tool==='chock')&&S.stab==='shifted'){S.stab='stable';recribWait();res='Cribbed. Stable again. '+res;}
-  stepDone(st,res);return done();}
+  stepDone(st,res);S.lastStep=st;return done();}
 function hazHit(H,zn,zone){const m=H.kind==='never'?`<b>Never:</b> you cut into ${H.n} at the ${zn}. ${H.why}`:H.kind==='stall'?`The cutter stalls on ${H.n} at the ${zn}. ${H.why}`:`You cut into ${H.n} at the ${zn}. ${H.why}`;
   pen(H.pen,H.kind==='never'?'Never: cut into '+H.n+' at the '+zn:H.kind==='stall'?'The cutter stalls on '+H.n+' at the '+zn:'Cut into '+H.n+' at the '+zn);if(H.kind==='stall'){reveal(zone);}now(m,'bad');}
 function deadWait(){if(S.deadAt===null)return;const w=NOW()-S.deadAt;S.deadSec=(S.deadSec||0)+w;S.deadAt=null;}
 function recribWait(){if(S.shiftAt===null)return;S.shiftAt=null;}
 function freezeRun(){if(S&&S.frozenAt===null)S.frozenAt=NOW();}
-function thawRun(){if(!S||S.frozenAt===null)return;const d=NOW()-S.frozenAt;S.t0+=d;S.guard+=d;if(S.deadAt!==null)S.deadAt+=d;if(S.shiftAt!==null)S.shiftAt+=d;S.frozenAt=null;}
-pcOnPause(()=>{if(S)freezeRun();},()=>{if(S&&S.frozenAt!==null){thawRun();if(S.mode==='station')now('<b>Paused</b> while the screen was off. Pick up where you were.','');}});
-function runTick(){if(!S||S.frozenAt!==null)return;const c=$('pp-clock'),t=mmss(NOW()-S.t0);if(c.textContent!==t)c.textContent=t;if(S.mode!=='station')return;
+function thawRun(){if(!S||S.frozenAt===null)return;const d=NOW()-S.frozenAt;S.t0+=d;S.guard+=d;if(S.deadAt!==null)S.deadAt+=d;if(S.shiftAt!==null)S.shiftAt+=d;if(S.waitAt!==null&&S.waitAt!==undefined)S.waitAt+=d;if(S.hydAt!==null&&S.hydAt!==undefined)S.hydAt+=d;S.frozenAt=null;}
+pcOnPause(()=>{if(S)freezeRun();},()=>{if(S&&S.frozenAt!==null&&!INSTHOLD){thawRun();if(S.mode!=='cut')now('<b>Paused</b> while the screen was off. Pick up where you were.','');}});
+function runTick(){if(!S||S.frozenAt!==null)return;const c=$('pp-clock'),t=mmss(NOW()-S.t0);if(c.textContent!==t)c.textContent=t;if(S.mode==='cut')return;if(S.mode==='scenario')scnTick();if(!S)return;
   if(S.deadAt!==null&&!S.flags.deadPen&&NOW()-S.deadAt>WAIT.dead){S.flags.deadPen=1;pen(PEN.dead,'Twenty seconds with a dead tool on the car before a spare or the backup set');now('Twenty seconds with a dead tool. A spare battery or Engine 10\'s set, now.','bad');}
   if(S.shiftAt!==null&&!S.flags.recribPen&&NOW()-S.shiftAt>WAIT.recrib){S.flags.recribPen=1;pen(PEN.recrib,'Twenty seconds shifted with nobody cribbing it');now('The car is still shifted. Crib it before anything else.','bad');}}
 if(typeof setInterval==='function')setInterval(runTick,250);
@@ -541,16 +550,16 @@ function carSVG(def){const pose=def.pose,end=pose!=='wheels';const zs=end?END_Z:
   const zone=z=>{const Z=ZONES[z],p=def.pos[z]||Z,x=p[0],y=p[1];return `<g class="zone" data-z="${z}" role="button" tabindex="0" aria-label="${esc(Z[3])}" display="none"><rect class="hit" x="${x-HIT[0]/2}" y="${y-HIT[1]/2}" width="${HIT[0]}" height="${HIT[1]}"/><circle class="haz" cx="${x}" cy="${y}" r="18" display="none"/><circle class="dot" cx="${x}" cy="${y}" r="11"/><line class="cut" x1="${x-8}" y1="${y+8}" x2="${x+8}" y2="${y-8}" display="none"/><text x="${x}" y="${y+25}">${esc(Z[2])}</text></g>`;};
   return `<svg id="pp-svg" viewBox="0 0 400 274" aria-label="Car diagram">${car}${zs.map(zone).join('')}</svg>`;}
 function carBuild(def){$('pp-map').innerHTML=carSVG(def);}
-function trayBuild(def){const ts=def.tools.slice();if(def.steps.some(s=>stepTools(s).some(t=>TOOLS[t].heavy)))ts.push('spare','hyd');
+function trayBuild(def){const ts=def.tools.slice();if(def.steps.some(s=>stepTools(s).some(t=>TOOLS[t]&&TOOLS[t].heavy)))ts.push('spare','hyd');
   $('pp-tray').innerHTML=ts.map(t=>`<button data-tool="${t}"><span>${esc(TOOLS[t].n)}</span><small id="tsub-${t}">${esc(TOOLS[t].s)}</small></button>`).join('');}
 function trayAdd(t){const b=document.createElement('button');b.dataset.tool=t;b.innerHTML=`<span>${esc(TOOLS[t].n)}</span><small id="tsub-${t}">${esc(TOOLS[t].s)}</small>`;$('pp-tray').appendChild&&$('pp-tray').appendChild(b);}
 function zoneEl(z){const m=$('pp-map');return m.querySelector?m.querySelector(`[data-z="${z}"]`):null;}
 /* what a zone shows right now: shown, peeled, done, the Guided next step, a hazard marker (Guided, or once peeled), a cut mark */
-function zoneState(z){const st=S.mode==='station',def=S.def;const on=(st?def.zones:S.zones).includes(z);if(!on)return {on:false};
-  const nextZ=st&&TIER===0?(S.steps.find(s=>!S.done[s.id]&&(!s.after||s.after.every(id=>S.done[id])))||{}).zone:null;const peeled=st&&!!S.peeled[z];
-  return {on:true,peeled,done:st&&S.steps.some(s=>S.done[s.id]&&s.zone===z)&&!S.steps.some(s=>!S.done[s.id]&&s.zone===z),next:st&&z===nextZ,right:!st&&S.mark===z,wrong:!st&&S.markWrong===z,
-    haz:st&&!!def.hazards[z]&&HAZ[def.hazards[z]].kind!=='info'&&(TIER===0||peeled),cut:st&&S.steps.some(s=>S.done[s.id]&&s.zone===z&&stepTools(s).some(t=>TOOLS[t].cut))};}
-function carRender(){if(!S)return;const def=S.def,st=S.mode==='station';
+function zoneState(z){const st=S.mode!=='cut',def=S.def;const on=S.zonesOn.includes(z);if(!on)return {on:false};
+  const ps=st?S.steps.filter(s=>s.ph===undefined||s.ph===S.phN):[];const nextZ=st&&TIER===0?(ps.find(s=>!S.done[s.id]&&(!s.after||s.after.every(id=>S.done[id])))||{}).zone:null;const peeled=st&&!!S.peeled[z];
+  return {on:true,peeled,done:st&&ps.some(s=>S.done[s.id]&&s.zone===z)&&!ps.some(s=>!S.done[s.id]&&s.zone===z),next:st&&z===nextZ,right:!st&&S.mark===z,wrong:!st&&S.markWrong===z,
+    haz:st&&!!def.hazards[z]&&HAZ[def.hazards[z]].kind!=='info'&&(TIER===0||peeled),cut:st&&ps.some(s=>S.done[s.id]&&s.zone===z&&stepTools(s).some(t=>TOOLS[t].cut))};}
+function carRender(){if(!S)return;const def=S.def,st=S.mode!=='cut';
   const setT=(id,t)=>{const e=$(id);if(e.textContent!==t)e.textContent=t;};
   /* zones: attributes and classes only, from zoneState */
   SIDE_Z.concat(END_Z).forEach(z=>{const g=zoneEl(z);if(!g)return;const q=zoneState(z);g.setAttribute('display',q.on?'inline':'none');if(!q.on)return;
@@ -559,7 +568,7 @@ function carRender(){if(!S)return;const def=S.def,st=S.mode==='station';
   if(!st)return;
   /* the car itself: door off, roof off, glass out */
   const opa=(id,v)=>{const e=$(id);if(e&&e.setAttribute)e.setAttribute('opacity',v);};
-  if(def.pose==='wheels'){opa('pp-door',S.done.hinges||S.done.latch?.2:1);opa('pp-roof',S.done.lift||S.done.fold?.25:1);opa('pp-ws',S.done.ws?.15:1);opa('pp-fw',S.done.window||S.done.fwin?.15:1);opa('pp-rw',S.done.rwin?.15:1);opa('pp-rg',S.done.rg?.15:1);}
+  if(def.pose==='wheels'){opa('pp-door',S.done.hinges||S.done.latch?.2:1);opa('pp-roof',S.done.lift||S.done.fold||S.done.foldr?.25:1);opa('pp-ws',S.done.ws?.15:1);opa('pp-fw',S.done.window||S.done.fwin?.15:1);opa('pp-rw',S.done.rwin?.15:1);opa('pp-rg',S.done.rg?.15:1);}
   /* bars */
   setT('pp-stab',S.stab==='stable'?'Stable':S.stab==='rocking'?'Rocking':'Shifted');const ss=$('pp-stabseg');if(ss.querySelectorAll)ss.querySelectorAll('span').forEach((sp,i)=>{sp.className=S.stab==='stable'?'g':S.stab==='rocking'?(i<1?'w':''):(i<2?'h':'');});
   $('pp-spacebox').classList.toggle('hidden',!def.need);if(def.need){setT('pp-space',`${S.space} / ${def.need} in`);const sp=$('pp-spaceseg');if(sp.querySelectorAll)sp.querySelectorAll('span').forEach((x,i)=>x.className=S.space>=def.need*(i+1)/4?'on':'');}
@@ -567,12 +576,14 @@ function carRender(){if(!S)return;const def=S.def,st=S.mode==='station';
   const sub=$('tsub-spare');if(sub){const t=S.spares>0?`${S.spares} staged`:'none staged';if(sub.textContent!==t)sub.textContent=t;}
   const tray=$('pp-tray');if(tray.querySelectorAll)tray.querySelectorAll('[data-tool]').forEach(b=>{b.classList.toggle('on',b.dataset.tool===S.tool);b.classList.toggle('dim',S.dead&&!S.hyd&&!!TOOLS[b.dataset.tool].heavy);});
   /* the step line */
-  const n=S.steps.filter(s=>S.done[s.id]).length,m=S.steps.length;const nx=S.steps.find(s=>!S.done[s.id]&&(!s.after||s.after.every(id=>S.done[id])));
-  const pick=S.tool?`<b>${esc(TOOLS[S.tool].n)}</b> in hand → tap where it goes.`:'';
-  $('pp-step').innerHTML=(TIER===0&&nx?`Next: <b>${esc(nx.name.replace(/\s*\{sop\}/,''))}</b> (${stepTools(nx).map(t=>TOOLS[t].n).join(' or ')}${nx.zone?' → '+esc(ZONES[nx.zone][3]):''}). `:`Steps: ${n} of ${m} done. `)+pick;
+  const n=S.steps.filter(s=>S.done[s.id]).length,m=S.steps.length;const nx=S.steps.find(s=>!S.done[s.id]&&(s.ph===undefined||s.ph===S.phN)&&(!s.after||s.after.every(id=>S.done[id])));
+  const pick=S.tool?`<b>${esc(TOOLS[S.tool].n)}</b> in hand → tap where it goes.`:'';const phT=S.mode==='scenario'?`<b>${esc(def.phases[S.phN].t)}</b> · `:'';
+  const h=phT+(TIER===0&&nx?(nx.kind==='wait'?`Next: <b>${esc(nx.name)}</b> (a wait: Fast-forward ▸▸ when nothing else is left). `:`Next: <b>${esc(nx.name.replace(/\s*\{sop\}/,''))}</b> (${stepTools(nx).map(t=>TOOLS[t].n).join(' or ')}${nx.zone?' → '+esc(ZONES[nx.zone][3]):''}). `):`Steps: ${n} of ${m} done. `)+pick;
+  if($('pp-step').innerHTML!==h)$('pp-step').innerHTML=h;
+  if(S.mode==='scenario')ptRender();
   runTick();}
-function carPick(tool){if(!S||S.mode!=='station'||S.frozenAt!==null)return;if(!TOOLS[tool])return;if(TOOLS[tool].solo||tool==='spare'||tool==='hyd'){carAct(tool,null);return;}if(NOW()<S.guard)return;S.tool=tool;carRender();}
-function carTap(z){if(!S||S.frozenAt!==null)return;if(S.mode==='cut'){cutTap(z);return;}if(!S.tool){if(NOW()<S.guard)return;S.guard=NOW()+.3;now('Pick a tool first, then tap where it goes.','');return;}carAct(S.tool,z);}
+function carPick(tool){if(!S||S.mode==='cut'||S.frozenAt!==null||S.dec)return;if(!TOOLS[tool])return;if(TOOLS[tool].solo||tool==='spare'||tool==='hyd'){carAct(tool,null);return;}if(NOW()<S.guard)return;S.tool=tool;carRender();}
+function carTap(z){if(!S||S.frozenAt!==null||S.dec)return;if(S.mode==='cut'){cutTap(z);return;}if(!S.tool){if(NOW()<S.guard)return;S.guard=NOW()+.3;now('Pick a tool first, then tap where it goes.','');return;}carAct(S.tool,z);}
 function stationFinish(){const def=S.def,real=NOW()-S.t0,score=S.score;keepAwake(false);pca('end',pca('bkt',score));const R=load().runs||[];
   record('station',S.id,score,{variant:S.v});const found=Object.keys(def.hazards).filter(z=>HAZ[def.hazards[z]].kind!=='info'),peeled=found.filter(z=>S.peeled[z]);
   const metrics=[['Time',mmss(real)],['Scene time',mmss(S.scene)],['Stability',S.shifted?`Shifted ${S.shifted===1?'once':S.shifted+' times'}`:'Never moved'],['Hazards found by peeling',found.length?`${peeled.length} of ${found.length}`:'none hidden here'],['Cuts made blind',String(S.blind)]];
@@ -580,6 +591,244 @@ function stationFinish(){const def=S.def,real=NOW()-S.t0,score=S.score;keepAwake
   if(def.need)metrics.push(['Space gained',`${S.space} of ${def.need} in · modeled`]);
   const html=pcDebriefBody({score,compare:pcBestPrev(R.filter(r=>r.kind==='station'&&r.id===S.id)),kicker:score===100?'Clean station.':score>=80?'Solid. Look at what cost points.':'Run it again with the list below in mind.',metrics,feedback:S.pens,steps:S.log,extra:def.note?`<p class="stat">${def.note.replace(/\{sop\}/g,pcTag('sop'))}</p>`:'',clean:S.pens.length===0});
   const id=S.id;S=null;$('runov').classList.add('hidden');showDone(def.name+' · '+def.vname,score,html,()=>stationStart(id),nextOf('station',id));}
+/* =================== scenarios (E3): phases on the workbench, a patient strip, decision cards, pure waits, injects ===================
+   A scenario is phases of steps on the same car (each phase its own zones and tools), decision cards that open after a step
+   (kinds good 0, bad 10, missed 5 (Operations work left for someone else), never 30 (an ERG or maker never)), a patient whose
+   numbers drift with the scene clock and crash on cue, waits that are only waits (Medic 1 pulling in, Engine 10's set coming up)
+   with Fast-forward, and the instructor's injects. Everything else (peel and peek, the power order, the never items, the battery,
+   stability) is the station engine unchanged. */
+const DECK={good:0,bad:10,missed:5,never:30,tech:30};
+const DECL={bad:'Wrong call.',missed:'Operations work left for someone else.',never:'That is a never.',tech:'Past the Operations level.'};
+/* the fuel-leak card, the same on every scenario (a Chaos event on the tree, an inject anywhere) */
+const FUEL_CARD={t:'Fuel on the ground',q:'There is fuel running out from under the car, toward the road, and the smell is strong. The cutting is half done.',o:[
+ ['Tools off, ignition sources gone, absorbent or foam per SOP, then back to work','good','A fuel leak stops the cutting until the ignition sources are gone and the spill is covered. Then the work goes on.'],
+ ['Keep cutting: she is pinned, the charged line is right there and the crew is already on it','bad','A running tool over a fuel spill is the ignition source. The line is there to put a fire out, not to work next to one.'],
+ ['Flush it down the ditch with the handline','bad','Water spreads gasoline and carries it where you cannot see it. Absorbent or foam per SOP, and the storm drain stays dry.']]};
+/* the three scenarios. A layout: vname, pose, pt (the patient), medicAt (scene seconds), phases, cards, rapid, hazards, batt, drain, spares, note. */
+const SCN={
+ tree:{name:'Car versus tree, county road',note:'The same patient as Patient Contact\'s car-versus-tree call: '+FACTS.driver.txt+'. The patient\'s numbers and the room each push gains are modeled.',
+  vs:{A:{vname:'Cold and wet',cond:'It is 41°F and drizzling.',loss:'bleeding started recently',pelvis:false,crash:false,pt:{hr:112,sbp:106,drift:[1.5,1.2]}},
+      B:{vname:'Warm day, heavier bleeding',cond:'It is 78°F and sunny.',loss:'heavier bleeding before you arrived',pelvis:false,crash:false,pt:{hr:124,sbp:96,drift:[2,1.8]}},
+      C:{vname:'Unstable pelvis',cond:'It is 41°F and drizzling.',loss:'bleeding started recently',pelvis:true,crash:true,pt:{hr:116,sbp:102,drift:[1.8,1.5]}}},
+  build:v=>{const pelvis=v.pelvis;return {pose:'wheels',pos:{cab:[272,150]},medicAt:420,batt:100,drain:12,spares:1,stab:'rocking',hazards:{bbase:'pretensioner'},chaosHaz:{apost:'curtain'},chaosEvent:{after:'hinges',card:'fuel'},
+   pt:{who:'her',name:'The driver',mental:['Answers you, knows where she is','Asks the same thing twice','Drifting, eyes closing','Not answering'],lines:{start:'Officer: "Driver pinned at the legs, awake, bleeding from the arm. The MFR is going in."',ems:'MFR inside: "Tourniquet on her left forearm, time marked. She is cold and shaking."',access:'MFR inside: "Door is off. Her legs are under the dash. Pressure is holding."',free:'MFR inside: "Legs are clear. How long?"',crash:'MFR inside: "She is crashing. How long?"',board:'Medic 1: "Trauma bay at Regional Medical Center. Let\'s roll."',medic:'Medic 1: "On scene. Give me the time pinned and the tourniquet time."'}},
+   phases:[
+    {t:'Size-up and stabilize',zones:['cab','wheel','cribF','cribR'],tools:['hands','line','chock','crib','ems'],steps:[
+      Object.assign({},TALK,{res:'She knows you are here. The MFR goes in once it is stable.'}),LINE,{id:'chock',tool:'chock',zone:'wheel',name:'Step chocks at the wheels, both sides',t:40,stab:1},{id:'cribF',tool:'crib',zone:'cribF',name:'Crib the front rocker, both sides',t:40,stab:1},{id:'cribR',tool:'crib',zone:'cribR',name:'Crib the rear rocker, both sides',t:40,stab:1},Object.assign({},EMS,{name:'Send the EMS provider in: the MFR',res:'The MFR is in with her: head and neck held, direct pressure on the arm, the first look done.'})]},
+    {t:'Power and glass',zones:['hood','rwin','latch'],tools:['cover','hands','glass','peel'],steps:[
+      COVER,{id:'rwin',tool:'hands',zone:'rwin',name:'Rear window down with the switch, while the power is on (the driver\'s window is already broken out)',t:10,dead:{tool:'glass',name:'Punch the rear window: the switches died with the power'}},{id:'unlock',tool:'hands',zone:'latch',name:'Try the handle and unlock the doors',t:10,dead:{skip:1,note:'The locks died with the power. The door stays shut; you pry it.'}},POWER(['rwin','unlock'])]},
+    {t:'Make the door',zones:['hinge','latch','bbase'],tools:['peel','bar','spreader','cutter','crib'],steps:[
+      {id:'peelB',tool:'peel',zone:'bbase',name:'Peel the B-post trim at the base',t:30},{id:'purchase',tool:'bar',zone:'latch',name:'Open a purchase point at the latch',t:40},{id:'spread',tool:'spreader',zone:'latch',name:'Spread the latch side until it pops',t:90,after:['purchase'],afterMsg:'The tips slip off the sheet metal. Make a purchase point first.'},{id:'hinges',tool:['spreader','cutter'],zone:'hinge',name:'Take it off the hinges',t:90,after:['spread'],afterMsg:'The latch still holds it. Pop the latch first.',res:'The door is off and away from the car. Her legs are under the dash.'}]},
+    {t:'Dash roll',zones:['apost','abase','bbase'],tools:['peel','cutter','saw','ram','crib'],steps:dashSteps({}).filter(s=>s.id!=='cover'&&s.id!=='line')},
+    {t:'Out and the handoff',zones:['cab','rail'],tools:['hands','ems'],steps:[
+      {id:'board',tool:'hands',zone:'cab',name:'The board behind her, the MFR at her head, and lift her straight out',t:60,res:'She is out and on the cot.'+(pelvis?' The medic has the pelvic binder on.':'')}]}],
+   cards:{
+    look:{after:null,t:'Your first look',q:'A sedan nose-first into a tree on a county road. '+v.cond+' The driver is pinned at the legs, awake, '+v.loss+'. Your engine is blocking the road. What first?',o:[
+      ['Both circles: the car up close, then the wide loop','good','Two circles every time: the car up close, then the wide loop for an ejected passenger, wires, fuel and the tree itself.'],
+      ['Straight to her window: she is bleeding, talking, and asking for help right now','bad','Somebody will be at her window in seconds, but the officer walks the circles first. A second patient in the ditch or a wire on the roof changes everything.'],
+      ['Get the cutter, spreader and cribbing off the engine while the officer sizes it up','bad','The tools come later. The size-up comes first, and the crew hears it: how many patients, what the car is, what the hazards are.']]},
+    pin:{after:'hinges',t:'The door is off',q:'She is pinned at the legs under the dash. The MFR has the tourniquet on and a pressure on her thigh. Next?',o:[
+      ['Dash roll: relief cuts and the ram, with the MFR calling her numbers','good','The car comes off the patient. A dash roll with the MFR inside is the controlled way, and the MFR\'s numbers tell you how much time you have.'],
+      ['Pull her out by the shoulders now that the door is open, before she gets worse','bad','Her legs are under the dash. Pulling against the pin tears what is holding her together and does not free her.'],
+      ['Hold here and call for heavy rescue to move the dash','missed','Calling for heavy rescue costs nothing, waiting does. A dash roll is Operations work with the tools on Engine 10-2.']]},
+    rapid:{t:'She is crashing',q:'The MFR: "She is crashing. Pulse up, pressure down, not answering me." Her legs are clear after the first push.',o:[
+      ['Rapid: flap the roof and lift her straight up and out on the board','good','Her legs are clear, so the rest of the roll buys nothing she can spend. The roof opens the fastest straight path out with the board.'],
+      ['Finish the dash roll: two more pushes and a clean lift through the door','bad','Two more pushes and the cribbing between them is minutes she does not have. When the patient changes, the plan changes.'],
+      ['Drag her out through the door opening now','bad','A drag over the sill with an unstable pelvis and a deformed thigh moves what is bleeding. The board and a straight lift are nearly as fast and far kinder.']]},
+    hand:{after:'board',t:'The handoff',q:'Medic 1 asks what she needs to know before the doors close.',o:[
+      ['Time pinned, the tourniquet time, what was cut, her trend','good','The medic and the trauma bay need the mechanism, the time, the tourniquet time and which way she was going.'],
+      ['The car: make, model, where the posts were cut and how long the roll took','bad','The posts do not ride with her. The time she was pinned and the tourniquet time do.'],
+      ['She is all yours; we will pick up the tools','bad','The handoff is part of the extrication. Thirty seconds of facts save the medic minutes.']]}},
+   rapid:{after:'push1',on:v.crash,steps:[{id:'peelBr',tool:'peel',zone:'bpost',name:'Peel the B-post trim, fast',t:20},{id:'peelRr',tool:'peel',zone:'rail',name:'Peel the roof rail behind the B-post',t:20},{id:'cutBr',tool:['cutter','saw'],zone:'bpost',name:'Cut the B-posts high',t:50},{id:'reliefr',tool:['cutter','saw'],zone:'rail',name:'Relief cuts in the roof rails behind the B-posts',t:40,after:['cutBr'],afterMsg:'Cut the posts first.'},{id:'foldr',tool:'hands',zone:'rail',name:'Fold the roof back and tie it',t:30,after:['reliefr'],afterMsg:'It will not fold without the relief cuts.',res:'The roof is back. A straight path up and out.'},{id:'board',tool:'hands',zone:'cab',name:'The board behind her and lift her straight up and out',t:40,after:['foldr'],res:'She is out and on the cot, the medic at her head.'}],
+     zones:['bpost','rail','cab'],tools:['peel','cutter','saw','hands'],t:'Rapid: flap the roof'}};}},
+ ditch:{name:'Side-resting in a ditch off US-10',note:'Struts: '+FACTS.struts.txt+' {sop} The patient\'s numbers are modeled.',
+  vs:{A:{vname:'Hanging in the belt, high side',low:false,open:false,pt:{hr:104,sbp:118,drift:[1,0.8]}},B:{vname:'Against the low door',low:true,open:false,pt:{hr:110,sbp:112,drift:[1.3,1]}},C:{vname:'The high door already open',low:false,open:true,pt:{hr:106,sbp:116,drift:[1,0.8]}}},
+  build:v=>({pose:'side',medicAt:840,batt:100,drain:12,spares:1,stab:'rocking',hazards:{eRoofHi:'inflator'},chaosHaz:{eRoofG:'curtain'},chaosEvent:{after:'cutHi',shift:'A strut foot slipped in the mud when the cut let go'},
+   pt:{who:'her',name:'The driver',mental:['Talking, knows what happened','Asks the same thing twice','Drifting, eyes closing','Not answering'],lines:{start:'Officer: "SUV on its side in the ditch. One driver, '+(v.low?'down against the low door':'hanging in her belt')+'. Nobody on the car."',ems:'EMS provider: "I am in through the hatch. She is talking. Holding her head."',access:'EMS provider: "Roof is down. Ready for the board."',free:'EMS provider: "She is clear. Board going in."',crash:'EMS provider: "She is crashing. How long?"',board:'EMS provider: "She is on the board, up the bank, covered. Waiting on Medic 1."',medic:'Medic 1: "At the board. Regional Medical Center."'}},
+   phases:[
+    {t:'Size-up and stabilize',zones:['eCab','eRoofHi','eUnderHi','eRoofG','eRockG'],tools:['hands','line','strut','crib','chock','ems'],steps:[
+      Object.assign({},TALK,{zone:'eCab',name:v.low?'Tell her who you are and not to move: she is against the low door':'Tell her who you are and not to move: she is hanging in the belt',res:'She knows you are here. Nobody climbs on the car.'}),LINE,
+      {id:'strut1',tool:'strut',zone:'eRoofHi',name:'A strut from the roof side, high, down to the bank {sop}',t:60,stab:1},{id:'strut2',tool:'strut',zone:'eUnderHi',name:'A strut from the underside, high {sop}',t:60,stab:1},{id:'cribG1',tool:'crib',zone:'eRoofG',name:'Crib the roof edge where it meets the ground',t:40,stab:1},{id:'cribG2',tool:'crib',zone:'eRockG',name:'Crib the rocker where it meets the ground',t:40,stab:1},
+      Object.assign({},EMS,{name:'Send the EMS provider in through the rear hatch',res:'The EMS provider is in through the hatch: head held, the first look done.'})],
+     wrong:{chock:'Step chocks do nothing for a car on its side. Struts high, cribbing at the ground.'}},
+    {t:'The roof comes down',zones:['eWinHi','eCab','eRoofHi','eRoofG'].concat(v.low?['eRockG']:[]),tools:['cover','glass','peel','cutter','saw','hands','shears','crib'].concat(v.low?['spreader']:[]),steps:[
+      COVER,{id:'glassHi',tool:'glass',zone:'eWinHi',name:'Punch the high door glass at a corner, from the ground',t:30},
+      {id:'support',tool:'hands',zone:'eCab',name:v.low?'A rescuer and the board against her, so nothing moves when the roof goes':'Support her weight: a rescuer under her and the board, before anyone touches the belt',t:30,after:['cover']},
+      {id:'peelHi',tool:'peel',zone:'eRoofHi',name:'Peel the roof rail and the high posts',t:30},{id:'peelLo',tool:'peel',zone:'eRoofG',name:'Peel the low posts at the ground',t:30},
+      {id:'cutHi',tool:['cutter','saw'],zone:'eRoofHi',name:'Cut the A- and B-posts on the high side, beside the inflator',t:80},{id:'relief',tool:['cutter','saw'],zone:'eRoofG',name:'Relief cuts in the low posts near the ground',t:60,after:['cutHi'],afterMsg:'The high posts first, or the roof has nothing to hinge on.'},
+      {id:'fold',tool:'hands',zone:'eRoofHi',name:'Fold the roof down to the ground and cover the edges',t:40,after:['relief'],afterMsg:'It will not fold without the relief cuts.',res:'The roof is down flat and the edges are covered. A wide opening, and nobody climbed on anything.'}]
+      .concat(v.low?[{id:'lift',tool:'spreader',zone:'eRockG',name:'Spread the low door off her hip, an inch at a time',t:60,after:['fold'],gain:12,res:'The door is off her. She is clear.'}]:[{id:'belt',tool:'shears',zone:'eCab',name:'Cut the belt, with her supported',t:10,after:['support','fold'],trap:{pen:PEN.belt,msg:'Cut the belt now and she drops onto her head and neck. Support her first, and the roof down so there is a path.'},res:'The belt is cut and she is on the board, supported the whole way.'}])
+      .concat([{id:'board',tool:'hands',zone:'eCab',name:'Out through the roof opening on the board, feet first',t:50,after:[v.low?'lift':'belt'],res:'She is out on the board and up the bank.'}]),
+     traps:{'shears:eCab':{pen:PEN.belt,msg:'Cut the belt now and she drops onto her head and neck. Support her first.'}}},
+    {t:'Medic 1 and the handoff',zones:['eCab'],tools:[],steps:[{id:'medic',kind:'wait',tool:'wait',zone:null,name:'Hold her warm and still until Medic 1 is down the bank',secs:25,res:'Medic 1 is at the board.'}]}],
+   cards:{
+    look:{after:null,t:'Your first look',q:'An SUV on its passenger side in the ditch off US-10, '+(v.open?'and the first crew has the high door open with one firefighter standing on the rocker. ':'')+'The driver is '+(v.low?'down against the low door.':'hanging in her belt on the high side.')+' What first?',o:[
+      [v.open?'Everyone off the car; nobody climbs on until it is strutted and cribbed':'Nobody on the car: struts high and cribbing at the ground first','good','A car on its side rocks on its door and roof edge. A rescuer on the rocker is the load that tips it onto the crew below. Struts, cribbing, then access.'],
+      [v.open?'Keep the firefighter up there holding her head while the struts go in underneath':'Send the biggest rescuer up through the high door to hold her head while it is set','bad','Weight on the high side is what rolls it. Her head is held from inside, by someone who got in after it was stable.'],
+      [v.open?'Have them close the door so it stops rocking':'Open the high door and get in; it is only rocking a little','bad','Opening or closing the high door is a lever on a car that is balanced on its edge. Struts first.']]},
+    rapid:{t:'She is crashing',q:'The EMS provider: "She is crashing. Pulse way up, not answering." The roof is down.',o:[
+      [v.low?'Out through the roof opening on the board now; the door stays':'Belt cut with her supported, onto the board and out the roof opening','good','The roof opening is the path. Nothing else you could cut gets her out faster than the board does now.'],
+      [v.low?'Finish spreading the low door off her hip so the lift is clean and straight':'Take the low door off first so the lift out is clean, straight and controlled','bad','A cleaner lift in three more minutes is a worse lift than a straight one now. When the patient changes, the plan changes.'],
+      ['Lift her out by the arms through the window opening','bad','An arm lift of a patient who is crashing is the fastest way to lose her airway and her spine. The board, through the roof opening.']]},
+    hand:{after:'medic',t:'The handoff',q:'Medic 1 is at the board. What does she need to hear?',o:[
+      ['How she was found, her time in the belt, what was cut, her trend','good','Mechanism, time, what you did and which way she was going: the handoff that the trauma bay can use.'],
+      ['The struts, the cribbing, the cuts and how the roof came down to the ground','bad','The roof is on the ground. Her time in the belt and her numbers ride with her.'],
+      ['Nothing yet; let them work and brief them at the ambulance','bad','The medic decides the destination now, at the board. Thirty seconds of facts here save minutes on the road.']]}},
+   rapid:{after:'fold',on:false,steps:v.low?[{id:'board',tool:'hands',zone:'eCab',name:'Out through the roof opening on the board, now',t:40,res:'She is out on the board and up the bank.'}]:[{id:'belt',tool:'shears',zone:'eCab',name:'Cut the belt, with her supported',t:10,after:['support'],trap:{pen:PEN.belt,msg:'Cut the belt now and she drops onto her head and neck. Support her first.'}},{id:'board',tool:'hands',zone:'eCab',name:'Out through the roof opening on the board, now',t:40,after:['belt'],res:'She is out on the board and up the bank.'}],
+     zones:['eCab'],tools:['hands','shears'],t:'Rapid: out the roof opening'}})},
+ field:{name:'Roof-resting in a farm field',note:'Struts: '+FACTS.struts.txt+' {sop} The patient\'s numbers and the room each lift gains are modeled.',
+  vs:{A:{vname:'Hanging in the belt',soft:false,truck:false,pt:{hr:98,sbp:124,drift:[0.8,0.6]}},B:{vname:'Soft ground',soft:true,truck:false,pt:{hr:102,sbp:120,drift:[1,0.8]}},C:{vname:'A pickup, cab crushed',soft:false,truck:true,pt:{hr:118,sbp:100,drift:[1.6,1.4]}}},
+  build:v=>({pose:'roof',medicAt:720,batt:100,drain:12,spares:1,stab:'rocking',hazards:v.truck?{eDash:'curtain'}:{eDoor:'pretensioner'},chaosHaz:v.truck?{eDoor:'pretensioner'}:{eDash:'curtain'},chaosEvent:{after:'ems',soft:true},
+   pt:{who:'him',name:'The driver',mental:['Talking, knows what happened','Asks the same thing twice','Drifting, eyes closing','Not answering'],lines:{start:'Officer: "Rolled into the bean stubble, on its roof. One driver, '+(v.truck?'down on the headliner under the dash':'hanging in his belt')+'."',ems:'EMS provider: "I am in through the back glass. He is talking. Holding his head."',access:v.truck?'EMS provider: "Dash is coming up. He is still talking."':'EMS provider: "Door is off. Ready for the board."',free:'EMS provider: "He is clear. Board going in."',crash:'EMS provider: "He is crashing. How long?"',board:'EMS provider: "He is on the board, covered. Waiting on Medic 1."',medic:'Medic 1: "At the board. Regional Medical Center."'}},
+   phases:[
+    {t:'Size-up and stabilize',zones:['eCab','eRailL','eRailR','eHoodG'],tools:['hands','line','crib','strut','chock','ems'],steps:[
+      Object.assign({},TALK,{zone:'eCab',name:v.truck?'Tell him who you are and not to move: he is on the headliner under the dash':'Tell him not to move: he is hanging in the belt',res:'He knows you are here. The belt stays until he is supported.'}),LINE,
+      {id:'cribL',tool:['crib','strut'],zone:'eRailL',name:'Box cribbing or a strut under the left roof rail and post'+(v.soft?', on boards':''),t:50,stab:1},{id:'cribR',tool:['crib','strut'],zone:'eRailR',name:'Box cribbing or a strut under the right roof rail and post'+(v.soft?', on boards':''),t:50,stab:1},{id:'cribH',tool:'crib',zone:'eHoodG',name:'Cribbing between the hood edge and the ground',t:40,stab:1},
+      Object.assign({},EMS,{name:'Send the EMS provider in through the back glass',res:'The EMS provider is in: head held, the first look done.'})],
+     wrong:{chock:'Step chocks do nothing for a car on its roof. Cribbing or struts under the rails and the hood.'}},
+    v.truck?{t:'Dash lift',zones:['eCab','eDash','eHoodG'],tools:['cover','peel','cutter','saw','ram','crib','hands'],steps:[
+      COVER,{id:'support',tool:'hands',zone:'eCab',name:'Pad and support him where he lies, the EMS provider at his head',t:30,after:['cover']},
+      {id:'peelD',tool:'peel',zone:'eDash',name:'Peel the A-post trim above the dash',t:30},{id:'cutD',tool:['cutter','saw'],zone:'eDash',name:'Relief cut in the A-post above the dash',t:60},
+      {id:'crib1',tool:'crib',zone:'eHoodG',name:'Crib the hood edge where the lift will load it',t:30,after:['cutD'],crib:1},
+      {id:'lift1',tool:'ram',zone:'eDash',name:'Ram from the floor pan to the dash: lift',t:40,after:['crib1'],afterMsg:'Crib the hood edge first.',gain:FACTS.space.push,needCrib:1},{id:'crib2',tool:'crib',zone:'eHoodG',name:'Crib it: '+FACTS.liftCrib.txt,t:20,after:['lift1'],crib:1},
+      {id:'lift2',tool:'ram',zone:'eDash',name:'Lift again',t:40,after:['crib2'],afterMsg:'Crib the first lift first.',gain:FACTS.space.push,needCrib:1},{id:'crib3',tool:'crib',zone:'eHoodG',name:'Crib it: '+FACTS.liftCrib.txt,t:20,after:['lift2'],crib:1},
+      {id:'lift3',tool:'ram',zone:'eDash',name:'Lift again',t:40,after:['crib3'],afterMsg:'Crib the last lift first.',gain:FACTS.space.push,needCrib:1,res:'The dash is up and off his legs. He is clear.'},
+      {id:'board',tool:'hands',zone:'eCab',name:'Out through the back glass on the board, feet first',t:50,after:['lift3'],res:'He is out on the board.'}]}
+    :{t:'The door, and out',zones:['eCab','eDoor','eHoodG'],tools:['cover','glass','hands','shears','bar','spreader','cutter','peel','crib'],steps:[
+      COVER,{id:'glassD',tool:'glass',zone:'eDoor',name:'Punch the door glass at a corner',t:30},
+      {id:'support',tool:'hands',zone:'eCab',name:'Support his weight: the board under him and a rescuer, before anyone touches the belt',t:30,after:['cover']},
+      {id:'peelD',tool:'peel',zone:'eDoor',name:'Peel the trim at the B-post base, now up near the top',t:30},{id:'purchase',tool:'bar',zone:'eDoor',name:'A purchase point at the hinges, now near the ground',t:40},
+      {id:'spread',tool:['spreader','cutter'],zone:'eDoor',name:'Take the door off at the hinges, low, and roll it off the latch',t:100,after:['purchase'],afterMsg:'The tips slip. Make a purchase point first.',gain:12,res:'The door is off and away. A path out.'},
+      {id:'belt',tool:'shears',zone:'eCab',name:'Cut the belt, with him supported',t:10,after:['support','spread'],trap:{pen:PEN.belt,msg:'Cut the belt now and he drops onto his head and neck. Support him first, and the door off so there is a path.'},res:'The belt is cut and he is on the board, supported the whole way.'},
+      {id:'board',tool:'hands',zone:'eCab',name:'Out through the door opening on the board, feet first',t:50,after:['belt'],res:'He is out on the board.'}],
+     traps:{'shears:eCab':{pen:PEN.belt,msg:'Cut the belt now and he drops onto his head and neck. Support him first.'}}},
+    {t:'Medic 1 and the handoff',zones:['eCab'],tools:[],steps:[{id:'medic',kind:'wait',tool:'wait',zone:null,name:'Keep him warm and still until Medic 1 is across the field',secs:25,res:'Medic 1 is at the board.'}]}],
+   cards:Object.assign({
+    look:{after:null,t:'Your first look',q:'A '+(v.truck?'pickup':'sedan')+' on its roof in soybean stubble, well off the road. '+(v.soft?'The ground is soft from a week of rain. ':'')+'The driver is '+(v.truck?'on the headliner under a crushed dash.':'hanging in his belt.')+' What first?',o:[
+      ['Both circles, then a base under the rails and the hood','good','The outer circle matters more in a field: a passenger thrown into the stubble is easy to miss. Then the car gets a base before anyone leans on it.'],
+      ['Unbuckle him right away, before he passes out hanging upside down in the belt','bad','Unbuckled, he drops onto his head and neck. He is supported first, on a board, and the belt is cut last.'],
+      ['Roll it back onto its wheels with the engine\'s winch','bad','A roll moves the patient inside with the car. The car stays where it is and comes off him where he lies.']]},
+    rapid:{t:'He is crashing',q:'The EMS provider: "He is crashing. Pulse way up, not answering." '+(v.truck?'His legs are clear after the first lift.':'The door is off.'),o:[
+      [v.truck?'Board and out now; the rest of the lift waits':'Belt cut with him supported, board, out the door opening now','good','When the patient changes, the plan changes. The path is open; the board is the fastest thing left.'],
+      [v.truck?'Two more lifts, cribbed between, for a clean path, then the board':'Take the rear door off too, for a wider and safer path out for the board','bad','Minutes of tool work for a cleaner path is a trade he cannot make. Out now, on the board.'],
+      ['Carry him out between two rescuers','bad','A carry drops the spine and the airway at the same time. The board, through the opening that is already there.']]},
+    hand:{after:'medic',t:'The handoff',q:'Medic 1 is at the board. What does she need to hear?',o:[
+      ['How he was found, his time upside down, what was cut, his trend','good','Mechanism, time, what you did and which way he was going.'],
+      ['The cribbing, the boards under it, and how the door came off at the hinges','bad','The door is in the stubble. His time upside down and his numbers ride with him.'],
+      ['Nothing yet; brief them at the ambulance','bad','The medic decides the destination now, at the board.']]}},
+    v.soft?{ground:{after:'line',t:'Soft ground',q:'The first crib stack sinks a hand\'s width into the dirt as soon as it takes weight.',o:[
+      ['A wide base: boards or plates under every stack, then crib','good','Soft ground spreads the load over a wide base. A stack straight on dirt sinks under the first heavy tool and the car moves with it.'],
+      ['Stack the cribbing straight on the dirt; it is only soft on top','bad','It is soft a lot deeper than the top. The stack sinks under the first heavy tool and the car shifts on him.'],
+      ['Winch it with the engine from the low side of the field','bad','A winch moves the car with him inside it. Give the cribbing a base and leave the car where it lies.']],on:{bad:S=>{S.flags.soft=1;}}}}:{}),
+   rapid:{after:v.truck?'lift1':'spread',on:false,steps:v.truck?[{id:'board',tool:'hands',zone:'eCab',name:'Out through the back glass on the board, now',t:40,res:'He is out on the board.'}]:[{id:'belt',tool:'shears',zone:'eCab',name:'Cut the belt, with him supported',t:10,after:['support'],trap:{pen:PEN.belt,msg:'Cut the belt now and he drops onto his head and neck. Support him first.'}},{id:'board',tool:'hands',zone:'eCab',name:'Out through the door opening on the board, now',t:40,after:['belt'],res:'He is out on the board.'}],
+     zones:['eCab'],tools:['hands','shears'],t:'Rapid: out now'}})}};
+/* the layout: a Drill Night pins A; tests pin with window.FORCE_V; otherwise random */
+function pickScn(id){const d=pcDrill();if(d)return 'A';const f=(typeof window!=='undefined'&&window.FORCE_V&&window.FORCE_V[id]);if(f&&SCN[id].vs[f])return f;return ['A','B','C'][Math.floor(Math.random()*3)];}
+function scnDef(id,v){const base=SCN[id].vs[v];const b=SCN[id].build(base);const def={id,v,name:SCN[id].name,vname:base.vname,note:SCN[id].note||'',pose:b.pose,pos:Object.assign({},b.pos||{}),medicAt:b.medicAt,pt:Object.assign({},base.pt,b.pt),cards:b.cards,rapid:b.rapid,stab:b.stab||'rocking',hazards:Object.assign({},b.hazards||{}),batt:b.batt===undefined?100:b.batt,drain:b.drain||20,spares:b.spares===undefined?1:b.spares,phases:[],steps:[],traps:{},free:{},wrong:{},chaosEvent:null};
+  b.phases.forEach((p,i)=>{const ph={t:p.t,zones:p.zones.slice(),tools:p.tools.slice()};def.phases.push(ph);Object.assign(def.traps,p.traps||{});Object.assign(def.wrong,p.wrong||{});p.steps.forEach(s=>{def.steps.push(Object.assign({},s,{ph:i}));});});
+  def.heavy=def.steps.some(s=>stepTools(s).some(t=>TOOLS[t]&&TOOLS[t].heavy));def.need=def.steps.some(s=>s.gain)?FACTS.space.need:0;
+  if(TIER===2){def.drain*=2;def.spares=Math.max(0,def.spares-1);if(b.chaosHaz)Object.assign(def.hazards,b.chaosHaz);def.chaosEvent=b.chaosEvent||null;}
+  return def;}
+const recribZone=()=>S.def.pose==='wheels'?'cribC':S.def.pose==='side'?'eRoofG':'eHoodG';
+/* the clock to stamp while the instructor's sheet is open: thawRun shifts every stamp forward by the frozen time */
+const tNow=()=>S&&S.frozenAt!==null?S.frozenAt:NOW();
+function scnStart(id,v){if(!SCN[id])return;v=v&&SCN[id].vs[v]?v:pickScn(id);const def=scnDef(id,v);
+  S={mode:'scenario',def,id,v,steps:def.steps,done:{},peeled:{},tool:null,stab:def.stab,batt:def.batt,spares:def.spares,dead:false,deadAt:null,hyd:false,hydAt:null,swaps:0,shiftAt:null,shifted:0,space:0,score:100,pens:[],log:[],blind:0,t0:NOW(),frozenAt:null,guard:0,scene:0,flags:{},cribbed:false,
+     phN:0,zonesOn:def.phases[0].zones.slice(),tools:def.phases[0].tools.slice(),dec:null,decs:[],asked:{},crash:false,crashAt:null,ff:0,waitAt:null,injects:[],ptPrev:null,medic:false,missed:[]};
+  keepAwake(true);pca('begin','pp','scn-'+id,()=>S?`step-${Object.keys(S.done).length+1}`:'');
+  ['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));
+  $('pp-title').textContent=def.name+' · '+def.vname;$('pp-next').classList.add('hidden');$('pp-tray').classList.remove('hidden');$('pp-bars').classList.remove('hidden');$('pp-q').classList.add('hidden');$('pp-battbox').classList.toggle('hidden',!def.heavy);
+  $('pp-pt').innerHTML=`<div><i>Pulse</i><b id="pt-hr">—</b></div><div><i>BP</i><b id="pt-bp">—</b></div><div><i>Mental</i><span id="pt-m">—</span></div><div class="pt-l" id="pt-l"></div>`;$('pp-pt').classList.add('show');
+  carBuild(def);trayBuild({tools:S.tools,steps:phSteps()});now(TIER===0?'Tool first, then tap where it goes. The next step is named below; the strip at the top is the patient.':'Tool first, then tap where it goes. The strip at the top is the patient.','');
+  carRender();$('runov').classList.remove('hidden');$('runov').scrollTop=0;instSync();pcCool('#pp-tray button, #pp-svg .zone',500);S.guard=NOW()+.45;
+  const start=Object.keys(def.cards).find(k=>def.cards[k].after===null);if(start)decOpen(start);}
+/* the steps of the current phase (a step is doable only in its phase, so the tray and the zones match the work) */
+function phSteps(){return S.steps.filter(s=>s.ph===undefined||s.ph===S.phN);}
+function curPh(){const u=S.steps.find(s=>!S.done[s.id]);return u?(u.ph===undefined?S.phN:u.ph):S.phN;}
+function doable(s){return !S.done[s.id]&&(s.ph===undefined||s.ph===S.phN)&&(!s.after||s.after.every(id=>S.done[id]));}
+/* after every step: a phase change, a card that opens after this step, the Chaos event, the crash on cue, Medic 1 on scene */
+function scnCheck(st){if(!S||S.mode!=='scenario')return;const def=S.def;
+  if(st&&def.chaosEvent&&def.chaosEvent.after===st.id&&!S.flags.chaosFired){S.flags.chaosFired=1;const e=def.chaosEvent;if(e.card==='fuel'){S.flags.fuel=1;decOpen('fuel');}else if(e.shift){shiftCar(e.shift,true);now('<b>The car shifted:</b> '+e.shift+'. Crib it, then check her.','bad');}else if(e.soft){S.flags.soft=1;}}
+  if(st&&def.rapid&&def.rapid.on&&!S.crash&&st.id===def.rapid.after)crash();
+  if(st)for(const k in def.cards){const c=def.cards[k];if(c.after===st.id&&!S.asked[k]&&!S.dec){decOpen(k);break;}}
+  if(st){const mk=ptCalc().marks.find(([k,id])=>id===st.id);if(mk)S.ptLine=def.pt.lines[mk[0]];}
+  if(!S.medic&&S.scene>=def.medicAt){S.medic=true;if(!S.done.board)S.ptLine=def.pt.lines.medic;}
+  const ph=curPh();if(ph!==S.phN&&!S.dec){S.phN=ph;S.zonesOn=def.phases[ph].zones.slice();S.tools=def.phases[ph].tools.slice();if(S.stab==='shifted'){const z=recribZone();if(!S.zonesOn.includes(z))S.zonesOn.push(z);if(!S.tools.includes('crib'))S.tools.push('crib');}
+    trayBuild({tools:S.tools,steps:phSteps()});pcCool('#pp-tray button',500);now(`<b>${esc(def.phases[ph].t)}.</b> `+($('pp-now').textContent||''),'good');S.tool=null;}
+  ptRender();}
+/* the patient: numbers that drift with the scene clock (modeled), a crash on cue or by inject, and the line from inside the car */
+function ptCalc(){const d=S.def,p=d.pt,m=S.scene/60;let hr=p.hr+p.drift[0]*m,sbp=p.sbp-p.drift[1]*m;if(S.crash){hr+=20;sbp-=24;}hr=Math.round(hr);sbp=Math.round(sbp);const dbp=Math.round(sbp*.62);
+  const mi=sbp>=100?0:sbp>=90?1:sbp>=80?2:3;const state=S.crash?'crash':mi>=1?'worse':'ok';
+  const marks=[['board','board'],['free',d.rapid?d.rapid.after:'zzz'],['access',d.id==='tree'?'hinges':d.id==='ditch'?'fold':d.pt&&S.steps.some(s=>s.id==='spread')?'spread':'cutD'],['ems','ems']];
+  const line=S.crash?p.lines.crash:(S.ptLine||p.lines.start);
+  return {hr,sbp,dbp,mental:p.mental[mi],state,line,marks};}
+function ptRender(){if(!S||S.mode!=='scenario')return;const q=ptCalc(),pv=S.ptPrev||{hr:q.hr,sbp:q.sbp,hrA:'',bpA:''};const setT=(id,t)=>{const e=$(id);if(e.textContent!==t)e.textContent=t;};
+  const hrA=q.hr===pv.hr?pv.hrA:q.hr>pv.hr?' ▲':' ▼',bpA=q.sbp===pv.sbp?pv.bpA:q.sbp<pv.sbp?' ▼':' ▲';/* the arrow stays until the number moves again */
+  setT('pt-hr',q.hr+hrA);setT('pt-bp',q.sbp+'/'+q.dbp+bpA);setT('pt-m',q.mental);setT('pt-l',q.line);
+  const e=$('pp-pt');e.classList.toggle('worse',q.state==='worse');e.classList.toggle('crash',q.state==='crash');S.ptPrev={hr:q.hr,sbp:q.sbp,hrA,bpA};}
+function crash(){if(!S||S.crash)return;S.crash=true;S.crashAt=S.scene;pcFx('bad');ptRender();now('<b>'+esc(S.def.pt.lines.crash)+'</b>','bad');if(S.def.cards.rapid&&!S.asked.rapid)decOpen('rapid');}
+/* decision cards: the options shuffled once; answered, the why shows (and the right call when it was wrong), then Next */
+function decOpen(k){const c=k==='fuel'?FUEL_CARD:S.def.cards[k];if(!c)return;S.asked[k]=1;S.dec={k,c,ord:pcShuf(c.o.map((o,i)=>i)),ans:null};S.tool=null;
+  $('dec-box').innerHTML=`<div class="sec">Decision</div><h2 style="margin:0 0 6px">${esc(c.t)}</h2><p style="font-size:15px;line-height:1.4;margin:0 0 10px">${esc(c.q)}</p><div id="dec-opts">${S.dec.ord.map(i=>`<button class="dec-o" data-o="${i}">${esc(c.o[i][0])}</button>`).join('')}</div><div id="dec-fb"></div>`;
+  $('decov').classList.remove('hidden');$('decov').scrollTop=0;pcCool('#dec-box button',500);S.guard=tNow()+.45;carRender();}
+function decAct(ds){if(!S||!S.dec||S.frozenAt!==null)return;const d=S.dec,c=d.c;
+  if(ds.o!==undefined&&d.ans===null){if(NOW()<S.guard)return;S.guard=NOW()+.45;const i=+ds.o,o=c.o[i];if(!o)return;d.ans=i;const kind=o[1],penN=DECK[kind]||0;const good=c.o.find(x=>x[1]==='good');
+    S.scene+=15;S.decs.push({k:d.k,kind});S.log.push({name:'Decision: '+c.t,at:mmss(S.scene),ok:kind==='good',detail:o[0]});
+    if(kind==='good'){pcCue('good');}else{pen(penN,(kind==='never'?'Never: ':kind==='missed'?'Operations work missed: ':'Wrong call: ')+o[0]);if(kind==='missed')S.missed.push(o[0]);}
+    const fb=kind==='good'?`<div class="dec-why good"><b>The right call.</b> ${esc(o[2])}</div>`:`<div class="dec-why bad"><b>${DECL[kind]}</b> ${esc(o[2])}${good&&good!==o?` <br><b>Right call:</b> ${esc(good[0])}. ${esc(good[2])}`:''}</div>`;
+    $('dec-fb').innerHTML=fb+`<button class="go" data-dec="next" style="width:100%">Next</button>`;pcCool('#dec-fb button',450);
+    {const box=$('dec-box');if(box.querySelectorAll)box.querySelectorAll('.dec-o').forEach(b=>{b.classList.toggle('pick',b.dataset.o===String(i));b.classList.toggle('dim',b.dataset.o!==String(i));});}
+    const on=c.on&&c.on[kind];if(on)on(S);
+    if(d.k==='rapid'&&kind==='good')rapidGo();
+    return;}
+  if(ds.dec==='next'&&d.ans!==null){if(NOW()<S.guard)return;S.guard=NOW()+.45;S.dec=null;$('decov').classList.add('hidden');
+    if(S.steps.every(s=>S.done[s.id])){scnFinish();return;}
+    scnCheck(null);carRender();}}
+/* the rapid branch: what is left of the plan is replaced by the fastest path out */
+function rapidGo(){const r=S.def.rapid;if(!r)return;const keep=S.steps.filter(s=>S.done[s.id]);const n=S.def.phases.length;S.def.phases.push({t:r.t,zones:r.zones.slice(),tools:r.tools.slice()});
+  S.steps.length=0;keep.forEach(s=>S.steps.push(s));r.steps.forEach(s=>{if(!S.done[s.id])S.steps.push(Object.assign({},s,{ph:n}));});S.flags.rapid=1;}
+/* the car shifts: a heavy tool on a car that was never stable, a strut foot in the mud, a crib stack in soft ground, or the instructor */
+function shiftCar(why,free){S.stab='shifted';S.shifted++;S.shiftAt=tNow();S.flags.recribPen=0;if(free)S.pens.push('0 · '+why+' (an event, no points; the re-crib is the work)');else pen(PEN.shift,why);pcFx('bad');const z=recribZone();if(!S.zonesOn.includes(z))S.zonesOn.push(z);if(!S.tools.includes('crib')){S.tools.push('crib');trayAdd('crib');}}
+/* waits that are only waits: Medic 1 pulling in, Engine 10's set coming up. Real seconds, frozen with the screen; Fast-forward when nothing else is left. */
+function waitStep(){if(!S||S.mode!=='scenario')return null;return S.steps.find(s=>s.kind==='wait'&&doable(s))||null;}
+function ffWhy(){if(!S||S.mode!=='scenario'||S.frozenAt!==null||S.dec)return 'busy';const w=waitStep(),hy=S.hydAt!==null;if(!w&&!hy)return 'steps';if(S.steps.some(s=>s.kind!=='wait'&&doable(s)&&!(hy&&!S.hyd&&stepTools(s).some(t=>TOOLS[t].heavy))))return 'steps';return '';}
+function waitDone(w,ff){const left=Math.max(0,S.def.medicAt-S.scene);S.scene+=left;S.medic=true;S.ptLine=S.def.pt.lines.medic;S.waitAt=null;if(ff)S.ff++;const nm=w.name;w.name=nm+(ff?' (fast-forwarded)':'');stepDone(w,w.res);w.name=nm;scnCheck(w);carRender();if(S&&S.steps.every(s=>S.done[s.id])&&!S.dec)scnFinish();}
+function hydDone(ff){S.hydAt=null;S.hyd=true;S.scene+=90;if(ff)S.ff++;if(S.dead){deadWait();S.dead=false;}now('Engine 10\'s hydraulic set is up and running: the backup for a dead battery tool.'+(ff?' (fast-forwarded)':''),'good');pcCue('good');carRender();}
+function ffTap(){if(ffWhy())return;if(NOW()<S.guard)return;S.guard=NOW()+.45;const w=waitStep();if(S.hydAt!==null)hydDone(true);else if(w)waitDone(w,true);}
+function ffSync(){const b=$('pp-ff'),why=$('pp-ffwhy');if(!b)return;const show=S&&S.mode==='scenario'&&ffWhy()==='';b.classList.toggle('hidden',!show);why.classList.toggle('hidden',!show);if(show){const t=S.hydAt!==null?'Only waiting is left: Engine 10\'s set is coming up.':'Only waiting is left: Medic 1 is on the way.';if(why.textContent!==t)why.textContent=t;}}
+function scnTick(){if(!S||S.mode!=='scenario'||S.frozenAt!==null)return;const w=S.dec?null:waitStep();
+  if(w&&!S.dec){if(S.waitAt===null){S.waitAt=NOW();if(S.def.medicAt<=S.scene){waitDone(w,false);return;}}else if(NOW()-S.waitAt>=w.secs){waitDone(w,false);return;}}
+  if(S.hydAt!==null&&NOW()-S.hydAt>=WAIT.hyd)hydDone(false);
+  ffSync();}
+function scnFinish(){const def=S.def,real=NOW()-S.t0,score=S.score;keepAwake(false);pca('end',pca('bkt',score));const R=load().runs||[];
+  record('scenario',S.id,score,Object.assign({variant:S.v},S.injects.length?{inst:1}:{}));const found=Object.keys(def.hazards).filter(z=>HAZ[def.hazards[z]].kind!=='info'),peeled=found.filter(z=>S.peeled[z]);const q=ptCalc();
+  const metrics=[['Time',mmss(real)],['Scene time',mmss(S.scene)+(S.ff?' · fast-forwarded '+S.ff:'')],['Decisions',`${S.decs.filter(x=>x.kind==='good').length} of ${S.decs.length} right`],['Patient at the handoff',(q.state==='crash'?'Crashing':q.state==='worse'?'Getting worse':'Holding')+` · pulse ${q.hr}, BP ${q.sbp}/${q.dbp} · modeled`],['Stability',S.shifted?`Shifted ${S.shifted===1?'once':S.shifted+' times'}`:'Never moved'],['Hazards found by peeling',found.length?`${peeled.length} of ${found.length}`:'none hidden here'],['Cuts made blind',String(S.blind)]];
+  if(def.heavy)metrics.push(['Battery',S.hyd?'Engine 10\'s set':S.swaps?`${S.swaps} spare${S.swaps>1?'s':''} swapped in`:'never ran down']);
+  if(def.need)metrics.push(['Space gained',`${S.space} of ${def.need} in · modeled`]);
+  if(S.crash)metrics.push(['She crashed at',mmss(S.crashAt)+(S.flags.rapid?' · rapid extrication':' · the plan did not change')]);
+  const miss=S.missed.length?`<div class="sec">Operations work left for someone else</div><ul style="font-size:15px;line-height:1.4">${S.missed.map(m=>'<li>'+esc(m)+'</li>').join('')}</ul>`:'';
+  const link=S.id==='tree'?`<p class="stat">Now be the MFR inside: <a href="../patient-contact/?call=mva&v=${S.v}" style="color:var(--acc)">Patient Contact\'s car versus tree, the same patient, layout ${S.v} ▸</a></p>`:'';
+  const inj=S.injects.length?`<p class="stat">Instructor injects: ${S.injects.map(esc).join(', ')}.</p>`:'';
+  const html=pcDebriefBody({score,compare:pcBestPrev(R.filter(r=>r.kind==='scenario'&&r.id===S.id)),kicker:score===100?'Clean run.':score>=80?'Solid. Look at what cost points.':'Run it again with the list below in mind.',metrics,feedback:S.pens,steps:S.log,extra:miss+link+inj+(def.note?`<p class="stat">${def.note.replace(/\{sop\}/g,pcTag('sop'))}</p>`:''),clean:S.pens.length===0});
+  const id=S.id;S=null;$('runov').classList.add('hidden');$('decov').classList.add('hidden');$('pp-pt').classList.remove('show');instSync();showDone(def.name+' · '+def.vname,score,html,()=>scnStart(id),nextOf('scenario',id));}
+$('dec-box').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-o],[data-dec]');if(b&&!pcIsCool(b))decAct(b.dataset);};
+$('pp-ff').onclick=()=>ffTap();
+$('scenarios').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-scenario]');if(b&&!b.disabled)scnStart(b.dataset.scenario);};
+/* ---- instructor mode: a floating button during a scenario; opening freezes the clock; injects; Freeze and discuss ---- */
+let INSTHOLD=false;
+const INJECTS=[
+ {id:'crash',label:'The patient crashes',ok:()=>!!S&&S.mode==='scenario'&&!S.crash&&!S.dec&&!!S.def.rapid&&!!S.done[S.def.rapid.after]&&S.steps.some(s=>!S.done[s.id]&&s.id!=='medic'),run:()=>crash()},
+ {id:'batt',label:'A tool battery dies mid-job',ok:()=>!!S&&S.mode==='scenario'&&S.def.heavy&&!S.dead&&!S.hyd&&S.batt>0,run:()=>{S.batt=0;}},
+ {id:'fuel',label:'A fuel leak',ok:()=>!!S&&S.mode==='scenario'&&!S.flags.fuel&&!S.dec,run:()=>{S.flags.fuel=1;decOpen('fuel');}},
+ {id:'shift',label:'The car shifts',ok:()=>!!S&&S.mode==='scenario'&&S.stab==='stable',run:()=>{const why=S.def.pose==='wheels'?'The cribbing moved when the car settled':'A strut foot slipped';shiftCar(why,true);now('<b>The car shifted:</b> '+why.toLowerCase()+'. Crib it, then check the patient.','bad');}}];
+function inject(id){const x=INJECTS.find(y=>y.id===id);if(!x||!x.ok())return false;x.run();S.injects.push(x.label);carRender();return true;}
+function instOpen(){if(!S||S.mode!=='scenario')return;freezeRun();instRender();$('instov').classList.remove('hidden');instSync();}
+function instRender(){const st=S.steps.find(s=>doable(s));$('inst-state').textContent=`${S.def.name} · ${S.def.vname} · scene ${mmss(S.scene)} · ${S.stab}${S.dec?' · a decision card is open':st?' · next: '+st.name.replace(/\s*\{sop\}/,''):''}`;
+  $('inst-list').innerHTML=INJECTS.map(x=>`<button class="inj" data-inj="${x.id}"${x.ok()?'':' disabled'}>${esc(x.label)}${S.injects.includes(x.label)?' ✓':''}</button>`).join('');$('inst-hold').textContent=INSTHOLD?'Frozen — tap to resume':'Freeze and discuss';}
+function instClose(){$('instov').classList.add('hidden');if(!INSTHOLD)thawRun();instSync();}
+$('inst-list').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-inj]');if(b&&!b.disabled){inject(b.dataset.inj);instRender();}};
+$('inst-hold').onclick=()=>{INSTHOLD=!INSTHOLD;$('instov').classList.add('hidden');if(!INSTHOLD)thawRun();instSync();};/* Freeze and discuss: the sheet closes, the clock stays frozen, the floating button reads Frozen — tap to resume */
+$('inst-close').onclick=()=>instClose();$('inst-fab').onclick=()=>{if(INSTHOLD){INSTHOLD=false;thawRun();instSync();return;}instOpen();};
 /* ---- Where to cut: a drill on the diagram. Twelve prompts, eight a run, the first tap counts. ---- */
 const CUT_SET=['hood','apost','bpost','cpost','rail','hinge','latch','cab','abase','bbase','rocker'];
 const CUTQ=[
@@ -595,9 +844,9 @@ const CUTQ=[
  ['Before the first cut, hard protection goes where?','cab','Over the patient and the EMS provider inside: a shield, then a blanket.'],
  ['Peel and peek: the curtain airbag\'s inflator most often hides in which post?','cpost','The C-post, or the roof rail near it. Peel it before the cut.'],
  ['Third door: the B-post comes out. After the top cut, the bottom cut goes where, once the trim is peeled and the pretensioner found?','bbase','At the base of the B-post, with the pretensioner located and the cut placed away from it.']];
-function cutStart(){S={mode:'cut',qs:pcShuf(CUTQ.map((q,i)=>i)).slice(0,8),i:0,right:0,answered:false,mark:null,markOK:false,miss:[],zones:CUT_SET,t0:NOW(),frozenAt:null,guard:0,def:{pose:'wheels',pos:{},zones:CUT_SET,hazards:{}}};
+function cutStart(){S={mode:'cut',qs:pcShuf(CUTQ.map((q,i)=>i)).slice(0,8),i:0,right:0,answered:false,mark:null,markOK:false,miss:[],zones:CUT_SET,zonesOn:CUT_SET,t0:NOW(),frozenAt:null,guard:0,dec:null,def:{pose:'wheels',pos:{},zones:CUT_SET,hazards:{}}};
   keepAwake(true);pca('begin','pp','drill-cut',()=>S?`question-${S.i+1}`:'');['infoov','lessonov','quizov','doneov','drillpick'].forEach(i=>$(i).classList.add('hidden'));
-  $('pp-title').textContent='Where to cut';$('pp-tray').classList.add('hidden');$('pp-tray').innerHTML='';$('pp-bars').classList.add('hidden');$('pp-q').classList.remove('hidden');
+  $('pp-title').textContent='Where to cut';$('pp-pt').classList.remove('show');$('pp-tray').classList.add('hidden');$('pp-tray').innerHTML='';$('pp-bars').classList.add('hidden');$('pp-q').classList.remove('hidden');
   carBuild(S.def);cutShow();$('runov').classList.remove('hidden');$('runov').scrollTop=0;pcCool('#pp-svg .zone',500);S.guard=NOW()+.45;}
 function cutShow(){const q=CUTQ[S.qs[S.i]];S.answered=false;S.mark=null;S.markWrong=null;$('pp-q').innerHTML=`<b>${S.i+1} of ${S.qs.length}.</b> ${esc(q[0])}`;$('pp-step').innerHTML='';now('Tap the zone on the car.','');$('pp-next').classList.add('hidden');carRender();}
 function cutTap(z){if(S.answered||NOW()<S.guard)return;S.guard=NOW()+.45;const q=CUTQ[S.qs[S.i]];S.answered=true;const ok=z===q[1];S.mark=q[1];S.markOK=true;S.markWrong=ok?null:z;
@@ -616,7 +865,7 @@ $('stations').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-stat
 let LS=null,QZ=null,AGAIN=null,DONEGUARD=0;
 function showDone(t,score,html,again,next){keepAwake(false);pcFx('done');DONEGUARD=NOW()+.7;$('done-t').textContent=t;pcBand($('done-s'),score);countUp($('done-s'),score,600);$('done-b').innerHTML=html;AGAIN=again;NEXT=next||null;$('done-next').classList.toggle('hidden',!NEXT);$('done-row').classList.toggle('two',!NEXT);$('done-menu').classList.toggle('go',!NEXT);$('doneov').classList.remove('hidden');pcCool('#done-row button',700);}
 /* One voice: Next on every result is the next built activity in the home list's order (ACTS). */
-let NEXT=null;function opener(k,x){return k==='lesson'?()=>lessonStart():k==='drill'?()=>openDrill(x):k==='station'?()=>stationStart(x):k==='exam'?()=>examStart():null;}
+let NEXT=null;function opener(k,x){return k==='lesson'?()=>lessonStart():k==='drill'?()=>openDrill(x):k==='station'?()=>stationStart(x):k==='scenario'?()=>scnStart(x):k==='exam'?()=>examStart():null;}
 function nextOf(kind,id){const i=ACTS.findIndex(([k,x])=>k===kind&&x===id);for(let j=i+1;j<ACTS.length;j++){const [k,x]=ACTS[j];if(built(k,x))return opener(k,x);}return null;}
 $('done-next').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(NEXT)NEXT();};
 $('done-again').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');if(AGAIN)AGAIN();};$('done-menu').onclick=()=>{if(NOW()<DONEGUARD)return;$('doneov').classList.add('hidden');showHome();};
@@ -636,16 +885,16 @@ $('qz-body').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-q]');
 $('drills').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-drill]');if(b&&!b.disabled){$('drillpick').classList.add('hidden');openDrill(b.dataset.drill);}};
 $('tests').onclick=e=>{const b=e.target.closest&&e.target.closest('[data-exam]');if(b&&!b.disabled)examStart();};
 $('h-drills').onclick=()=>{$('drillpick').classList.remove('hidden');$('drillpick').scrollTop=0;};$('dp-close').onclick=()=>$('drillpick').classList.add('hidden');
-/* =================== instructor switch (the floating button and the injects arrive with the scenarios) =================== */
+/* =================== instructor switch (the floating button and the injects live with the scenarios above) =================== */
 let INST=false;
 const instOn=()=>INST||!!pcDrill();
-function instSync(){const b=$('b-inst');if(b){b.textContent='Instructor mode: '+(INST?'on':pcDrill()?'on (Drill Night)':'off');b.classList.toggle('on',instOn());}}
+function instSync(){const b=$('b-inst');if(b){b.textContent='Instructor mode: '+(INST?'on':pcDrill()?'on (Drill Night)':'off');b.classList.toggle('on',instOn());}const f=$('inst-fab');if(f){f.classList.toggle('hidden',!(instOn()&&S&&S.mode==='scenario'));f.textContent=INSTHOLD?'Frozen — tap to resume':'Instructor';}}
 $('b-inst').onclick=()=>{INST=!INST;const p=load();p.inst=INST;save(p);instSync();};
 /* =================== boot =================== */
 if('serviceWorker' in navigator&&location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 applySettings();settingsBind();INST=!!load().inst;pcDrillBind();showHome();instSync();
-/* deep links for the hub's daily drill and Continue: ?drill=<id>, ?station=<id>[&v=A|B|C], ?exam=1, ?lesson=1 (unknown ids, and ids not built yet, are ignored) */
-{const P=new URLSearchParams((typeof location!=='undefined'&&location.search)||'');const q=P.get('drill'),st=P.get('station');if(q&&built('drill',q))openDrill(q);else if(st&&STN[st])stationStart(st,P.get('v')||undefined);else if(P.get('exam'))examStart();else if(P.get('lesson'))lessonStart();}
+/* deep links for the hub's daily drill and Continue: ?drill=<id>, ?station=<id>[&v=A|B|C], ?scn=<id>[&v=A|B|C] (Patient Contact links the tree), ?exam=1, ?lesson=1 (unknown ids, and ids not built yet, are ignored) */
+{const P=new URLSearchParams((typeof location!=='undefined'&&location.search)||'');const q=P.get('drill'),st=P.get('station'),sc=P.get('scn');if(q&&built('drill',q))openDrill(q);else if(st&&STN[st])stationStart(st,P.get('v')||undefined);else if(sc&&SCN[sc])scnStart(sc,P.get('v')||undefined);else if(P.get('exam'))examStart();else if(P.get('lesson'))lessonStart();}
 </script>
 </body>
 </html>
