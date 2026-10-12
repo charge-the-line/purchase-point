@@ -2,6 +2,13 @@
 
 Vehicle extrication at the Operations level, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
 
+## 0.4.0 — October 12, 2026 — E4, the last four scenarios: all 19 activities live
+- Pickup under a semi trailer: the semi locked down, the trailer cribbed, a tunnel through the back glass, lifting airbags under the trailer edge an inch at a time with cribbing following, or, under a loaded trailer, the heavy wrecker as a wait you can fast-forward while you crib each inch it lifts. The heavy-rescue call is always on the tray, free; lifting or moving the trailer with what is on the engine is past the Operations level (30); a hand under the load is a never.
+- EV on I-75: treat it as on, the maker's rescue guide, the power order with the fob well away, a dash lift with both cuts above the sill and nothing in the rockers or the floor (the orange cable is under the trim), inflators in the posts; the white-smoke layout turns it into a rapid extrication with water on the pack; a layout with no rescue guide on the rig (Guide 147 and the general order); links to Upwind's lithium-ion battery fire and Charge the Line's EV fire.
+- Car into a utility pole: wires first (the zone, the driver talked to from outside it, nothing touches the car), the utility as a wait you can fast-forward, then the crash work and pedal displacement; arcing on the ground; fire with the line live: the feet-together jump, let it burn until the line is dead; the recloser on Chaos.
+- Two-car crash, two patients: triage, the second patient who collapses (a card, an inject, Chaos), the third-door conversion on a two-door, side removal on a four-door, two handoffs in order.
+- The patient strip, the decision cards, the rapid branch, the instructor's injects (plus "A second patient") and Fast-forward on pure waits, on every one; the debrief says he or she.
+
 ## 0.3.0 — October 12, 2026 — E3, the first three scenarios
 - Three scenarios on the workbench, three layouts each, Guided, Recall and Chaos: Car versus tree on a county road (Patient Contact's driver, the same patient seen from the crew's side, with a link each way), Side-resting in a ditch off US-10, Roof-resting in a farm field.
 - A patient strip at the top of the run: pulse, blood pressure and mental state that drift with the scene clock, and the line from inside the car; a crash on cue or by inject opens the rapid-extrication card.
