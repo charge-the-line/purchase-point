@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Real-browser check. Needs: pip install playwright (Chromium is pre-installed in the cloud container).
-Opens the home screen, the lesson, every drill, exam practice, the five skill stations, the Where to cut drill and the seven scenarios on the car
-diagram (played to the end with real taps: the tool by its visible name, the zone by its hit rect, a spare battery when the tool
-dies, a decision card by its visible text, Fast-forward only when it shows, the instructor sheet with a frozen clock and an inject), Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text,
-Daylight, the deep links and landscape at phone sizes, with slow real taps on buttons found by their visible text. Fails on any JavaScript error, anything off the right edge, a button under
-44 px tall or wide, or text under the floor (15 px for a sentence, 13 px for a caption).
+Opens the home screen, the lesson (with a teaching-card chip), every drill, exam practice, the five skill stations, the Where to cut drill and the
+seven scenarios on the call sheet (played to the end with real taps: the command by its visible text, the evolution opened first if it is folded,
+a Guided teaching card taken with Got it, a tool question answered by the right tool's text, a spare battery when the tool dies, a decision card by
+its visible text, Fast-forward only when it shows, the part panel from a zone on the car, the instructor sheet with a frozen clock and an inject),
+Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text, Daylight, the deep links and
+landscape at phone sizes, with slow real taps on buttons found by their visible text. Fails on any JavaScript error, anything off the right edge,
+a button under 44 px tall or wide, or text under the floor (15 px for a sentence, 13 px for a caption).
 With PC_ALL=1 every built activity is also played to the end with real taps at 390 px, proved by the saved record.
 Usage: python3 tests/browser_check.py      PC_ALL=1 python3 tests/browser_check.py"""
 import os, pathlib, re, sys
@@ -42,46 +44,60 @@ DRILLS = ('tool', 'hazard', 'first', 'build')
 STATIONS = ('stab', 'glass', 'door', 'roof', 'dash')
 SCENARIOS = ('tree', 'ditch', 'field', 'under', 'ev', 'pole', 'two')
 HITMIN = "(()=>{let m=1e9;document.querySelectorAll('#pp-svg g.zone').forEach(g=>{if(g.getAttribute('display')==='none')return;const r=g.querySelector('.hit').getBoundingClientRect();m=Math.min(m,r.width,r.height);});return Math.floor(m);})()"
-NEXTSTEP = "(()=>{if(typeof S==='undefined'||!S||S.mode==='cut')return null;if(S.dec)return {card:S.dec.c.o.find(o=>o[1]==='good')[0]};if(S.hydAt!==null&&S.hydAt!==undefined&&!S.hyd)return ffWhy()===''?{ff:1}:{wait:1};if(S.dead&&!S.hyd)return {tool:S.spares>0?'spare':'hyd',zone:null};if(S.stab==='shifted'&&S.mode==='scenario')return {tool:'crib',zone:recribZone()};const s=S.steps.find(x=>!S.done[x.id]&&(x.ph===undefined||x.ph===S.phN)&&(!x.after||x.after.every(i=>S.done[i])));if(s&&s.kind==='wait')return ffWhy()===''?{ff:1}:{wait:1};return s?{tool:Array.isArray(s.tool)?s.tool[0]:s.tool,zone:s.zone||null}:null;})()"
-def tool_tap(pg, tool):   # the tray button, found by the tool's visible name
-    name = pg.evaluate(f"TOOLS['{tool}'].n")
-    tap(pg, f'#pp-tray button:has(span:text-is("{name}"))')
-def station_full(pg, sid, v, w):   # a station to the end with real taps; returns the rows it measured
-    out = []
-    pg.goto(URL); pg.wait_for_timeout(200); pg.evaluate("window.FORCE_V={%s:'%s'}" % (sid, v)); tap(pg, f'[data-station="{sid}"]'); pg.wait_for_timeout(650)
-    out.append((w, f'station {sid} {v}', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.v") == v else 99)))
-    for _ in range(40):
+# what the page wants next: a teaching card to take, a tool question to answer, a decision card, a wait, or a command (by id and visible text, with its evolution)
+NEXTSTEP = """(()=>{if(typeof S==='undefined'||!S||S.mode==='cut')return null;
+ const tv=document.getElementById('teachov');if(tv&&!tv.classList.contains('hidden'))return {teach:1};
+ if(S.ask){const g=S.ask.o.find(o=>o.k==='good');return S.ask.ans===undefined?{ask:g.t}:{askok:1};}
+ if(S.dec)return {card:S.dec.c.o.find(o=>o[1]==='good')[0]};
+ if(S.hydAt!==null&&S.hydAt!==undefined&&!S.hyd)return ffWhy()===''?{ff:1}:{wait:1};
+ const row=id=>{const c=cmdById(id);return {cmd:c.id,t:c.t,evo:(S.evos||[]).findIndex(e=>e.cmds.some(x=>x.id===c.id))};};
+ if(S.dead&&!S.hyd)return row(S.spares>0?'t:spare':'t:hyd');
+ if(S.stab==='shifted'&&S.mode==='scenario')return row('t:recrib');
+ const s=S.steps.find(x=>!S.done[x.id]&&(x.ph===undefined||x.ph===S.phN)&&(!x.after||x.after.every(i=>S.done[i])));
+ if(s&&s.kind==='wait')return ffWhy()===''?{ff:1}:{wait:1};
+ return s?row(s.id):null;})()"""
+def cmd_tap(pg, st):   # the command on the call sheet, by its visible text; its evolution is opened first if it is folded
+    row = f'#pp-sheet .cmd[data-cmd="{st["cmd"]}"]'
+    if not pg.locator(row + ' button.cmd-b').first.is_visible():
+        tap(pg, f'#pp-sheet .evo[data-evo="{st["evo"]}"] .evo-h'); pg.wait_for_timeout(200)
+    tap(pg, row + ' button.cmd-b:has(span:text-is("%s"))' % st['t'].replace('"', '\\"'))
+def drive(pg, st, seen):   # one tap toward the next thing the page wants; returns the row name of a screen worth measuring once
+    if 'teach' in st: pg.wait_for_timeout(300); tap_text(pg, '#teach-ok', 'Got it'); pg.wait_for_timeout(400); return 'teaching card (Guided, first use)'
+    if 'ask' in st: pg.wait_for_timeout(300); tap_text(pg, '#ask-box button', st['ask']); pg.wait_for_timeout(400); return 'tool question'
+    if 'askok' in st: tap_text(pg, '#ask-box button', 'OK'); pg.wait_for_timeout(400); return None
+    if 'card' in st: pg.wait_for_timeout(300); tap_text(pg, '#dec-box button', st['card']); pg.wait_for_timeout(500); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(520); return 'decision card'
+    if 'ff' in st: tap_text(pg, '#pp-ff', 'Fast-forward ▸▸'); pg.wait_for_timeout(520); return None
+    if 'wait' in st: pg.wait_for_timeout(500); return None
+    cmd_tap(pg, st); pg.wait_for_timeout(520); return None
+def play(pg, w, name, out, n=160):   # the run to the end; the first teaching card, tool question and decision card measured once per width
+    for _ in range(n):
         st = pg.evaluate(NEXTSTEP)
         if not st: break
-        tool_tap(pg, st['tool']); pg.wait_for_timeout(120)
-        if st['zone']: tap(pg, f'#pp-svg g.zone[data-z="{st["zone"]}"]')
-        pg.wait_for_timeout(520)
+        key = 'teach' if 'teach' in st else 'ask' if 'ask' in st else 'card' if 'card' in st else None
+        if key and (w, key) not in SEEN:
+            SEEN.add((w, key)); out.append((w, f'{name} ({ {"teach": "teaching card", "ask": "tool question", "card": "decision card"}[key] })', measure(pg)))
+        drive(pg, st, SEEN)
     pg.wait_for_timeout(400)
+SEEN = set()
+def station_full(pg, sid, v, w, tier=0):   # a station to the end with real taps on the sheet; returns the rows it measured
+    out = []
+    pg.goto(URL); pg.wait_for_timeout(200); tap(pg, f'[data-tier="{tier}"]'); pg.evaluate("window.FORCE_V={%s:'%s'}" % (sid, v)); tap(pg, f'[data-station="{sid}"]'); pg.wait_for_timeout(650)
+    out.append((w, f'station {sid} {v}', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.v") == v and pg.is_visible('#pp-sheet .evo.open') else 99)))
+    play(pg, w, f'station {sid} {v}', out)
     out.append((w, f'station {sid} {v} result', measure(pg) + (0 if pg.evaluate("S===null") and saved(pg, f"(p.runs||[]).some(r=>r.kind==='station'&&r.id==='{sid}'&&r.variant==='{v}'&&r.score===100)") else 99)))
     return out
-def scenario_full(pg, sid, v, w, tier=0):   # a scenario to the end with real taps: the cards answered by their visible text, Fast-forward tapped only when it shows
+def scenario_full(pg, sid, v, w, tier=0):   # a scenario to the end with real taps: the cards and the questions answered by their visible text, Fast-forward tapped only when it shows
     out = []
     pg.goto(URL); pg.wait_for_timeout(200); tap(pg, f'[data-tier="{tier}"]'); pg.evaluate("window.FORCE_V={%s:'%s'}" % (sid, v)); tap(pg, f'[data-scenario="{sid}"]'); pg.wait_for_timeout(650)
     out.append((w, f'scenario {sid} {v}{" chaos" if tier == 2 else ""} (first card)', measure(pg) + (0 if pg.is_visible('#decov') and pg.evaluate("S&&S.v") == v else 99)))
-    first = True
-    for _ in range(70):
-        st = pg.evaluate(NEXTSTEP)
-        if not st: break
-        if 'card' in st:
-            tap_text(pg, '#dec-box button', st['card']); pg.wait_for_timeout(500); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(520)
-            if first: out.append((w, f'scenario {sid} {v} (run screen)', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.is_visible('#pp-pt') else 99))); first = False
-            continue
-        if 'ff' in st: tap_text(pg, '#pp-ff', 'Fast-forward ▸▸'); pg.wait_for_timeout(520); continue
-        if 'wait' in st: pg.wait_for_timeout(500); continue
-        tool_tap(pg, st['tool']); pg.wait_for_timeout(120)
-        if st['zone']: tap(pg, f'#pp-svg g.zone[data-z="{st["zone"]}"]')
-        pg.wait_for_timeout(520)
-    pg.wait_for_timeout(400)
+    st = pg.evaluate(NEXTSTEP); drive(pg, st, SEEN)
+    out.append((w, f'scenario {sid} {v} (run screen)', measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.is_visible('#pp-pt') and pg.is_visible('#pp-sheet .evo.open') else 99)))
+    play(pg, w, f'scenario {sid} {v}', out)
     out.append((w, f'scenario {sid} {v} result', measure(pg) + (0 if pg.evaluate("S===null") and saved(pg, f"(p.runs||[]).some(r=>r.kind==='scenario'&&r.id==='{sid}'&&r.variant==='{v}'&&r.score===100)") else 99)))
     return out
 def cut_full(pg, w):   # the Where to cut drill: the right zone tapped each time, then Next / Results
     pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, '[data-drill="cut"]'); pg.wait_for_timeout(650)
-    first = measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.mode==='cut'") else 99)
+    first = measure(pg) + (0 if pg.evaluate(HITMIN) >= 44 and pg.evaluate("S&&S.mode==='cut'") and not pg.is_visible('#pp-sheet .evo') else 99)
     for _ in range(10):
         if not pg.evaluate("!!(S&&S.mode==='cut')"): break
         tap(pg, '#pp-svg g.zone[data-z="%s"]' % pg.evaluate("CUTQ[S.qs[S.i]][1]")); pg.wait_for_timeout(520)
@@ -97,7 +113,9 @@ with sync_playwright() as p:
         tap(pg, '#h-learn'); pg.wait_for_timeout(200); rows.append((w, 'lesson', measure(pg)))
         tap_text(pg, '[data-l="ans"]', pg.evaluate("LESSON[LS.i].o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(120)
         tap(pg, '#l-next'); pg.wait_for_timeout(150); rows.append((w, 'lesson slide 2', measure(pg) + (0 if pg.evaluate('LS.i') == 1 else 99)))
-        pg.evaluate("LS.i=2;pcLessonRender(LS)"); pg.wait_for_timeout(100); rows.append((w, 'lesson slide 3 (SOP chip)', measure(pg) + (0 if pg.locator('#lesson-box .pc-tag').count() >= 1 else 99))); tap(pg, '[data-l="quit"]')
+        pg.evaluate("LS.i=2;pcLessonRender(LS)"); pg.wait_for_timeout(100); rows.append((w, 'lesson slide 3 (SOP chip)', measure(pg) + (0 if pg.locator('#lesson-box .pc-tag').count() >= 1 else 99)))
+        pg.evaluate("LS.i=4;pcLessonRender(LS)"); pg.wait_for_timeout(100); tap_text(pg, '#lesson-box .tc-chip', 'Peel the trim.'); pg.wait_for_timeout(600)
+        rows.append((w, 'lesson card chip opens the teaching card', measure(pg) + (0 if pg.is_visible('#teachov') and 'Peel the trim.' in pg.text_content('#teach-box') and pg.locator('#teach-box .tc-row').count() == 5 else 99))); tap_text(pg, '#teach-ok', 'Close'); pg.wait_for_timeout(200); tap(pg, '[data-l="quit"]')
         tap(pg, '#h-drills'); pg.wait_for_timeout(150); rows.append((w, 'drill picker', measure(pg) + (0 if pg.is_enabled('[data-drill="cut"]') else 99))); tap(pg, '#dp-close')
         for did in DRILLS:
             pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, f'[data-drill="{did}"]'); pg.wait_for_timeout(150)
@@ -105,14 +123,22 @@ with sync_playwright() as p:
             rows.append((w, 'drill ' + did, measure(pg) + (0 if pg.evaluate('QZ.right') == 1 else 99)))
         pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '[data-exam="exam"]'); pg.wait_for_timeout(150); rows.append((w, 'exam', measure(pg) + (0 if pg.evaluate("QZ.kind==='exam'&&QZ.qs.length===15") else 99)))
-        for sid, v in ((('stab', 'B'), ('glass', 'B'), ('door', 'C')) if w == 320 else (('stab', 'A'), ('stab', 'C'), ('glass', 'A'), ('door', 'A'), ('roof', 'C'), ('dash', 'A'))):   # every station, both views, the dead battery, boron steel
+        for sid, v in ((('stab', 'B'), ('glass', 'B'), ('door', 'C')) if w == 320 else (('stab', 'A'), ('stab', 'C'), ('glass', 'A'), ('door', 'A'), ('roof', 'C'), ('dash', 'A'))):   # every station, both views, the dead battery, boron steel; Guided, so the teaching cards come up
             rows.extend(station_full(pg, sid, v, w))
         if w == 390: rows.extend(cut_full(pg, w))
         for sid, v in ((('tree', 'C'), ('field', 'B'), ('under', 'B'), ('pole', 'C')) if w == 320 else (('tree', 'A'), ('ditch', 'A'), ('field', 'C'), ('under', 'A'), ('ev', 'B'), ('pole', 'A'), ('two', 'A'))):   # the crash and the rapid roof flap, soft ground, the shared patient, the ditch's wait and Fast-forward, the pickup's dash lift; E4: the wrecker wait, the fire and the jump, the lifting airbags, the white smoke's rapid branch, the utility wait and the pedal, the third door
             rows.extend(scenario_full(pg, sid, v, w))
         pg.evaluate("localStorage.removeItem('purchase-point')")
-        if w == 390:   # the instructor's sheet on a scenario: the floating button, the frozen clock, a crash inject answered on the card, Freeze and discuss
-            pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '#b-inst'); pg.evaluate("window.FORCE_V={tree:'A'}"); tap(pg, '[data-scenario="tree"]'); pg.wait_for_timeout(650)
+        # the part panel: a zone tapped on the car lists the commands for that part, and a command tapped there lands (Recall, so no card interrupts)
+        pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="1"]'); pg.evaluate("window.FORCE_V={stab:'A'}"); tap(pg, '[data-station="stab"]'); pg.wait_for_timeout(650)
+        tap(pg, '#pp-svg g.zone[data-z="wheel"]'); pg.wait_for_timeout(300)
+        rows.append((w, 'part panel from the car (the wheels)', measure(pg) + (0 if pg.is_visible('#pp-part') and 'Chock the wheels.' in pg.text_content('#pp-part') else 99)))
+        tap(pg, '#pp-part button.cmd-b:has(span:text-is("Chock the wheels."))'); pg.wait_for_timeout(520)
+        rows.append((w, 'a command from the part panel lands', 0 if pg.evaluate("S&&S.done.chock===true&&S.score===100") else 99))
+        tap_text(pg, '#pp-chips button', 'Wheels'); pg.wait_for_timeout(200); rows.append((w, 'the chip closes the panel', 0 if not pg.is_visible('#pp-part') else 99))
+        tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200)
+        if w == 390:   # the instructor's sheet on a scenario: the floating button, the frozen clock, a fuel inject answered on the card, Freeze and discuss
+            pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="1"]'); tap(pg, '#b-inst'); pg.evaluate("window.FORCE_V={tree:'A'}"); tap(pg, '[data-scenario="tree"]'); pg.wait_for_timeout(650)
             tap_text(pg, '#dec-box button', pg.evaluate("S.dec.c.o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(500); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(520)
             rows.append((w, 'instructor button on a scenario', measure(pg) + (0 if pg.is_visible('#inst-fab') else 99)))
             tap_text(pg, '#inst-fab', 'Instructor'); pg.wait_for_timeout(300); c0 = pg.text_content('#pp-clock'); pg.wait_for_timeout(1500)
@@ -123,24 +149,30 @@ with sync_playwright() as p:
             tap_text(pg, '#dec-box button', pg.evaluate("S.dec.c.o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(500); rows.append((w, 'fuel card answered', measure(pg) + (0 if pg.evaluate("S.dec.ans!==null&&S.score===100") else 99))); tap_text(pg, '#dec-box button', 'Next'); pg.wait_for_timeout(400)
             tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); tap(pg, '#b-inst'); pg.evaluate("localStorage.removeItem('purchase-point')")
             pg.goto(URL + '?scn=ditch&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?scn=ditch&v=B', measure(pg) + (0 if pg.is_visible('#decov') and pg.evaluate("S&&S.id==='ditch'&&S.v==='B'") else 99)))
-            pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="2"]'); rows.extend(scenario_full(pg, 'tree', 'B', w, 2)); pg.evaluate("localStorage.removeItem('purchase-point')")
+            pg.goto(URL); pg.wait_for_timeout(200); rows.extend(scenario_full(pg, 'tree', 'B', w, 2)); pg.evaluate("localStorage.removeItem('purchase-point')")
+            rows.extend(station_full(pg, 'door', 'B', w, 1))   # Recall: the hinge-side door with the spreader question answered by its text, no card interrupting
         pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.goto(URL + '?station=roof&v=B'); pg.wait_for_timeout(400); rows.append((w, 'link ?station=roof&v=B', measure(pg) + (0 if pg.is_visible('#runov') and pg.evaluate("S&&S.id==='roof'&&S.v==='B'") else 99)))
         tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200); rows.append((w, 'stop and go back', 0 if pg.is_visible('#home') and not pg.is_visible('#runov') else 99))
+        # Chaos door: a spreader on a rocking car shifts it, Crib it again makes it stable, and the debrief's Learn-from-it chip opens the mistake's card
         pg.goto(URL); pg.wait_for_timeout(200); tap(pg, '[data-tier="2"]'); pg.evaluate("window.FORCE_V={door:'A'}"); tap(pg, '[data-station="door"]'); pg.wait_for_timeout(650)
-        tool_tap(pg, 'cover'); pg.wait_for_timeout(520); tool_tap(pg, 'line'); pg.wait_for_timeout(520)
-        tool_tap(pg, 'bar'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
-        tool_tap(pg, 'spreader'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="latch"]'); pg.wait_for_timeout(520)
-        rows.append((w, 'chaos door: a spreader on a rocking car shifts it', measure(pg) + (0 if pg.evaluate("S&&S.stab==='shifted'&&S.score===90") and 'Shifted' in pg.text_content('#pp-stab') else 99)))
-        tool_tap(pg, 'crib'); pg.wait_for_timeout(120); tap(pg, '#pp-svg g.zone[data-z="cribC"]'); pg.wait_for_timeout(520); rows.append((w, 'chaos door: cribbing makes it stable', 0 if pg.evaluate("S&&S.stab==='stable'") else 99))
-        tap_text(pg, '#pp-quit', 'Stop and go back'); pg.wait_for_timeout(200)
+        for cid in ('cover', 'line', 'purchase', 'spread'):
+            st = pg.evaluate("(()=>{const c=cmdById('%s');return {cmd:c.id,t:c.t,evo:(S.evos||[]).findIndex(e=>e.cmds.some(x=>x.id===c.id))};})()" % cid); cmd_tap(pg, st); pg.wait_for_timeout(520)
+        rows.append((w, 'chaos door: Pop the latch on a rocking car shifts it', measure(pg) + (0 if pg.evaluate("S&&S.stab==='shifted'&&S.score===90") and 'Shifted' in pg.text_content('#pp-stab') and pg.is_visible('#pp-sheet .cmd[data-cmd="t:recrib"]') else 99)))
+        st = pg.evaluate("(()=>{const c=cmdById('t:recrib');return {cmd:c.id,t:c.t,evo:(S.evos||[]).findIndex(e=>e.cmds.some(x=>x.id===c.id))};})()"); cmd_tap(pg, st); pg.wait_for_timeout(520); rows.append((w, 'chaos door: Crib it again makes it stable', 0 if pg.evaluate("S&&S.stab==='stable'") else 99))
+        play(pg, w, 'chaos door', rows)
+        rows.append((w, 'chaos door result: Learn from it chip', measure(pg) + (0 if pg.evaluate("S===null") and pg.locator('#done-b .pc-lessons button').count() >= 1 else 99)))
+        tap_text(pg, '#done-b .pc-lessons button', 'The car shifted.'); pg.wait_for_timeout(600)
+        rows.append((w, 'the chip opens the five-line card', measure(pg) + (0 if pg.is_visible('#teachov') and pg.locator('#teach-box .tc-row').count() == 5 else 99))); tap_text(pg, '#teach-ok', 'Close'); pg.wait_for_timeout(300)
+        pg.evaluate("localStorage.removeItem('purchase-point')")
         if w == 390:   # one drill and the exam to the end with real taps
             pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '#h-drills'); pg.wait_for_timeout(150); tap(pg, '[data-drill="hazard"]'); quiz_full(pg)
             rows.append((w, 'drill hazard (full)', measure(pg) + (0 if pg.evaluate('QZ.score') == 100 and saved(pg, "(p.runs||[]).some(r=>r.id==='hazard'&&r.score===100)") else 99)))
             tap(pg, '[data-q="nextact"]'); pg.wait_for_timeout(200); rows.append((w, 'drill Next opens the next drill', 0 if pg.evaluate("QZ&&QZ.id==='first'") else 99)); pg.evaluate("localStorage.removeItem('purchase-point')")
         pg.goto(URL); pg.wait_for_timeout(150); tap(pg, '#h-set'); pg.wait_for_timeout(150); rows.append((w, 'settings', measure(pg))); tap(pg, '#set-close')
-        tap(pg, '#h-ref'); pg.wait_for_timeout(150); rows.append((w, 'reference', measure(pg))); tap(pg, '#info-close')
-        tap(pg, '#h-about'); pg.wait_for_timeout(150); rows.append((w, 'about', measure(pg))); tap(pg, '#info-close')
+        tap(pg, '#h-ref'); pg.wait_for_timeout(150); rows.append((w, 'reference', measure(pg) + (0 if 'Teaching cards' in pg.text_content('#info-b') else 99)))
+        tap_text(pg, '#info-b .tc-ref summary', 'Cut the battery cable.'); pg.wait_for_timeout(200); rows.append((w, 'reference: a teaching card opened', measure(pg) + (0 if pg.locator('#info-b .tc-ref[open] .tc-row').count() == 5 else 99))); tap(pg, '#info-close')
+        tap(pg, '#h-about'); pg.wait_for_timeout(150); rows.append((w, 'about', measure(pg) + (0 if 'Sawzall is a trademark' in pg.text_content('#info-b') else 99))); tap(pg, '#info-close')
         tap(pg, '#h-prog'); pg.wait_for_timeout(150); rows.append((w, 'progress', measure(pg))); tap(pg, '#info-close')
         tap(pg, '[data-tier="2"]'); pg.wait_for_timeout(100); rows.append((w, 'chaos tier', measure(pg) + (0 if 'Chaos' in pg.text_content('#tierhelp') else 99)))
         tap(pg, '#b-inst'); pg.wait_for_timeout(100); rows.append((w, 'instructor switch', 0 if 'on' in pg.text_content('#b-inst') else 99)); tap(pg, '#b-inst')
@@ -148,6 +180,7 @@ with sync_playwright() as p:
         tap(pg, '.pc-drill-name'); pg.wait_for_timeout(200); rows.append((w, 'drill night', measure(pg) + (0 if 'Drill Night' in pg.text_content('#b-inst') else 99)))
         pg.evaluate("localStorage.removeItem('preconnect-drill')")
         pg.evaluate("localStorage.setItem('preconnect-settings',JSON.stringify({text:'large'}))"); pg.goto(URL); pg.wait_for_timeout(300); rows.append((w, 'large text', measure(pg)))
+        pg.evaluate("window.FORCE_V={door:'A'}"); tap(pg, '[data-station="door"]'); pg.wait_for_timeout(650); rows.append((w, 'large text: the call sheet', measure(pg))); tap_text(pg, '#pp-quit', 'Stop and go back')
         pg.evaluate("localStorage.setItem('preconnect-settings',JSON.stringify({contrast:'day'}))"); pg.goto(URL); pg.wait_for_timeout(300); rows.append((w, 'daylight', measure(pg)))
         pg.evaluate("localStorage.removeItem('preconnect-settings')")
         pg.goto(URL + '?drill=first'); pg.wait_for_timeout(300); rows.append((w, 'daily link ?drill=first', measure(pg) + (0 if pg.is_visible('#quizov') else 99)))
@@ -182,6 +215,6 @@ for w, name, v in rows:
     over, small = v % 1000, v // 1000
     ok = over <= 0 and small == 0
     bad += 0 if ok else 1
-    print(f"{'PASS' if ok else 'FAIL'}  {w}px  {name:<36} overflow {over}px · buttons under 44px: {small%100} · text under floor: {small//100}")
+    print(f"{'PASS' if ok else 'FAIL'}  {w}px  {name:<48} overflow {over}px · buttons under 44px: {small%100} · text under floor: {small//100}")
 print('JavaScript errors:', errs or 'none')
 sys.exit(1 if bad or errs else 0)
