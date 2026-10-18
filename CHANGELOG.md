@@ -1,6 +1,10 @@
 # Purchase Point — changelog
 
-Vehicle extrication for the engine crew, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
+Vehicle extrication, the engine crew's part, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
+
+## 0.6.1 — October 18, 2026 — preconnect.org
+- Preconnect lives at https://preconnect.org, and this module at https://preconnect.org/purchase-point/. Nothing in the app names a host: links stay relative, and the install settings (start, scope and id) are relative, so the offline copy, deep links and the new version notice work the same at the new address.
+- The install description says "the engine crew's part" instead of "at the Operations level".
 
 ## 0.6.0 — October 18, 2026 — Pedestrian under a car: 20 activities
 - A new scenario, the twentieth activity, so every Preconnect module counts 20: a person struck and trapped under a vehicle. Nothing to cut, everything to lift and crib: block the lane, the crowd off the car, chock, crib, the EMS provider at the edge (never under), lifting airbags on a strong point on a cribbed base, lift an inch, crib an inch, never a hand under the load, and when to stop and call heavy rescue.

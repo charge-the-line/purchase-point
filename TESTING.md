@@ -35,3 +35,6 @@ Read the shared rules in CLAUDE.md first (two clocks, test like a finger, never 
 
 ## The browser check and the stations
 `station_full` reads the station's own next step from the page and taps its command on the call sheet by its visible text (the evolution opened first if it is folded), takes a Guided teaching card with Got it, answers a tool question by the right tool's text and OK, waits out the half-second guard, swaps the spare when the tool dies, and proves the run by the saved record. The part panel is checked once (a zone tapped on the car lists its commands, and a command tapped there lands). Every station is played in both widths across the default run; `PC_ALL=1` plays all fifteen layouts.
+
+## The address (October 18, 2026, preconnect.org)
+- `syntax`: no `CNAME` file in this repo (a module gets no custom domain; GitHub serves it at https://preconnect.org/purchase-point/), no file anywhere in the repo names the old github.io address, and `manifest.json` names no host (`start_url`, `scope` and `id` are `./`). Proven to fail on a planted `CNAME` and a planted absolute `id`.

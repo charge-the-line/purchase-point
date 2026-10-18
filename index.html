@@ -107,7 +107,7 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 <div id="pc-drill" class="pc-drillbar hidden" data-hub="../"></div>
 <div id="home">
   <div class="flex" style="margin:0 0 8px"><a href="../" style="display:inline-flex;align-items:center;min-height:44px;font-family:'Saira Condensed';font-size:15px;font-weight:600;letter-spacing:1px;color:#ff8a3d;text-decoration:none">◂ PRECONNECT</a><div class="sp"></div><a href="../feedback.html?from=pp" style="display:inline-flex;align-items:center;min-height:44px;font-size:14px;font-weight:700;color:var(--soft);text-decoration:none;margin-right:12px">Feedback</a><button class="gear" id="h-set">Settings</button></div>
-  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.6.0</span></h1></div></div>
+  <div class="top"><div><div class="brand" style="font-size:34px;letter-spacing:3px">PURCHASE POINT</div><h1 style="font-size:19px;font-weight:400;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;margin-top:2px">Take the car off the patient. <span class="ver" style="font-size:15px;color:var(--soft)">v0.6.1</span></h1></div></div>
   <div class="card rdy" id="rdy"><div class="flex"><div><div class="small">Your readiness</div><b id="rdy-t" style="display:block;font-family:'Saira Condensed';font-size:22px;line-height:1.05"></b><div class="small" id="rdy-s"></div></div><div class="sp"></div><div class="num" id="rdy-n"></div></div><div class="bar" style="margin-top:10px"><div id="rdy-bar" style="transition:width .6s ease-out"></div></div></div>
   <div class="card"><div class="small">What this is</div><p style="margin:4px 0 0;font-size:15px;line-height:1.45">Vehicle extrication, the engine crew's part: size it up, make it safe, stabilize, get in, and <b>take the car off the patient</b> while the EMS provider inside keeps them safe. You call it the way an officer calls it (“Peel the trim.” “Pop the latch.”), the crew does it, and every command carries a card that says why. Modeled on the vehicle chapter of NFPA 2500, in our own words. <b>On a real call, follow your department's procedures and the maker's rescue guide.</b></p></div>
   <button class="scen" id="h-learn"><span class="chip dim" id="chip-lesson">—</span><b>The lesson</b><span>14 short slides with a check each: the two circles, traffic, fire protection, wires, airbags, power in order, EVs, how cars are built, stabilization, glass, tools, access, disentanglement</span></button>
@@ -167,7 +167,7 @@ input{font-family:inherit;font-size:16px;padding:10px;border-radius:8px;border:1
 <div class="overlay hidden" id="infoov" style="z-index:15"><div class="box"><div id="info-b"></div><button class="go" id="info-close" style="width:100%;margin-top:10px">Close</button></div></div>
 <script>
 /* =================== core =================== */
-const APP_VERSION='0.6.0';
+const APP_VERSION='0.6.1';
 /* Screen wake lock: on while an activity runs, off at home and on a result. */
 const WAKE={s:null,want:false};
 function keepAwake(on){WAKE.want=!!on;const wl=(typeof navigator!=='undefined')&&navigator.wakeLock;if(!wl||!wl.request)return;

@@ -1,9 +1,10 @@
 {
   "name": "Purchase Point",
   "short_name": "Purchase Pt",
-  "description": "Vehicle extrication practice at the Operations level: size-up, stabilization, power in order, glass, access and disentanglement.",
+  "description": "Vehicle extrication practice, the engine crew's part: size-up, stabilization, power in order, glass, access and disentanglement.",
   "start_url": "./",
   "scope": "./",
+  "id": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0a0c0f",
