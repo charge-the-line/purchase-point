@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Real-browser check. Needs: pip install playwright (Chromium is pre-installed in the cloud container).
 Opens the home screen, the lesson (with a teaching-card chip), every drill, exam practice, the five skill stations, the Where to cut drill and the
-seven scenarios on the call sheet (played to the end with real taps: the command by its visible text, the evolution opened first if it is folded,
+eight scenarios on the call sheet (played to the end with real taps: the command by its visible text, the evolution opened first if it is folded,
 a Guided teaching card taken with Got it, a tool question answered by the right tool's text, a spare battery when the tool dies, a decision card by
 its visible text, Fast-forward only when it shows, the part panel from a zone on the car, the instructor sheet with a frozen clock and an inject),
 Settings, the pocket reference, About, My progress, the tiers, the instructor switch, the Drill Night picker, large text, Daylight, the deep links and
@@ -42,7 +42,7 @@ def quiz_full(pg):   # a quiz to the end: the right answer by its visible text, 
 def saved(pg, test): return pg.evaluate("(()=>{const p=JSON.parse(localStorage.getItem('purchase-point')||'{}');return %s;})()" % test)
 DRILLS = ('tool', 'hazard', 'first', 'build')
 STATIONS = ('stab', 'glass', 'door', 'roof', 'dash')
-SCENARIOS = ('tree', 'ditch', 'field', 'under', 'ev', 'pole', 'two')
+SCENARIOS = ('tree', 'ditch', 'field', 'under', 'ev', 'pole', 'two', 'ped')
 HITMIN = "(()=>{let m=1e9;document.querySelectorAll('#pp-svg g.zone').forEach(g=>{if(g.getAttribute('display')==='none')return;const r=g.querySelector('.hit').getBoundingClientRect();m=Math.min(m,r.width,r.height);});return Math.floor(m);})()"
 # what the page wants next: a teaching card to take, a tool question to answer, a decision card, a wait, or a command (by id and visible text, with its evolution)
 NEXTSTEP = """(()=>{if(typeof S==='undefined'||!S||S.mode==='cut')return null;
@@ -126,7 +126,7 @@ with sync_playwright() as p:
         for sid, v in ((('stab', 'B'), ('glass', 'B'), ('door', 'C')) if w == 320 else (('stab', 'A'), ('stab', 'C'), ('glass', 'A'), ('door', 'A'), ('roof', 'C'), ('dash', 'A'))):   # every station, both views, the dead battery, boron steel; Guided, so the teaching cards come up
             rows.extend(station_full(pg, sid, v, w))
         if w == 390: rows.extend(cut_full(pg, w))
-        for sid, v in ((('tree', 'C'), ('field', 'B'), ('under', 'B'), ('pole', 'C')) if w == 320 else (('tree', 'A'), ('ditch', 'A'), ('field', 'C'), ('under', 'A'), ('ev', 'B'), ('pole', 'A'), ('two', 'A'))):   # the crash and the rapid roof flap, soft ground, the shared patient, the ditch's wait and Fast-forward, the pickup's dash lift; E4: the wrecker wait, the fire and the jump, the lifting airbags, the white smoke's rapid branch, the utility wait and the pedal, the third door
+        for sid, v in ((('tree', 'C'), ('field', 'B'), ('under', 'B'), ('pole', 'C'), ('ped', 'C')) if w == 320 else (('tree', 'A'), ('ditch', 'A'), ('field', 'C'), ('under', 'A'), ('ev', 'B'), ('pole', 'A'), ('two', 'A'), ('ped', 'A'))):   # the crash and the rapid roof flap, soft ground, the shared patient, the ditch's wait and Fast-forward, the pickup's dash lift; E4: the wrecker wait, the fire and the jump, the lifting airbags, the white smoke's rapid branch, the utility wait and the pedal, the third door
             rows.extend(scenario_full(pg, sid, v, w))
         pg.evaluate("localStorage.removeItem('purchase-point')")
         # the part panel: a zone tapped on the car lists the commands for that part, and a command tapped there lands (Recall, so no card interrupts)
@@ -207,7 +207,7 @@ with sync_playwright() as p:
         for sid in SCENARIOS:
             for v in ('A', 'B', 'C'):
                 rows.extend(scenario_full(pg, sid, v, 390))
-        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '19 of 19 activities' else 99)))
+        pg.goto(URL); pg.wait_for_timeout(300); rows.append((390, 'ALL home after the built activities', measure(pg) + (0 if pg.text_content('#rdy-t') == '20 of 20 activities' else 99)))
         pg.close()
     b.close()
 bad = 0

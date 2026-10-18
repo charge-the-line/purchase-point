@@ -2,6 +2,12 @@
 
 Vehicle extrication for the engine crew, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
 
+## 0.6.0 — October 18, 2026 — Pedestrian under a car: 20 activities
+- A new scenario, the twentieth activity, so every Preconnect module counts 20: a person struck and trapped under a vehicle. Nothing to cut, everything to lift and crib: block the lane, the crowd off the car, chock, crib, the EMS provider at the edge (never under), lifting airbags on a strong point on a cribbed base, lift an inch, crib an inch, never a hand under the load, and when to stop and call heavy rescue.
+- Three layouts: a sedan with the patient under the floor pan; an SUV with high clearance, where cribbing it solid and checking the room from the edge brings him out with no lift at all; a patient pinned by a front wheel, where lifting the wrong corner rolls the car onto him and the bags run out of height before he is clear, so heavy rescue finishes the lift while you crib.
+- Decision cards, the patient strip (you can hear him, not see him), the crash and the rapid branch, the instructor's injects, Chaos events, teaching cards on every command, and both browser gates.
+- Under the hood: cribbing the re-crib spot while the car is shifted always makes it stable, the lift-without-cribbing line names the bag instead of the ram, and the early-entry line uses the patient's pronoun.
+
 ## 0.5.0 — October 13, 2026 — Workbench 2: the call sheet
 - The tool tray is gone. Every station and scenario is now an officer's call sheet: short commands in the crew's words ("Peel the trim." "Pop the latch." "Roll the dash."), grouped into evolutions in order; you call it, the crew does it, the car shows it. The part chips under the drawing stay as a second way in.
 - The tool is asked only where the choice is the lesson: the 12-volt cable (cable cutters, or the big cutters: the wrong-tool lesson), the cutters stalled on boron (the Sawzall), and where the spreader starts on the door. "Remove the door." runs the purchase point, the latch and the hinges as one call.
