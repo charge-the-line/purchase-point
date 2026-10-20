@@ -2,6 +2,15 @@
 
 Vehicle extrication, the engine crew's part, modeled on the vehicle chapter of NFPA 2500 in our own words. Plain-language history, newest first. Practice, not certification; on a call, the maker's rescue guide and your department's procedures come first.
 
+## 0.7.0 — October 20, 2026 — the fix release after the audit
+- Every decision card now teaches: pick a wrong answer (a bad call, our work left for someone else, a never, or a job for heavy rescue) and the debrief's "Learn from it" chips carry that card's teaching card. Four new cards: Two circles first., Rapid: out now., The handoff., Two patients, one crew.
+- Every skill station opens with a scene line for its layout: whether the car is cribbed, where the patient is, which side is open to you. The hinge-side door layout introduces the tree before anything mentions it.
+- "Seats back." is a real command in Make the door and Dash roll, in the taught order; cut the cable first and the power seat stays where it is.
+- The dash roll's crib steps read "Crib the gain." (lift an inch, crib an inch stays on the real lifts), and a ram push never counts as a cut: no blind penalty, no hazard, no "cut beside it".
+- Pillar everywhere: A-pillar, B-pillar, C-pillar in every command, sub line, feedback line and card. No more "post".
+- The lesson's card chips meet the 15 px text floor, and the browser check now measures every slide's text.
+- Remove the door on the wrong side shows its penalty in the feedback line under the sheet, not only in the question box and the debrief.
+
 ## 0.6.1 — October 18, 2026 — preconnect.org
 - Preconnect lives at https://preconnect.org, and this module at https://preconnect.org/purchase-point/. Nothing in the app names a host: links stay relative, and the install settings (start, scope and id) are relative, so the offline copy, deep links and the new version notice work the same at the new address.
 - The install description says "the engine crew's part" instead of "at the Operations level".

@@ -30,6 +30,7 @@ def lesson_full(pg):   # the lesson to the end: the right answer tapped by its v
     tap(pg, '#h-learn'); pg.wait_for_timeout(300)
     for _ in range(40):
         if not pg.evaluate("(typeof LS!=='undefined'&&!!(LS&&LS.cfg))"): break
+        rows.append((390, 'ALL lesson slide %d text' % (pg.evaluate('LS.i') + 1), measure(pg)))
         tap_text(pg, '[data-l="ans"]', pg.evaluate("LS.cfg.slides[LS.i].o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(120)
         tap(pg, '#l-next'); pg.wait_for_timeout(200)
     pg.wait_for_timeout(300)
@@ -114,6 +115,8 @@ with sync_playwright() as p:
         tap_text(pg, '[data-l="ans"]', pg.evaluate("LESSON[LS.i].o.find(o=>o[1]==='good')[0]")); pg.wait_for_timeout(120)
         tap(pg, '#l-next'); pg.wait_for_timeout(150); rows.append((w, 'lesson slide 2', measure(pg) + (0 if pg.evaluate('LS.i') == 1 else 99)))
         pg.evaluate("LS.i=2;pcLessonRender(LS)"); pg.wait_for_timeout(100); rows.append((w, 'lesson slide 3 (SOP chip)', measure(pg) + (0 if pg.locator('#lesson-box .pc-tag').count() >= 1 else 99)))
+        for k in range(pg.evaluate('LESSON.length')):   # every slide at the text floor: the card chips, the points and the check (Max, October 20, 2026)
+            pg.evaluate("LS.i=%d;pcLessonRender(LS)" % k); pg.wait_for_timeout(80); rows.append((w, 'lesson slide %d text' % (k + 1), measure(pg) + (0 if pg.locator('#lesson-box .tc-chip').count() >= 1 else 99)))
         pg.evaluate("LS.i=4;pcLessonRender(LS)"); pg.wait_for_timeout(100); tap_text(pg, '#lesson-box .tc-chip', 'Peel the trim.'); pg.wait_for_timeout(600)
         rows.append((w, 'lesson card chip opens the teaching card', measure(pg) + (0 if pg.is_visible('#teachov') and 'Peel the trim.' in pg.text_content('#teach-box') and pg.locator('#teach-box .tc-row').count() == 5 else 99))); tap_text(pg, '#teach-ok', 'Close'); pg.wait_for_timeout(200); tap(pg, '[data-l="quit"]')
         tap(pg, '#h-drills'); pg.wait_for_timeout(150); rows.append((w, 'drill picker', measure(pg) + (0 if pg.is_enabled('[data-drill="cut"]') else 99))); tap(pg, '#dp-close')
